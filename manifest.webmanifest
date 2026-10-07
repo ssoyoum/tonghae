@@ -1,7 +1,7 @@
 {
   "name": "통해 — 이주민 실전 대화 도우미",
   "short_name": "통해",
-  "description": "집 계약·월급 문제처럼 중요한 대화를 미리 준비하고, 현장에서는 한국어로 대신 말해 주는 앱",
+  "description": "일터·시장·집 계약·차 구매처럼 생활 속 중요한 대화를 미리 준비하고, 현장에서는 한국어로 대신 말해 주는 앱",
   "lang": "ko",
   "start_url": "./?source=pwa#app",
   "scope": "./",
@@ -9,14 +9,53 @@
   "orientation": "portrait",
   "background_color": "#ffffff",
   "theme_color": "#0d6b5e",
-  "categories": ["education", "productivity", "utilities"],
+  "categories": [
+    "education",
+    "productivity",
+    "utilities"
+  ],
   "icons": [
-    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
-    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
-    { "src": "icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
   ],
   "shortcuts": [
-    { "name": "현장 모드", "short_name": "현장", "url": "./?source=pwa#live", "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }] },
-    { "name": "롤플레이 연습", "short_name": "연습", "url": "./?source=pwa#practice", "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }] }
+    {
+      "name": "현장 모드",
+      "short_name": "현장",
+      "url": "./?source=pwa#live",
+      "icons": [
+        {
+          "src": "icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "롤플레이 연습",
+      "short_name": "연습",
+      "url": "./?source=pwa#practice",
+      "icons": [
+        {
+          "src": "icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
   ]
 }
