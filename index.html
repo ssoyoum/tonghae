@@ -454,6 +454,15 @@ h2.big{font-size:23px;line-height:1.3;margin:0;text-wrap:balance}
 .i-bg.two{grid-template-columns:repeat(2,minmax(0,1fr))}
 .scene .say em{display:block;font-style:normal;font-weight:500;font-size:12.5px;color:var(--muted);margin-top:2px}
 @media (max-width:860px){ .i-stats.three,.i-bg.two{grid-template-columns:1fr} }
+.nlp{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}
+.nlp li{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:4px;position:relative}
+.nlp li:nth-child(4),.nlp li:nth-child(5){border-color:var(--accent);background:var(--accent-soft)}
+.nlp .k{font-family:var(--f-mono);font-size:11px;color:var(--accent)}
+.nlp b{font-size:14.5px}
+.nlp p{margin:0;font-size:12.5px;color:var(--muted)}
+.bars.wide li{grid-template-columns:150px minmax(0,1fr) 56px}
+@media (max-width:960px){ .nlp{grid-template-columns:repeat(3,minmax(0,1fr))} }
+@media (max-width:560px){ .nlp{grid-template-columns:1fr 1fr} .bars.wide li{grid-template-columns:110px minmax(0,1fr) 48px} }
 .i-tip{position:fixed;z-index:80;pointer-events:none;background:var(--ink);color:#fff;font-size:12.5px;padding:7px 10px;border-radius:8px;max-width:240px;box-shadow:0 6px 18px rgba(0,0,0,.2)}
 
 @media (max-width:960px){
@@ -622,12 +631,32 @@ body.standalone .call-dock{padding-bottom:max(16px,env(safe-area-inset-bottom,0p
   <section class="i-sec" aria-labelledby="h-comp">
     <div class="i-head">
       <p class="i-kicker">기존 서비스</p>
-      <h2 id="h-comp">기존 앱은 번역하거나 가르칠 뿐, 대화를 함께하지 않습니다</h2>
-      <p>경쟁 앱 11개의 리뷰 3,889건을 한국과 사용자 모국(베트남·태국·중국) 앱스토어에서 모아 분석했습니다. 해외 리뷰가 72%입니다.</p>
+      <h2 id="h-comp">번역 앱은 말을 옮길 뿐, 무엇을 물어야 하는지는 알려 주지 않습니다</h2>
+      <p>경쟁 앱 11개의 다국어 리뷰 3,889건(한국·베트남·태국·중국 앱스토어, 해외 72%)을 자연어처리로 분석했습니다. 미리 정한 키워드 없이 문장 유사도로 묶는 임베딩 군집과, 주제 키워드 분석을 교차해 확인했습니다.</p>
+    </div>
+    <ol class="nlp" aria-label="분석 절차">
+      <li><span class="k">01 수집</span><b>iOS 앱스토어 RSS</b><p>11개 앱 · 4개국 스토어 · 3,889건</p></li>
+      <li><span class="k">02 언어 판별</span><b>5개 언어</b><p>한국어·중국어·베트남어·태국어·영어</p></li>
+      <li><span class="k">03 벡터화</span><b>문자 n-gram TF-IDF</b><p>2~4글자 단위라 띄어쓰기 없는 중국어·태국어도 처리</p></li>
+      <li><span class="k">04 임베딩</span><b>LSA 100차원</b><p>잠재 의미 분석으로 문서 벡터 생성, L2 정규화</p></li>
+      <li><span class="k">05 군집</span><b>K-평균</b><p>언어별로 k=3~8 중 실루엣 점수가 가장 높은 값 선택</p></li>
+      <li><span class="k">06 교차 검증</span><b>키워드 · log-odds</b><p>12개 주제 키워드 분류, 긍정·부정 특징어 추출과 비교</p></li>
+    </ol>
+    <div class="i-panel">
+      <h3>임베딩 군집: 언어별로 가장 큰 불만</h3>
+      <p class="sub">부정 리뷰(1~2점) 1,106건을 언어별로 군집한 결과, 각 언어 부정 리뷰 중 해당 군집의 비율</p>
+      <ul class="bars comp wide">
+        <li tabindex="0" data-tip="태국어 부정 리뷰 255건 중 137건 · 주로 구글 번역"><span class="lbl">태국어<small>업데이트 후 성능 저하</small></span><span class="track"><span class="fill" style="width:89.5%"></span></span><span class="val">53.7%</span></li>
+        <li tabindex="0" data-tip="중국어 부정 리뷰 156건 중 79건 · 한국어 학습 앱 (군집 5개 합계)"><span class="lbl">중국어<small>광고</small></span><span class="track"><span class="fill" style="width:84.3%"></span></span><span class="val">50.6%</span></li>
+        <li tabindex="0" data-tip="한국어 부정 리뷰 313건 중 112건 · 파파고·구글 번역"><span class="lbl">한국어<small>업데이트·실행 오류</small></span><span class="track"><span class="fill" style="width:59.7%"></span></span><span class="val">35.8%</span></li>
+        <li tabindex="0" data-tip="베트남어 부정 리뷰 281건 중 80건 · 주로 구글 번역"><span class="lbl">베트남어<small>오역·번역 안 됨</small></span><span class="track"><span class="fill" style="width:47.5%"></span></span><span class="val">28.5%</span></li>
+        <li tabindex="0" data-tip="베트남어 부정 리뷰 281건 중 62건 · 한국어 학습 앱"><span class="lbl">베트남어<small>결제 강요</small></span><span class="track"><span class="fill" style="width:36.8%"></span></span><span class="val">22.1%</span></li>
+      </ul>
+      <p class="i-src" style="margin-top:12px">짧은 리뷰라 군집 경계는 약해(실루엣 0.02~0.04) 탐색용으로 쓰고, 아래 키워드 분석과 같은 결론인지 교차 확인했습니다.</p>
     </div>
     <div class="i-reviews">
       <div class="i-panel">
-        <h3>번역 앱 부정 리뷰의 불만</h3>
+        <h3>키워드 분석 · 번역 앱 부정 리뷰</h3>
         <p class="sub">부정 리뷰 782건 중 언급 비율</p>
         <ul class="bars comp">
           <li tabindex="0" data-tip="오류·속도: 부정 리뷰 782건 중 183건"><span class="lbl">오류·속도</span><span class="track"><span class="fill" style="width:66.9%"></span></span><span class="val">23.4%</span></li>
@@ -636,7 +665,7 @@ body.standalone .call-dock{padding-bottom:max(16px,env(safe-area-inset-bottom,0p
         </ul>
       </div>
       <div class="i-panel">
-        <h3>한국어 학습 앱 부정 리뷰의 불만</h3>
+        <h3>키워드 분석 · 학습 앱 부정 리뷰</h3>
         <p class="sub">부정 리뷰 319건 중 언급 비율</p>
         <ul class="bars comp">
           <li tabindex="0" data-tip="광고: 부정 리뷰 319건 중 105건"><span class="lbl">광고</span><span class="track"><span class="fill" style="width:94%"></span></span><span class="val">32.9%</span></li>
