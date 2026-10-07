@@ -326,8 +326,8 @@ h2.big{font-size:23px;line-height:1.3;margin:0;text-wrap:balance}
 .i-head h2{font-size:clamp(22px,3vw,28px);line-height:1.3;margin:0;text-wrap:balance}
 .i-head p{color:var(--muted);margin:0}
 .i-src{font-size:12px;color:var(--muted);margin:0}
-.i-panel{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:22px}
-.i-panel h3{font-size:15px;margin:0 0 4px}
+.i-panel{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:20px 22px 24px}
+.i-panel h3{font-size:15px;line-height:1.3;margin:0 0 6px}
 .i-panel .sub{margin:0 0 14px}
 
 /* background: stats + nationality bars */
@@ -348,8 +348,6 @@ h2.big{font-size:23px;line-height:1.3;margin:0;text-wrap:balance}
 .bars.comp .fill{background:var(--bar-comp)}
 .bars .val{font-family:var(--f-mono);font-size:13.5px;text-align:right;font-variant-numeric:tabular-nums;color:var(--ink)}
 .bars li.pick .lbl{font-weight:700}
-.bars li.ext .fill{background:var(--bar-pick);opacity:.4}
-.bars li.ext .lbl{font-weight:700}
 .legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12.5px;color:var(--muted);margin-top:14px}
 .legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px}
 .sum-callout{margin-top:14px;padding:12px 14px;border-radius:12px;background:var(--accent-soft);font-size:14px}
@@ -454,12 +452,13 @@ h2.big{font-size:23px;line-height:1.3;margin:0;text-wrap:balance}
 .back-intro{border:0;background:transparent;color:var(--muted);font-size:12.5px;padding:4px 8px;border-radius:8px;text-decoration:underline}
 .i-stats.three{grid-template-columns:repeat(3,minmax(0,1fr))}
 .i-bg.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+.i-bg.one{grid-template-columns:1fr}
 .scene .say em{display:block;font-style:normal;font-weight:500;font-size:12.5px;color:var(--muted);margin-top:2px}
 @media (max-width:860px){ .i-stats.three,.i-bg.two{grid-template-columns:1fr} }
 .nlp{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}
 .nlp li{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:4px;position:relative}
 .nlp li:nth-child(4),.nlp li:nth-child(5){border-color:var(--accent);background:var(--accent-soft)}
-.nlp .k{font-family:var(--f-mono);font-size:11px;color:var(--accent)}
+.nlp .k{font-family:var(--f-body);font-weight:700;font-size:12px;color:var(--accent);font-variant-numeric:tabular-nums}
 .nlp b{font-size:14.5px}
 .nlp p{margin:0;font-size:12.5px;color:var(--muted)}
 .bars.wide li{grid-template-columns:150px minmax(0,1fr) 56px}
@@ -555,11 +554,6 @@ body.standalone .call-dock{padding-bottom:max(16px,env(safe-area-inset-bottom,0p
       <p class="i-eyebrow">기획 설명 · 한국에 온 이주민을 위한 생활 대화 도우미</p>
       <h1 class="i-logo">통해</h1>
       <p class="i-lead">한국에 온 이주민이 일터·시장·집 계약·차 구매처럼 생활 속 중요한 대화를 앞두고 할 말을 준비하고, 현장에서는 한국어로 대신 말해 주는 앱입니다.</p>
-      <div class="i-chips">
-        <span><b>MVP</b> 대화 전 준비 + 대화 중 현장</span>
-        <span>중국어 · 베트남어 · 태국어 · 영어</span>
-        <span>일터 · 시장 · 집 계약 · 차 구매</span>
-      </div>
       <div class="i-cta">
         <button class="btn-lg" data-start>앱 체험하기</button>
         <button class="btn-install" id="installBtn" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>홈 화면에 설치</button>
@@ -590,7 +584,7 @@ body.standalone .call-dock{padding-bottom:max(16px,env(safe-area-inset-bottom,0p
       <div class="i-stat"><span class="num">61.6<small>%</small></span><p>체류외국인 중 중국·베트남·미국·태국 출신 비율. 통해의 4개 언어로 이만큼을 돕습니다.</p></div>
       <div class="i-stat"><span class="num">9.8만<small>명</small></span><p>2025년 베트남 장기 입국자. 통계 작성 이후 처음으로 중국(9.4만 명)을 앞섰습니다.</p></div>
     </div>
-    <div class="i-bg two">
+    <div class="i-bg one">
       <div class="i-panel">
         <h3>한국에 온 사람 · 국적별 체류외국인과 통해 지원 언어</h3>
         <p class="sub">2025년 6월 말, 전체 273만 2,797명. 정부 통계는 국적 기준이라 국적마다 통해가 지원하는 언어를 함께 표시했습니다.</p>
@@ -603,22 +597,9 @@ body.standalone .call-dock{padding-bottom:max(16px,env(safe-area-inset-bottom,0p
         </ul>
         <p class="sum-callout">국적 1~4위 합계 <b>61.6%</b> → 중국어·베트남어·태국어·영어로 한국어를 말합니다.</p>
       </div>
-      <div class="i-panel">
-        <h3>확장 방향 · 해외로 나간 한국인 <span class="tag">확장</span></h3>
-        <p class="sub">해외 한국인 유학생 12만 9,726명의 유학 국가 (2025년 4월). 재외국민은 240만 명입니다.</p>
-        <ul class="bars">
-          <li class="ext" tabindex="0" data-tip="미국 33.3%"><span class="lbl">미국</span><span class="track"><span class="fill" style="width:83.3%"></span></span><span class="val">33.3%</span></li>
-          <li class="ext" tabindex="0" data-tip="호주 12.7%"><span class="lbl">호주</span><span class="track"><span class="fill" style="width:31.8%"></span></span><span class="val">12.7%</span></li>
-          <li tabindex="0" data-tip="일본 11.2% — 확장 언어 후보"><span class="lbl">일본<small>확장 후보</small></span><span class="track"><span class="fill" style="width:28%"></span></span><span class="val">11.2%</span></li>
-          <li tabindex="0" data-tip="중국 8.2%"><span class="lbl">중국</span><span class="track"><span class="fill" style="width:20.5%"></span></span><span class="val">8.2%</span></li>
-          <li class="ext" tabindex="0" data-tip="캐나다 8.1%"><span class="lbl">캐나다</span><span class="track"><span class="fill" style="width:20.3%"></span></span><span class="val">8.1%</span></li>
-          <li tabindex="0" data-tip="그 외 26.5%"><span class="lbl">그 외</span><span class="track"><span class="fill" style="width:66.3%"></span></span><span class="val">26.5%</span></li>
-        </ul>
-        <p class="sum-callout">영어권 3개국 합계 <b>54.1%</b> → 같은 엔진으로 "한국어 화면 → 영어로 말하기" 방향을 다음 단계에 엽니다.</p>
-      </div>
     </div>
-    <div class="legend"><span><i style="background:var(--bar-pick)"></i>통해 MVP 지원 언어</span><span><i style="background:var(--bar-pick);opacity:.4"></i>확장 단계 대상</span><span><i style="background:var(--bar-rest)"></i>그 외</span></div>
-    <p class="i-src">출처: 법무부 출입국외국인정책본부 체류외국인 통계 · 국가데이터처 2025 국제인구이동통계 · 통계청·법무부 2022 이민자체류실태 및 고용조사 · (확장) 재외동포청 2025 재외동포현황, 교육부 해외 한국인 유학생 현황(2025년 4월)</p>
+    <div class="legend"><span><i style="background:var(--bar-pick)"></i>통해 MVP 지원 언어</span><span><i style="background:var(--bar-rest)"></i>그 외</span></div>
+    <p class="i-src">출처: 법무부 출입국외국인정책본부 체류외국인 통계 · 국가데이터처 2025 국제인구이동통계 · 통계청·법무부 2022 이민자체류실태 및 고용조사</p>
   </section>
 
   <!-- 3. 문제: 생활 곳곳의 대화 -->
@@ -706,7 +687,7 @@ body.standalone .call-dock{padding-bottom:max(16px,env(safe-area-inset-bottom,0p
           <li tabindex="0" data-tip="오류·속도: 319건 중 31건"><span class="lbl">오류·속도</span><span class="track"><span class="fill" style="width:27.7%"></span></span><span class="val">9.7%</span></li>
         </ul>
       </div>
-        </div>
+    </div>
     <div class="i-table-wrap"><table class="i-table">
       <thead><tr><th></th><th>번역 앱</th><th>학습 앱</th><th>통역·상담</th><th class="us">통해</th></tr></thead>
       <tbody>
