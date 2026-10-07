@@ -1,0 +1,1533 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>통해 — 이주민 실전 대화 도우미</title>
+<meta name="description" content="이주노동자가 집 계약·월급 문제처럼 중요한 대화를 할 때, 할 말을 준비해 주고 현장에서는 한국어로 대신 말해 주는 앱 (중국어·베트남어·태국어)">
+<meta name="theme-color" content="#0d6b5e">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icons/favicon-64.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="통해">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="통해">
+<meta property="og:title" content="통해 — 이주민 실전 대화 도우미">
+<meta property="og:description" content="이주노동자가 집 계약·월급 문제처럼 중요한 대화를 할 때, 할 말을 준비해 주고 현장에서는 한국어로 대신 말해 주는 앱 (중국어·베트남어·태국어)">
+<meta property="og:url" content="https://ssoyoum.github.io/tonghae/">
+<meta property="og:image" content="https://ssoyoum.github.io/tonghae/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=IBM+Plex+Mono:wght@500&family=Noto+Sans+KR:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Sans+Thai:wght@400;500;700&display=swap">
+<style>
+/* Light-only app mockup: reviewer controls on top, one phone below. */
+:root{
+  color-scheme:light;
+  --page:#e4e9e6; --surface:#ffffff; --surface-2:#f1f4f3; --ink:#13212a; --muted:#5b6b73; --line:#dde4e1;
+  --accent:#0d6b5e; --accent-ink:#ffffff; --accent-soft:#e0f0eb;
+  --hl:#ffe27a; --danger:#bf3a2e; --danger-soft:#fdecea; --ok:#2b7a48;
+  --call-bg:#0e1c20; --call-2:#1a3533; --call-ink:#eef5f4; --call-muted:#9fb6b3;
+  --f-brand:"Black Han Sans","Noto Sans KR",sans-serif;
+  --f-body:"Noto Sans KR","Noto Sans SC","Noto Sans Thai","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--page);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+[hidden]{display:none!important}
+
+/* reviewer bar */
+.wrap{max-width:980px;margin:0 auto;padding-block:20px 40px;padding-inline:16px;display:flex;flex-direction:column;align-items:center;gap:18px}
+.review{width:100%;display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;justify-content:center;font-size:13px;color:var(--muted)}
+.review b{color:var(--ink);font-family:var(--f-brand);font-weight:400;font-size:20px;letter-spacing:.02em}
+.grp{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.grp>span{font-weight:500}
+.pill{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 11px;font-size:13px}
+.pill[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.jumps{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.jumps button{border:0;background:transparent;color:var(--muted);font-size:12.5px;padding:4px 8px;border-radius:8px}
+.jumps button:hover{background:var(--surface);color:var(--ink)}
+
+/* phone */
+.phone{position:relative;width:390px;height:844px;max-width:100%;background:#0b0f11;border-radius:54px;padding:12px;box-shadow:0 30px 70px -30px rgba(10,30,30,.45)}
+.screen-wrap{position:relative;width:100%;height:100%;background:var(--surface);border-radius:43px;overflow:hidden;display:flex;flex-direction:column}
+.island{position:absolute;top:11px;left:50%;transform:translateX(-50%);width:118px;height:34px;background:#0b0f11;border-radius:20px;z-index:50}
+.status{height:52px;flex:none;display:flex;align-items:flex-end;justify-content:space-between;padding:0 30px 6px;font-size:14px;font-weight:700;font-family:-apple-system,"Segoe UI",sans-serif;z-index:5}
+.status .icons{display:flex;gap:6px;align-items:center}
+.sig{display:flex;gap:2px;align-items:flex-end;height:11px}
+.sig i{width:3px;background:currentColor;border-radius:1px}
+.bat{width:24px;height:11px;border:1.5px solid currentColor;border-radius:3px;position:relative;padding:1px}
+.bat i{display:block;height:100%;width:72%;background:currentColor;border-radius:1px}
+.homebar{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:134px;height:5px;border-radius:3px;background:var(--ink);opacity:.85;z-index:60;pointer-events:none}
+.dark-ui .status,.dark-ui .homebar{color:var(--call-ink)}
+.dark-ui .homebar{background:var(--call-ink)}
+.dark-ui{background:var(--call-bg)}
+#app{flex:1;display:flex;flex-direction:column;min-height:0}
+
+.bar{display:flex;align-items:center;gap:6px;padding:4px 12px 10px;background:var(--surface);min-height:50px}
+.bar h1{font-size:17px;margin:0;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:700}
+.bar .brand{font-family:var(--f-brand);font-weight:400;color:var(--accent);font-size:25px;letter-spacing:.02em}
+.icon-btn{border:0;background:transparent;width:38px;height:38px;border-radius:12px;display:grid;place-items:center;flex:none}
+.icon-btn:hover{background:var(--surface-2)}
+.icon-btn svg{width:22px;height:22px}
+.main{flex:1;overflow-y:auto;padding:4px 18px 34px;display:flex;flex-direction:column;gap:14px;background:var(--surface)}
+.tabs{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);background:var(--surface);padding:6px 0 26px}
+.tabs button{border:0;background:transparent;padding:4px 2px;font-size:11px;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:2px}
+.tabs svg{width:24px;height:24px}
+.tabs button[aria-current="page"]{color:var(--accent);font-weight:700}
+
+/* shared */
+.eyebrow{font-size:12px;color:var(--muted);font-weight:700;margin:0}
+.sub{color:var(--muted);font-size:13.5px;line-height:1.5;margin:0}
+.ko-sub{color:var(--muted);font-size:12.5px}
+.rom{font-family:var(--f-mono);font-size:11.5px;color:var(--muted)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px}
+.soft{background:var(--surface-2);border-radius:16px;padding:14px}
+.btn{border:0;border-radius:14px;padding:14px 16px;font-weight:700;background:var(--accent);color:var(--accent-ink);width:100%}
+.btn.ghost{background:var(--surface-2);color:var(--ink)}
+.btn.line{background:transparent;border:1px solid var(--line);color:var(--ink)}
+.row{display:flex;gap:8px;align-items:center}
+.row>*{min-width:0}
+.col{display:flex;flex-direction:column;gap:8px}
+.grow{flex:1}
+.tag{font-size:11px;border-radius:999px;padding:2px 8px;background:var(--surface-2);color:var(--muted);font-weight:500;white-space:nowrap}
+.tag.soon{border:1px dashed #c9d2ce;background:transparent}
+.tag.ex{background:var(--hl);color:var(--ink)}
+h2.big{font-size:23px;line-height:1.3;margin:0;text-wrap:balance}
+
+/* onboarding */
+.onboard{flex:1;display:flex;flex-direction:column;padding:30px 24px 40px;gap:22px;background:linear-gradient(180deg,var(--accent-soft),var(--surface) 55%)}
+.logo{font-family:var(--f-brand);font-size:64px;line-height:1;color:var(--accent);margin:24px 0 0}
+.onboard .lead{font-size:15px;color:var(--ink);margin:0;line-height:1.6}
+.langs{display:flex;flex-direction:column;gap:10px;margin-top:auto}
+.lang-opt{border:1.5px solid var(--line);background:var(--surface);border-radius:16px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;text-align:left}
+.lang-opt b{font-size:17px}
+.lang-opt[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.radio{width:22px;height:22px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center}
+.lang-opt[aria-pressed="true"] .radio{border-color:var(--accent)}
+.lang-opt[aria-pressed="true"] .radio::after{content:"";width:11px;height:11px;border-radius:50%;background:var(--accent)}
+
+/* home */
+.sit-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sit{text-align:left;border:1px solid var(--line);background:var(--surface);border-radius:18px;padding:14px;display:flex;flex-direction:column;align-items:flex-start;gap:6px;min-height:122px}
+.sit:hover:not([disabled]){border-color:var(--accent)}
+.sit[disabled]{opacity:.55;cursor:default}
+.sit .ico{width:40px;height:40px;border-radius:12px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;margin-bottom:2px}
+.sit[disabled] .ico{background:var(--surface-2);color:var(--muted)}
+.sit svg{width:24px;height:24px}
+.sit b{font-size:15.5px;line-height:1.3}
+.tools{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.tool{border:0;background:var(--surface-2);border-radius:14px;padding:12px 4px 10px;font-size:11.5px;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;line-height:1.25}
+.tool svg{width:23px;height:23px;color:var(--accent)}
+.practice{border:0;text-align:left;border-radius:18px;padding:14px;background:var(--call-bg);color:var(--call-ink);display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:center;width:100%}
+.practice .ava{width:46px;height:46px;font-size:20px;border-width:2px}
+.practice .sub{color:var(--call-muted)}
+
+/* sheets */
+.sheet-back{position:absolute;inset:0;background:rgba(8,14,16,.42);display:flex;align-items:flex-end;z-index:20}
+.sheet{background:var(--surface);width:100%;border-radius:24px 24px 0 0;padding:10px 18px 34px;display:flex;flex-direction:column;gap:10px;max-height:86%;overflow-y:auto}
+.sheet::before{content:"";width:40px;height:5px;border-radius:3px;background:var(--line);align-self:center;margin-bottom:6px}
+.sheet h3{margin:0;font-size:18px}
+.opt{border:1px solid var(--line);background:var(--surface);border-radius:14px;padding:13px 14px;text-align:left;display:flex;justify-content:space-between;gap:10px;align-items:center;width:100%}
+.opt:hover:not([disabled]){border-color:var(--accent)}
+.opt[disabled]{opacity:.5;cursor:default}
+.opt svg{width:20px;height:20px;color:var(--muted);flex:none}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:4px;background:var(--surface-2);padding:4px;border-radius:12px}
+.seg button{border:0;background:transparent;border-radius:9px;padding:8px;font-weight:500}
+.seg button[aria-pressed="true"]{background:var(--surface);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.money{display:grid;grid-template-columns:1fr auto;gap:10px 12px;margin:0;font-variant-numeric:tabular-nums}
+.money dd{margin:0;font-family:var(--f-mono);text-align:right;font-size:15px}
+.money dt small{display:block;color:var(--muted);font-size:12px}
+
+/* checklist + script */
+.chk{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px}
+.chk li{display:grid;grid-template-columns:22px 1fr;gap:10px;align-items:start}
+.box{width:20px;height:20px;border:2px solid #c9d2ce;border-radius:6px;margin-top:2px;display:grid;place-items:center}
+.chk li.done .box{background:var(--ok);border-color:var(--ok)}
+.chk li.done .box::after{content:"";width:9px;height:5px;border:2px solid #fff;border-top:0;border-right:0;transform:rotate(-45deg) translate(1px,-1px)}
+.chk .nat{font-weight:500}
+.chk li.key .nat{background:linear-gradient(transparent 60%,var(--hl) 60%)}
+.chk.miss .box{border-color:var(--danger)}
+.line-card{display:grid;grid-template-columns:1fr auto;gap:3px 10px;padding:12px 0;border-top:1px solid var(--line)}
+.line-card:first-of-type{border-top:0}
+.line-card .ko{font-size:16.5px;font-weight:700;line-height:1.4}
+.line-card .plays{grid-row:span 3;display:flex;flex-direction:column;gap:6px}
+.play{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--surface);display:grid;place-items:center;flex:none}
+.play.slow{font-size:10px;font-family:var(--f-mono)}
+.play svg{width:15px;height:15px}
+
+/* live */
+.progress{display:flex;flex-direction:column;gap:6px;padding:4px 18px 10px;border-bottom:1px solid var(--line)}
+.segs{display:grid;grid-template-columns:repeat(6,1fr);gap:4px}
+.segs i{height:5px;border-radius:3px;background:var(--line)}
+.segs i.on{background:var(--ok)}
+.progress button{border:0;background:transparent;padding:0;font-size:12.5px;color:var(--muted);display:flex;justify-content:space-between}
+.log{display:flex;flex-direction:column;gap:10px;padding-top:10px}
+.msg{max-width:86%;border-radius:18px;padding:10px 13px;display:flex;flex-direction:column;gap:3px}
+.msg .who{font-size:11px;color:var(--muted);font-weight:500}
+.msg.them{background:var(--surface-2);align-self:flex-start;border-bottom-left-radius:5px}
+.msg.them .nat{font-size:15.5px;font-weight:500}
+.msg.them .ko{font-size:12.5px;color:var(--muted)}
+.msg.me{background:var(--accent);color:var(--accent-ink);align-self:flex-end;border-bottom-right-radius:5px}
+.msg.me .who,.msg.me .nat{color:inherit;opacity:.82;font-size:12.5px}
+.msg.me .ko{font-size:15.5px;font-weight:500}
+.alert{border:1.5px solid var(--danger);background:var(--danger-soft);border-radius:16px;padding:12px 13px;display:flex;flex-direction:column;gap:4px}
+.alert b{color:var(--danger);display:flex;gap:6px;align-items:center}
+.alert b svg{width:18px;height:18px}
+.tip{border:1px dashed var(--accent);border-radius:16px;padding:10px 12px;font-size:13.5px;background:var(--accent-soft)}
+.listening{align-self:flex-start;font-size:13px;color:var(--muted);display:flex;gap:8px;align-items:center}
+.dots{display:inline-flex;gap:3px}
+.dots i{width:6px;height:6px;border-radius:50%;background:currentColor;animation:blink 1s infinite}
+.dots i:nth-child(2){animation-delay:.15s}.dots i:nth-child(3){animation-delay:.3s}
+@keyframes blink{0%,100%{opacity:.25}50%{opacity:1}}
+.composer{border-top:1px solid var(--line);padding:10px 14px 28px;display:flex;flex-direction:column;gap:8px;background:var(--surface)}
+.composer .label{font-size:11.5px;color:var(--muted);font-weight:700}
+.reply{border:1.5px solid var(--accent);background:var(--accent-soft);border-radius:16px;padding:10px 12px;text-align:left;display:grid;grid-template-columns:1fr auto;gap:2px 10px;align-items:center;width:100%}
+.reply[disabled]{opacity:.5}
+.reply .ko{font-weight:700;font-size:15px}
+.reply .nat{font-size:12.5px;color:var(--muted)}
+.reply .spk{grid-row:span 2;width:38px;height:38px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center}
+.reply .spk svg{width:18px;height:18px}
+.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
+.chips button{flex:none;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 11px;font-size:12.5px;white-space:nowrap}
+.mic{border:0;border-radius:14px;background:var(--ink);color:#fff;padding:11px;font-weight:700;display:flex;gap:8px;justify-content:center;align-items:center;width:100%}
+.mic svg{width:18px;height:18px}
+.preview{border:1px solid var(--line);border-radius:14px;padding:11px 12px;display:flex;flex-direction:column;gap:6px;background:var(--surface-2)}
+.preview .ko{font-weight:700;font-size:15.5px}
+
+/* speaking toast */
+.speaking{position:absolute;left:50%;top:58px;transform:translateX(-50%);background:var(--ink);color:#fff;border-radius:999px;padding:8px 14px;font-size:13px;display:flex;gap:10px;align-items:center;z-index:30;max-width:86%;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+.speaking span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wave{display:inline-flex;gap:2px;align-items:center;height:14px;flex:none}
+.wave i{width:3px;background:currentColor;border-radius:2px;animation:wv .8s infinite ease-in-out}
+.wave i:nth-child(1){height:6px}.wave i:nth-child(2){height:12px;animation-delay:.1s}.wave i:nth-child(3){height:8px;animation-delay:.2s}.wave i:nth-child(4){height:13px;animation-delay:.3s}
+@keyframes wv{0%,100%{transform:scaleY(.4)}50%{transform:scaleY(1)}}
+.toast{position:absolute;left:16px;right:16px;bottom:96px;background:var(--ink);color:#fff;padding:11px 14px;border-radius:14px;font-size:13px;z-index:40}
+
+/* summary */
+.sum-list{margin:0;padding:0;list-style:none}
+.sum-list li{display:grid;grid-template-columns:1fr auto;gap:2px 12px;padding:9px 0;border-top:1px solid var(--line)}
+.sum-list li:first-child{border-top:0}
+.sum-list .v{font-family:var(--f-mono);font-size:13.5px;text-align:right;font-variant-numeric:tabular-nums}
+.todo{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:7px}
+.phone-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.phone-list li{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center}
+.num{font-family:var(--f-mono);font-size:16px;color:var(--accent);min-width:86px}
+.copy{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:4px 9px;font-size:12px}
+
+/* explain card */
+.show{background:var(--ink);color:#fff;border-radius:20px;padding:22px 18px;display:flex;flex-direction:column;gap:14px}
+.show .bigko{font-size:23px;font-weight:700;line-height:1.45;text-wrap:balance}
+.show .sub{color:#c8d3d6}
+.full{position:absolute;inset:0;z-index:25;background:var(--ink);color:#fff;display:flex;flex-direction:column;justify-content:center;gap:20px;padding:30px 24px}
+.full .bigko{font-size:30px;font-weight:700;line-height:1.4}
+.full .btn{background:#fff;color:var(--ink)}
+.idcard{display:grid;grid-template-columns:auto 1fr;gap:8px 16px;font-size:14px;margin:0}
+.idcard dt{color:var(--muted)}
+.idcard dd{margin:0;font-weight:500}
+.phrase{display:grid;grid-template-columns:1fr auto auto;gap:2px 6px;align-items:center;padding:11px 0;border-top:1px solid var(--line)}
+.phrase:first-child{border-top:0}
+.star{border:0;background:transparent;font-size:19px;color:#b9c3bf;width:34px;height:34px}
+.star[aria-pressed="true"]{color:#d9a400}
+
+/* settings */
+.set-list{list-style:none;margin:0;padding:0}
+.set-list li{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px 0;border-top:1px solid var(--line)}
+.set-list li:first-child{border-top:0}
+.switch{width:46px;height:28px;border-radius:14px;border:0;background:#c9d2ce;position:relative;flex:none}
+.switch::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:left .15s}
+.switch[aria-pressed="true"]{background:var(--accent)}
+.switch[aria-pressed="true"]::after{left:21px}
+
+/* call */
+.call{flex:1;display:flex;flex-direction:column;background:radial-gradient(120% 80% at 50% 0%,var(--call-2),var(--call-bg) 70%);color:var(--call-ink);min-height:0}
+.call-top{display:flex;justify-content:space-between;align-items:center;padding:0 12px 6px;font-size:13px;color:var(--call-muted)}
+.call-top .rec{display:inline-flex;align-items:center;gap:6px;font-family:var(--f-mono)}
+.call-top .rec i{width:8px;height:8px;border-radius:50%;background:#ff5d4f}
+.ava{width:108px;height:108px;border-radius:50%;display:grid;place-items:center;font-family:var(--f-body);font-weight:700;font-size:40px;background:linear-gradient(160deg,#2b5f58,#173b38);color:#d8f1ec;border:3px solid rgba(255,255,255,.12);flex:none;transition:box-shadow .2s}
+.ava.talk{box-shadow:0 0 0 6px rgba(59,181,159,.28),0 0 0 14px rgba(59,181,159,.1)}
+.call-who{display:flex;flex-direction:column;align-items:center;gap:8px;padding:2px 16px 6px;text-align:center}
+.call-who b{font-size:17px}
+.call-who span{font-size:12.5px;color:var(--call-muted)}
+.caption{margin:6px 16px 0;padding:14px;border-radius:18px;background:rgba(255,255,255,.08);display:flex;flex-direction:column;gap:6px;min-height:96px}
+.caption .ko{font-size:17px;font-weight:500;line-height:1.45}
+.caption .sub{color:var(--call-muted)}
+.call-hist{flex:1;overflow-y:auto;padding:10px 16px;display:flex;flex-direction:column;gap:6px;font-size:12.5px;color:var(--call-muted);min-height:0}
+.call-hist .me{align-self:flex-end;background:rgba(59,181,159,.22);color:var(--call-ink);border-radius:12px;padding:6px 10px;max-width:85%}
+.call-hist .ai{align-self:flex-start;max-width:85%}
+.call-dock{padding:10px 14px 30px;display:flex;flex-direction:column;gap:8px;background:rgba(0,0,0,.28)}
+.call-dock .lbl{font-size:12px;color:var(--call-muted);display:flex;justify-content:space-between;align-items:center}
+.call-dock .lbl button{border:1px solid rgba(255,255,255,.2);background:transparent;color:var(--call-ink);border-radius:999px;padding:3px 10px;font-size:12px}
+.sugg{border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.06);color:var(--call-ink);border-radius:14px;padding:9px 12px;text-align:left;display:flex;flex-direction:column;gap:1px;width:100%}
+.sugg .sub{color:var(--call-muted);font-size:12.5px}
+.sugg:hover{border-color:#3bb59f}
+.hang{border:0;background:#d6453a;color:#fff;border-radius:999px;padding:11px;font-weight:700;width:100%}
+.score{font-family:var(--f-brand);font-size:58px;color:var(--accent);line-height:1}
+.inrow{display:flex;gap:6px}
+.inrow input{flex:1;min-width:0;border:1px solid var(--line);background:var(--surface-2);border-radius:12px;padding:10px 12px;font:inherit;font-size:14px;color:var(--ink)}
+.inrow input:focus{outline:2px solid var(--accent);outline-offset:0;background:var(--surface)}
+.inrow .round{width:44px;flex:none;border:0;border-radius:12px;background:var(--accent);color:#fff;display:grid;place-items:center}
+.inrow .round svg{width:19px;height:19px}
+.inrow .send{border:0;border-radius:12px;background:var(--ink);color:#fff;padding:0 14px;font-weight:700;font-size:13.5px;white-space:nowrap}
+.inrow [disabled]{opacity:.5}
+.chips .ear{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);font-weight:700}
+.chips .ear,.chips .kb{display:inline-flex;gap:5px;align-items:center}
+.chips .ear svg,.chips .kb svg{width:15px;height:15px}
+.chips [disabled]{opacity:.5}
+.rec-card{display:flex;gap:12px;align-items:center;border:1.5px solid var(--danger);border-radius:16px;padding:12px;background:var(--danger-soft)}
+.rec-dot{width:12px;height:12px;border-radius:50%;background:var(--danger);flex:none;animation:blink 1s infinite}
+.call .rec-card{background:rgba(255,93,79,.12);border-color:#ff5d4f;color:var(--call-ink)}
+.call .rec-card .sub{color:var(--call-muted)}
+.call .rec-card .btn.line{color:var(--call-ink);border-color:rgba(255,255,255,.3)}
+.rp-mic{border:1px solid #3bb59f;background:rgba(59,181,159,.15);color:var(--call-ink);border-radius:999px;padding:10px;font-weight:700;display:flex;gap:8px;justify-content:center;align-items:center;width:100%}
+.rp-mic svg{width:18px;height:18px}
+.heard{font-size:12.5px;color:var(--call-muted)}
+.listen{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:3px 9px;font-size:11.5px;color:var(--muted);display:inline-flex;gap:4px;align-items:center;align-self:flex-start;margin-top:3px}
+.listen svg{width:13px;height:13px}
+
+/* voice controls in reviewer bar */
+.voice{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.voice select{font:inherit;font-size:12.5px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:5px 10px;max-width:230px}
+.voice-state{font-size:12px;color:var(--muted)}
+.voice-state.bad{color:var(--danger)}
+
+/* intro: plan explanation before the app */
+.intro{max-width:1040px;margin:0 auto;padding-block:40px 64px;padding-inline:24px;display:flex;flex-direction:column;gap:56px}
+.i-hero{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:40px;align-items:center}
+.i-eyebrow{font-size:13px;font-weight:700;color:var(--accent);margin:0 0 10px;letter-spacing:.04em}
+.i-logo{font-family:var(--f-brand);font-weight:400;font-size:clamp(64px,10vw,104px);line-height:.95;color:var(--accent);margin:0}
+.i-lead{font-size:20px;line-height:1.6;margin:18px 0 0;max-width:30em;text-wrap:pretty}
+.i-cta{display:flex;flex-wrap:wrap;gap:12px 16px;align-items:center;margin-top:26px}
+.btn-lg{border:0;border-radius:16px;background:var(--accent);color:#fff;font-weight:700;font-size:17px;padding:16px 26px}
+.btn-lg:hover{filter:brightness(1.08)}
+.i-cta small{color:var(--muted);font-size:13px}
+.demo-line{background:var(--call-bg);color:var(--call-ink);border-radius:24px;padding:22px;display:flex;flex-direction:column;gap:14px}
+.demo-line .q{font-size:13px;color:var(--call-muted);margin:0}
+.demo-line .ko{font-size:22px;font-weight:700;line-height:1.45;margin:0}
+.demo-line .tr{display:grid;grid-template-columns:auto 1fr;gap:6px 12px;font-size:13.5px;color:var(--call-muted);margin:0}
+.demo-line .tr dt{font-weight:700;color:var(--call-ink)}
+.demo-line .tr dd{margin:0}
+.demo-line button{border:0;border-radius:999px;background:#3bb59f;color:#06201b;font-weight:700;padding:11px 16px;display:inline-flex;gap:8px;align-items:center;align-self:flex-start}
+.demo-line button svg{width:16px;height:16px}
+.demo-line button[disabled]{opacity:.6}
+.i-sec h2{font-size:24px;margin:0 0 6px;text-wrap:balance}
+.i-sec>p{color:var(--muted);margin:0 0 20px;max-width:60ch}
+.i-grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.i-card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:8px}
+.i-card .big{font-family:var(--f-brand);font-size:34px;line-height:1.1;color:var(--ink)}
+.i-card p{margin:0;color:var(--muted);font-size:14.5px}
+.i-card .src{font-size:12px;color:var(--muted);margin-top:auto}
+.i-steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;counter-reset:st}
+.i-steps li{counter-increment:st;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:6px}
+.i-steps li::before{content:counter(st);font-family:var(--f-mono);font-size:13px;color:#fff;background:var(--accent);width:26px;height:26px;border-radius:50%;display:grid;place-items:center}
+.i-steps b{font-size:17px}
+.i-steps p{margin:0;font-size:14px;color:var(--muted)}
+.i-table-wrap{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:18px}
+.i-table{width:100%;border-collapse:collapse;font-size:14.5px;min-width:560px}
+.i-table th,.i-table td{padding:12px 16px;text-align:left;border-top:1px solid var(--line)}
+.i-table thead th{border-top:0;font-size:13px;color:var(--muted)}
+.i-table th.us,.i-table td.us{background:var(--accent-soft)}
+.i-table thead th.us{color:var(--accent)}
+.mark{display:inline-block;font-size:12.5px;border-radius:999px;padding:2px 9px;font-weight:500}
+.mark.y{background:var(--accent);color:#fff}
+.mark.p{background:var(--hl);color:var(--ink)}
+.mark.n{background:var(--surface-2);color:var(--muted)}
+.flow{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch}
+.flow .node{flex:1 1 150px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:4px}
+.flow .node b{font-size:15px}
+.flow .node span{font-size:13px;color:var(--muted)}
+.flow .node.ai{border-color:var(--accent);background:var(--accent-soft)}
+.flow .arr{align-self:center;color:var(--muted);font-size:20px}
+.i-sec>p.i-note{font-size:13.5px;color:var(--muted);margin:16px 0 0}
+.i-langs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.i-lang{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:4px}
+.i-lang b{font-size:22px}
+.i-lang span{color:var(--muted);font-size:13.5px}
+.i-end{background:var(--ink);color:#fff;border-radius:24px;padding:32px;display:flex;flex-wrap:wrap;gap:16px 24px;align-items:center;justify-content:space-between}
+.i-end h2{margin:0;font-size:24px}
+.i-end p{margin:4px 0 0;color:#c8d3d6}
+.i-end .btn-lg{background:#3bb59f;color:#06201b}
+.back-intro{border:0;background:transparent;color:var(--muted);font-size:12.5px;padding:4px 8px;border-radius:8px;text-decoration:underline}
+
+@media (max-width:860px){
+  .i-hero{grid-template-columns:1fr}
+  .i-grid3,.i-langs{grid-template-columns:1fr}
+  .i-steps{grid-template-columns:1fr 1fr}
+  .flow .arr{transform:rotate(90deg);flex-basis:100%;text-align:center}
+}
+@media (max-width:480px){
+  .intro{padding-inline:16px;padding-top:28px;gap:44px}
+  .i-steps{grid-template-columns:1fr}
+  .i-lead{font-size:17px}
+  .i-end{padding:24px}
+}
+
+@media (max-width:480px){
+  .wrap{padding-inline:0;padding-top:0;gap:10px}
+  .review{padding:12px 16px 0}
+  .phone{width:100%;height:100dvh;border-radius:0;padding:0;box-shadow:none}
+  .screen-wrap{border-radius:0}
+  .island,.status{display:none}
+}
+@media (max-width:480px){ .homebar{display:none} }
+/* installed app (standalone): no intro, no reviewer bar, full-screen app with safe areas */
+body.standalone{background:var(--surface)}
+body.standalone .review{display:none}
+body.standalone .wrap{padding:0;max-width:none;gap:0}
+body.standalone .phone{width:100%;max-width:none;height:100dvh;border-radius:0;padding:0;box-shadow:none;background:var(--surface)}
+body.standalone .screen-wrap{border-radius:0;padding-top:env(safe-area-inset-top,0px)}
+body.standalone .island,body.standalone .status,body.standalone .homebar{display:none}
+body.standalone .tabs{padding-bottom:max(10px,env(safe-area-inset-bottom,0px))}
+body.standalone .composer{padding-bottom:max(14px,env(safe-area-inset-bottom,0px))}
+body.standalone .call-dock{padding-bottom:max(16px,env(safe-area-inset-bottom,0px))}
+.btn-install{border:1.5px solid var(--accent);background:var(--surface);color:var(--accent);border-radius:16px;font-weight:700;font-size:16px;padding:14px 20px;display:inline-flex;gap:8px;align-items:center}
+.btn-install svg{width:18px;height:18px}
+.tip.offline{border-color:var(--danger);background:var(--danger-soft)}
+@media (prefers-reduced-motion:reduce){.dots i,.wave i,.rec-dot{animation:none}.switch::after{transition:none}}
+</style>
+</head>
+<body>
+<main class="intro" id="intro">
+  <section class="i-hero">
+    <div>
+      <p class="i-eyebrow">기획 설명 · 이주노동자 실전 대화 도우미</p>
+      <h1 class="i-logo">통해</h1>
+      <p class="i-lead">집 계약이나 월급 문제처럼 실수 한 번이 큰 손해로 이어지는 대화에서, 무엇을 물어야 하는지 미리 준비해 주고 현장에서는 한국어로 대신 말해 주는 앱입니다.</p>
+      <div class="i-cta">
+        <button class="btn-lg" data-start>앱 체험하기</button>
+        <button class="btn-install" id="installBtn" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>홈 화면에 설치</button>
+        <small>소리를 켜 주세요. 앱이 한국어로 말합니다.</small>
+      </div>
+    </div>
+    <div class="demo-line">
+      <p class="q">사용자가 버튼을 누르면, 앱이 이렇게 말해요</p>
+      <p class="ko">등기부등본을 보여 주실 수 있나요?</p>
+      <dl class="tr">
+        <dt>中文</dt><dd>可以给我看一下房产登记簿吗？</dd>
+        <dt>Tiếng Việt</dt><dd>Anh/chị cho tôi xem sổ đăng ký bất động sản được không?</dd>
+        <dt>ภาษาไทย</dt><dd>ขอดูทะเบียนอสังหาริมทรัพย์ได้ไหม</dd>
+      </dl>
+      <button data-demo-say="등기부등본을 보여 주실 수 있나요?"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 010 7"/></svg>한국어로 들어보기</button>
+    </div>
+  </section>
+
+  <section class="i-sec">
+    <h2>왜 필요한가요</h2>
+    <p>번역이 정확해도, 무엇을 확인해야 하는지 모르면 피해를 막을 수 없습니다.</p>
+    <div class="i-grid3">
+      <div class="i-card"><span class="big">278만 명</span><p>2025년 말 국내 체류외국인. 그중 절반 이상이 중국·베트남·태국 출신입니다.</p><span class="src">법무부 체류외국인 통계</span></div>
+      <div class="i-card"><span class="big">1,548억 원</span><p>2025년 외국인 임금체불액. 피해자 3만 684명으로 1년 새 43.6% 늘었습니다. 전세사기 피해를 인정받은 외국인도 306명입니다.</p><span class="src">고용노동부 국정감사 자료 · 국토교통부</span></div>
+      <div class="i-card"><span class="big">리뷰 3,889건</span><p>4개국 앱스토어 리뷰를 분석하니 번역 앱 불만은 오류·오역, 학습 앱 불만은 광고였습니다. 무엇을 물어야 하는지 알려주는 앱은 없었습니다.</p><span class="src">한국·베트남·태국·중국 앱스토어</span></div>
+    </div>
+  </section>
+
+  <section class="i-sec">
+    <h2>어떻게 돕나요</h2>
+    <p>대화 전, 대화 중, 대화 후를 하나의 흐름으로 돕습니다.</p>
+    <ol class="i-steps">
+      <li><b>준비</b><p>상황을 고르면 꼭 확인할 체크리스트와 한국어 대본이 모국어 뜻·발음과 함께 나옵니다.</p></li>
+      <li><b>현장</b><p>추천 문장을 누르거나 모국어로 말하면 앱이 한국어로 대신 말하고, 상대의 말은 모국어로 보여줍니다.</p></li>
+      <li><b>정리</b><p>합의한 금액, 놓친 항목, 다음 할 일, 도움 기관을 모국어로 정리해 남깁니다.</p></li>
+      <li><b>연습</b><p>AI 집주인·사장님과 영상통화처럼 연습하고, 체크리스트 기준으로 피드백을 받습니다.</p></li>
+    </ol>
+  </section>
+
+  <section class="i-sec">
+    <h2>기존 방식과 다른 점</h2>
+    <p>통해는 말을 옮기는 도구가 아니라, 대화를 준비하고 끝까지 진행하게 돕는 도구입니다.</p>
+    <div class="i-table-wrap"><table class="i-table">
+      <thead><tr><th></th><th>번역 앱</th><th>상담센터·통역</th><th class="us">통해</th></tr></thead>
+      <tbody>
+        <tr><th>무엇을 물어야 하는지</th><td><span class="mark n">없음</span></td><td><span class="mark y">알려줌</span></td><td class="us"><span class="mark y">체크리스트</span></td></tr>
+        <tr><th>집주인·사장님 앞 현장</th><td><span class="mark p">입력 필요</span></td><td><span class="mark n">함께 못 감</span></td><td class="us"><span class="mark y">바로 사용</span></td></tr>
+        <tr><th>한국어로 대신 말하기</th><td><span class="mark p">화면 보여주기</span></td><td><span class="mark n">없음</span></td><td class="us"><span class="mark y">음성(TTS)</span></td></tr>
+        <tr><th>위험 신호 경고</th><td><span class="mark n">없음</span></td><td><span class="mark p">사후 상담</span></td><td class="us"><span class="mark y">실시간</span></td></tr>
+        <tr><th>미리 연습</th><td><span class="mark n">없음</span></td><td><span class="mark n">없음</span></td><td class="us"><span class="mark y">AI 롤플레이</span></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="i-sec">
+    <h2>AI는 이렇게 쓰여요</h2>
+    <p>현장 모드에서 상대의 말 한 마디가 처리되는 순서입니다.</p>
+    <div class="flow">
+      <div class="node"><b>상대의 한국어</b><span>스피커폰 또는 대면</span></div><span class="arr">→</span>
+      <div class="node ai"><b>음성 인식 (STT)</b><span>한국어 → 텍스트</span></div><span class="arr">→</span>
+      <div class="node ai"><b>LLM 대화 엔진</b><span>모국어 요약, 다음 답변 추천, 체크리스트 확인</span></div><span class="arr">→</span>
+      <div class="node ai"><b>위험 신호 감지</b><span>규칙 + LLM 이중 확인</span></div><span class="arr">→</span>
+      <div class="node ai"><b>음성 합성 (TTS)</b><span>고른 문장을 한국어로 말하기</span></div>
+    </div>
+    <p class="i-note">안내 문장과 체크리스트는 주택임대차표준계약서, 표준근로계약서, 찾기쉬운 생활법령정보 같은 공식 자료에서만 가져옵니다. 개별 사건의 법률 판단은 하지 않고 상담기관으로 연결합니다.</p>
+  </section>
+
+  <section class="i-sec">
+    <h2>지원 언어와 출시</h2>
+    <p>국내 체류외국인 국적 1~3위 언어로 시작해 iOS·안드로이드 앱으로 출시합니다.</p>
+    <div class="i-langs">
+      <div class="i-lang"><b>中文</b><span>중국어 (간체)</span></div>
+      <div class="i-lang"><b>Tiếng Việt</b><span>베트남어</span></div>
+      <div class="i-lang"><b>ภาษาไทย</b><span>태국어</span></div>
+    </div>
+  </section>
+
+  <section class="i-end">
+    <div><h2>직접 눌러 보세요</h2><p>월세 계약 현장 대화와 AI 집주인 롤플레이를 체험할 수 있습니다.</p></div>
+    <button class="btn-lg" data-start>앱 체험하기</button>
+  </section>
+</main>
+
+<div class="wrap" id="appView" hidden>
+  <div class="review" aria-label="검토용 설정">
+    <b>통해</b>
+    <button class="back-intro" id="backIntro">기획 설명 보기</button>
+    <div class="grp" id="langPick"><span>사용자 언어</span>
+      <button class="pill" data-lang="zh">中文</button>
+      <button class="pill" data-lang="vi">Tiếng Việt</button>
+      <button class="pill" data-lang="th">ภาษาไทย</button>
+    </div>
+    <div class="grp"><span>앱 화면</span>
+      <button class="pill" id="uiNative" aria-pressed="true">모국어</button>
+      <button class="pill" id="uiKo" aria-pressed="false">한국어로 보기</button>
+    </div>
+    <div class="voice"><span style="font-weight:500">한국어 음성</span>
+      <select id="voiceSel" aria-label="한국어 음성 선택"><option>불러오는 중</option></select>
+      <button class="pill" id="voiceTest">테스트</button>
+      <button class="pill" id="themVoice" aria-pressed="true">상대방 음성도 재생</button>
+      <span class="voice-state" id="voiceState"></span>
+    </div>
+    <div class="jumps" id="jumps">
+      <button data-jump="onboard">첫 실행</button>
+      <button data-jump="home">홈</button>
+      <button data-jump="prep">준비</button>
+      <button data-jump="live">현장 모드</button>
+      <button data-jump="summary">정리</button>
+      <button data-jump="rpick">롤플레이</button>
+      <button data-jump="card">설명 카드</button>
+      <button data-jump="settings">설정</button>
+    </div>
+  </div>
+
+  <div class="phone">
+    <div class="screen-wrap" id="screenWrap">
+      <div class="island"></div>
+      <div class="status"><span id="clock">9:41</span><span class="icons"><span class="sig"><i style="height:4px"></i><i style="height:6px"></i><i style="height:8px"></i><i style="height:11px"></i></span><span class="bat"><i></i></span></span></div>
+      <div id="app"></div>
+      <div class="homebar"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ---------------- content ---------------- */
+const LANGS = {zh:{label:"中文", ko:"중국어"}, vi:{label:"Tiếng Việt", ko:"베트남어"}, th:{label:"ภาษาไทย", ko:"태국어"}};
+
+const U = {
+  welcome:{ko:"한국에서 중요한 대화, 혼자 하지 않아도 돼요.", zh:"在韩国的重要对话，不用一个人面对。", vi:"Những cuộc nói chuyện quan trọng ở Hàn Quốc, bạn không phải tự mình xoay xở.", th:"บทสนทนาสำคัญในเกาหลี คุณไม่ต้องเผชิญคนเดียว"},
+  welcome2:{ko:"할 말을 미리 준비하고, 현장에서는 한국어로 대신 말해 드려요.", zh:"提前准备要说的话，现场由应用替你说韩语。", vi:"Chuẩn bị trước điều cần nói, và ứng dụng sẽ nói tiếng Hàn thay bạn.", th:"เตรียมสิ่งที่จะพูดล่วงหน้า แล้วแอปจะพูดภาษาเกาหลีแทนคุณ"},
+  chooseLang:{ko:"언어를 선택하세요", zh:"请选择语言", vi:"Chọn ngôn ngữ", th:"เลือกภาษา"},
+  start:{ko:"시작하기", zh:"开始", vi:"Bắt đầu", th:"เริ่มต้น"},
+  homeQ:{ko:"오늘은 어떤 대화를 준비할까요?", zh:"今天要准备什么对话？", vi:"Hôm nay bạn cần chuẩn bị cuộc nói chuyện nào?", th:"วันนี้จะเตรียมบทสนทนาเรื่องอะไร"},
+  sitHouse:{ko:"집 계약", zh:"租房合同", vi:"Thuê nhà", th:"สัญญาเช่าบ้าน"},
+  sitHouseSub:{ko:"월세, 보증금", zh:"月租、押金", vi:"Tiền thuê, tiền cọc", th:"ค่าเช่า เงินมัดจำ"},
+  sitWage:{ko:"월급·근로", zh:"工资·劳动", vi:"Lương & lao động", th:"ค่าจ้างและการทำงาน"},
+  sitWageSub:{ko:"임금, 근로계약", zh:"工资、劳动合同", vi:"Lương, hợp đồng lao động", th:"ค่าจ้าง สัญญาจ้าง"},
+  sitHosp:{ko:"병원", zh:"医院", vi:"Bệnh viện", th:"โรงพยาบาล"},
+  sitImm:{ko:"출입국·체류", zh:"出入境·居留", vi:"Xuất nhập cảnh, cư trú", th:"วีซ่าและการพำนัก"},
+  soon:{ko:"곧 추가", zh:"即将推出", vi:"Sắp có", th:"เร็วๆ นี้"},
+  tools:{ko:"바로 쓰는 도구", zh:"常用工具", vi:"Công cụ nhanh", th:"เครื่องมือด่วน"},
+  tCard:{ko:"상황 설명", zh:"情况说明", vi:"Thẻ giải thích", th:"บัตรอธิบาย"},
+  tPhr:{ko:"자주 쓰는 말", zh:"常用语", vi:"Câu thường dùng", th:"ประโยคใช้บ่อย"},
+  tInfo:{ko:"내 정보", zh:"我的信息", vi:"Thông tin của tôi", th:"ข้อมูลของฉัน"},
+  tHelp:{ko:"도움 전화", zh:"求助电话", vi:"Số hỗ trợ", th:"สายช่วยเหลือ"},
+  pracT:{ko:"실전 전에 연습해 보세요", zh:"实战前先练习一下", vi:"Luyện tập trước khi gặp thật", th:"ฝึกก่อนเจอของจริง"},
+  pracS:{ko:"AI 집주인과 영상통화로 연습", zh:"和AI房东视频通话练习", vi:"Gọi video với chủ nhà AI để luyện tập", th:"ฝึกวิดีโอคอลกับเจ้าของบ้าน AI"},
+  nHome:{ko:"홈", zh:"首页", vi:"Trang chủ", th:"หน้าหลัก"},
+  nPrac:{ko:"연습", zh:"练习", vi:"Luyện tập", th:"ฝึก"},
+  nRec:{ko:"기록", zh:"记录", vi:"Lịch sử", th:"บันทึก"},
+  nSet:{ko:"설정", zh:"设置", vi:"Cài đặt", th:"ตั้งค่า"},
+  whatSit:{ko:"어떤 상황인가요?", zh:"是什么情况？", vi:"Tình huống nào?", th:"สถานการณ์แบบไหน"},
+  face:{ko:"대면", zh:"面对面", vi:"Gặp trực tiếp", th:"พบหน้า"},
+  phoneCall:{ko:"전화", zh:"电话", vi:"Gọi điện", th:"โทรศัพท์"},
+  view:{ko:"집 보러 가기", zh:"去看房", vi:"Đi xem nhà", th:"ไปดูบ้าน"},
+  sign:{ko:"계약서 쓰기", zh:"签合同", vi:"Ký hợp đồng", th:"เซ็นสัญญา"},
+  refund:{ko:"보증금 돌려받기", zh:"拿回押金", vi:"Lấy lại tiền cọc", th:"ขอเงินมัดจำคืน"},
+  callNote:{ko:"전화는 스피커폰을 켜 두면 앱이 듣고 대신 말해요.", zh:"打电话时打开免提，应用会帮你听、替你说。", vi:"Khi gọi điện, bật loa ngoài để ứng dụng nghe và nói thay bạn.", th:"เวลาโทร เปิดลำโพงไว้ แอปจะฟังและพูดแทนคุณ"},
+  lateWage:{ko:"월급이 밀렸을 때", zh:"工资被拖欠时", vi:"Khi lương bị chậm", th:"เมื่อค่าจ้างค้างจ่าย"},
+  withAI:{ko:"AI와 연습하기", zh:"和AI练习", vi:"Luyện tập với AI", th:"ฝึกกับ AI"},
+  wContract:{ko:"근로계약서 쓰기", zh:"签劳动合同", vi:"Ký hợp đồng lao động", th:"เซ็นสัญญาจ้าง"},
+  severance:{ko:"퇴직금 문의", zh:"咨询离职金", vi:"Hỏi về trợ cấp thôi việc", th:"สอบถามเงินชดเชย"},
+  prepEb:{ko:"대면 · 부동산 중개사무소", zh:"面对面 · 房产中介", vi:"Gặp trực tiếp · Văn phòng môi giới", th:"พบหน้า · สำนักงานนายหน้า"},
+  prepT:{ko:"안전하게 월세 계약서 쓰기", zh:"安全地签租房合同", vi:"Ký hợp đồng thuê nhà an toàn", th:"เซ็นสัญญาเช่าอย่างปลอดภัย"},
+  prepGoal:{ko:"아래 항목을 모두 확인하기 전에는 돈을 보내지 마세요.", zh:"在确认下面所有项目之前，不要转任何钱。", vi:"Đừng chuyển tiền trước khi kiểm tra đủ các mục dưới đây.", th:"อย่าโอนเงินจนกว่าจะตรวจครบทุกข้อด้านล่าง"},
+  mustCheck:{ko:"꼭 확인할 것", zh:"必须确认", vi:"Phải kiểm tra", th:"ต้องตรวจสอบ"},
+  script:{ko:"대본 · 눌러서 듣기", zh:"台词 · 点击收听", vi:"Kịch bản · bấm để nghe", th:"บทพูด · แตะเพื่อฟัง"},
+  startLive:{ko:"설명 카드 보여주고 시작", zh:"出示说明卡并开始", vi:"Đưa thẻ giải thích và bắt đầu", th:"แสดงบัตรอธิบายแล้วเริ่ม"},
+  pracFirst:{ko:"먼저 AI 집주인과 연습하기", zh:"先和AI房东练习", vi:"Luyện với chủ nhà AI trước", th:"ฝึกกับเจ้าของบ้าน AI ก่อน"},
+  liveT:{ko:"현장 모드", zh:"现场模式", vi:"Chế độ trực tiếp", th:"โหมดใช้งานจริง"},
+  checklist:{ko:"체크리스트", zh:"检查清单", vi:"Danh sách kiểm tra", th:"รายการตรวจสอบ"},
+  seeList:{ko:"목록 보기", zh:"查看", vi:"Xem", th:"ดูรายการ"},
+  them:{ko:"상대방", zh:"对方", vi:"Đối phương", th:"อีกฝ่าย"},
+  me:{ko:"내가 한 말", zh:"我说的", vi:"Tôi đã nói", th:"ฉันพูด"},
+  risk:{ko:"위험 신호", zh:"危险信号", vi:"Dấu hiệu nguy hiểm", th:"สัญญาณอันตราย"},
+  liveTip:{ko:"상대에게 설명 카드를 보여준 뒤, 아래 추천 문장을 누르세요. 앱이 한국어로 대신 말해요.", zh:"先给对方看说明卡，然后点下面的推荐句子，应用会用韩语替你说。", vi:"Cho đối phương xem thẻ giải thích, rồi bấm câu gợi ý bên dưới. Ứng dụng sẽ nói tiếng Hàn thay bạn.", th:"แสดงบัตรอธิบายให้อีกฝ่ายดู แล้วแตะประโยคแนะนำด้านล่าง แอปจะพูดภาษาเกาหลีแทนคุณ"},
+  listening:{ko:"상대방 말을 듣는 중", zh:"正在听对方说话", vi:"Đang nghe đối phương", th:"กำลังฟังอีกฝ่าย"},
+  hearingMe:{ko:"내 말을 듣는 중", zh:"正在听你说话", vi:"Đang nghe bạn nói", th:"กำลังฟังคุณพูด"},
+  suggested:{ko:"추천 답변", zh:"推荐回答", vi:"Câu gợi ý", th:"คำตอบแนะนำ"},
+  speakNative:{ko:"모국어로 말하기", zh:"用中文说", vi:"Nói bằng tiếng Việt", th:"พูดเป็นภาษาไทย"},
+  willSay:{ko:"이렇게 말할게요", zh:"将这样说", vi:"Sẽ nói như sau", th:"จะพูดแบบนี้"},
+  youSaid:{ko:"내가 한 말", zh:"你说的", vi:"Bạn đã nói", th:"คุณพูดว่า"},
+  cancel:{ko:"취소", zh:"取消", vi:"Hủy", th:"ยกเลิก"},
+  sayIt:{ko:"말하기", zh:"说出来", vi:"Nói", th:"พูด"},
+  toSummary:{ko:"대화 정리하기", zh:"整理对话", vi:"Tóm tắt cuộc nói chuyện", th:"สรุปบทสนทนา"},
+  speaking:{ko:"한국어로 말하는 중", zh:"正在用韩语说", vi:"Đang nói tiếng Hàn", th:"กำลังพูดภาษาเกาหลี"},
+  amtT:{ko:"숫자가 맞나요?", zh:"数字对吗？", vi:"Số tiền đúng chưa?", th:"ตัวเลขถูกไหม"},
+  amtS:{ko:"앱이 한국어로 말하기 전에 금액을 확인하세요.", zh:"在应用用韩语说出之前，请确认金额。", vi:"Kiểm tra số tiền trước khi ứng dụng nói bằng tiếng Hàn.", th:"ตรวจจำนวนเงินก่อนที่แอปจะพูดเป็นภาษาเกาหลี"},
+  fix:{ko:"고치기", zh:"修改", vi:"Sửa", th:"แก้ไข"},
+  okSay:{ko:"맞아요, 말하기", zh:"对，说出来", vi:"Đúng, nói đi", th:"ถูกต้อง พูดเลย"},
+  close:{ko:"닫기", zh:"关闭", vi:"Đóng", th:"ปิด"},
+  sumT:{ko:"대화 정리", zh:"对话总结", vi:"Tóm tắt", th:"สรุป"},
+  sumDone:{ko:"대화를 정리했어요", zh:"已整理好对话", vi:"Đã tóm tắt cuộc nói chuyện", th:"สรุปบทสนทนาแล้ว"},
+  sumMid:{ko:"대화 중간 정리", zh:"对话中途总结", vi:"Tóm tắt giữa chừng", th:"สรุประหว่างทาง"},
+  sumNote:{ko:"원래 음성은 저장하지 않고 이 요약만 남겨요.", zh:"不保存原始录音，只保存这份总结。", vi:"Không lưu âm thanh gốc, chỉ lưu bản tóm tắt này.", th:"ไม่เก็บเสียงต้นฉบับ เก็บเฉพาะสรุปนี้"},
+  agreed:{ko:"합의한 내용", zh:"约定内容", vi:"Nội dung đã thỏa thuận", th:"สิ่งที่ตกลงกัน"},
+  downPay:{ko:"계약금 → 집주인 계좌", zh:"定金 → 房东账户", vi:"Tiền đặt cọc → tài khoản chủ nhà", th:"เงินมัดจำ → บัญชีเจ้าของบ้าน"},
+  depRet:{ko:"보증금 반환", zh:"退还押金", vi:"Trả lại tiền cọc", th:"การคืนเงินมัดจำ"},
+  depRetV:{ko:"퇴거일 전액", zh:"搬出当日全额", vi:"Toàn bộ, ngày chuyển đi", th:"เต็มจำนวน วันย้ายออก"},
+  notYet:{ko:"미확인", zh:"未确认", vi:"Chưa xác nhận", th:"ยังไม่ยืนยัน"},
+  missed:{ko:"확인하지 못한 것", zh:"没确认的项目", vi:"Chưa kiểm tra", th:"ยังไม่ได้ตรวจ"},
+  allDone:{ko:"체크리스트를 모두 확인했어요", zh:"检查清单全部确认了", vi:"Đã kiểm tra đủ danh sách", th:"ตรวจครบทุกข้อแล้ว"},
+  next:{ko:"다음 할 일", zh:"接下来要做的事", vi:"Việc cần làm tiếp", th:"สิ่งที่ต้องทำต่อ"},
+  todo1:{ko:"계약금 보내기 전, 예금주 이름이 등기부 소유자와 같은지 확인", zh:"转定金前，确认收款人姓名与登记簿上的所有人一致", vi:"Trước khi chuyển tiền, kiểm tra tên chủ tài khoản giống tên chủ sở hữu trong sổ đăng ký", th:"ก่อนโอนเงินมัดจำ ตรวจว่าชื่อเจ้าของบัญชีตรงกับชื่อเจ้าของในทะเบียน"},
+  todo2:{ko:"계약서와 등기부등본 사진 보관", zh:"保存合同和登记簿的照片", vi:"Chụp và lưu ảnh hợp đồng và sổ đăng ký", th:"ถ่ายรูปสัญญาและทะเบียนเก็บไว้"},
+  todo3:{ko:"이사한 날 주민센터에서 전입신고·확정일자", zh:"搬家当天去居民中心（주민센터）办理迁入申报和确定日期", vi:"Ngày chuyển đến, đến 주민센터 đăng ký chuyển đến và lấy ngày xác nhận", th:"วันย้ายเข้า ไปศูนย์บริการชุมชน (주민센터) แจ้งย้ายเข้าและขอวันที่รับรอง"},
+  trouble:{ko:"문제가 생기면", zh:"遇到问题时", vi:"Khi gặp vấn đề", th:"ถ้ามีปัญหา"},
+  save:{ko:"기록에 저장", zh:"保存到记录", vi:"Lưu vào lịch sử", th:"บันทึก"},
+  saved:{ko:"기록에 저장했어요", zh:"已保存", vi:"Đã lưu", th:"บันทึกแล้ว"},
+  copy:{ko:"복사", zh:"复制", vi:"Chép", th:"คัดลอก"},
+  copied:{ko:"복사됨", zh:"已复制", vi:"Đã chép", th:"คัดลอกแล้ว"},
+  rpT:{ko:"누구와 연습할까요?", zh:"想和谁练习？", vi:"Luyện tập với ai?", th:"อยากฝึกกับใคร"},
+  rpS:{ko:"AI가 한국 사람 역할을 하며 한국어로 말해요. 인물마다 실제로 자주 있는 함정이 숨어 있어요.", zh:"AI扮演韩国人，用韩语和你对话。每个角色都藏着现实中常见的陷阱。", vi:"AI đóng vai người Hàn và nói tiếng Hàn. Mỗi nhân vật có cài sẵn 'bẫy' thường gặp ngoài đời.", th:"AI จะเล่นเป็นคนเกาหลีและพูดภาษาเกาหลี แต่ละตัวละครมีกับดักที่เจอบ่อยในชีวิตจริง"},
+  rpNote:{ko:"출시 버전에서는 AI가 매번 다른 대사로 대답하고, 내가 직접 한 말에도 반응해요.", zh:"正式版中，AI每次都会说不同的台词，也会回应你自己说的话。", vi:"Ở bản chính thức, AI trả lời khác nhau mỗi lần và phản hồi cả câu bạn tự nói.", th:"ในเวอร์ชันจริง AI จะตอบไม่ซ้ำกันและตอบสนองต่อสิ่งที่คุณพูดเอง"},
+  chooseReply:{ko:"대답을 고르세요", zh:"选择你的回答", vi:"Chọn câu trả lời", th:"เลือกคำตอบ"},
+  replay:{ko:"다시 듣기", zh:"再听一遍", vi:"Nghe lại", th:"ฟังอีกครั้ง"},
+  hang:{ko:"통화 끝내기", zh:"结束通话", vi:"Kết thúc cuộc gọi", th:"วางสาย"},
+  seeFb:{ko:"결과 보기", zh:"查看结果", vi:"Xem kết quả", th:"ดูผล"},
+  fbT:{ko:"연습 결과", zh:"练习结果", vi:"Kết quả luyện tập", th:"ผลการฝึก"},
+  good:{ko:"잘한 점", zh:"做得好的地方", vi:"Điểm tốt", th:"จุดที่ทำได้ดี"},
+  improve:{ko:"다음에는", zh:"下次注意", vi:"Lần sau", th:"ครั้งหน้า"},
+  memorize:{ko:"외워 둘 표현", zh:"要记住的表达", vi:"Câu nên nhớ", th:"ประโยคที่ควรจำ"},
+  again:{ko:"다시 연습", zh:"再练一次", vi:"Luyện lại", th:"ฝึกอีกครั้ง"},
+  allSafe:{ko:"모든 상황에서 안전하게 대답했어요.", zh:"你在所有情况下都回答得很安全。", vi:"Bạn đã trả lời an toàn ở mọi tình huống.", th:"คุณตอบได้อย่างปลอดภัยทุกสถานการณ์"},
+  safeN:{ko:"안전한 대답 {a}/{b}", zh:"安全回答 {a}/{b}", vi:"Trả lời an toàn {a}/{b}", th:"ตอบอย่างปลอดภัย {a}/{b}"},
+  cardS:{ko:"시작하기 전에 상대방에게 이 화면을 보여주세요.", zh:"开始前先给对方看这个画面。", vi:"Cho đối phương xem màn hình này trước khi bắt đầu.", th:"แสดงหน้าจอนี้ให้อีกฝ่ายดูก่อนเริ่ม"},
+  playAloud:{ko:"소리로 들려주기", zh:"播放语音", vi:"Phát âm thanh", th:"เปิดเสียง"},
+  showBig:{ko:"크게 보여주기", zh:"全屏显示", vi:"Phóng to", th:"แสดงเต็มจอ"},
+  phrS:{ko:"별표한 문장은 현장 모드에 바로 나와요.", zh:"加星的句子会出现在现场模式里。", vi:"Câu gắn sao sẽ hiện ở chế độ trực tiếp.", th:"ประโยคที่ติดดาวจะแสดงในโหมดใช้งานจริง"},
+  addPhr:{ko:"+ 문장 추가", zh:"+ 添加句子", vi:"+ Thêm câu", th:"+ เพิ่มประโยค"},
+  infoS:{ko:"이 정보는 이 휴대폰에만 저장돼요.", zh:"这些信息只保存在这部手机上。", vi:"Thông tin chỉ lưu trên điện thoại này.", th:"ข้อมูลนี้เก็บไว้ในโทรศัพท์เครื่องนี้เท่านั้น"},
+  example:{ko:"예시", zh:"示例", vi:"Ví dụ", th:"ตัวอย่าง"},
+  fName:{ko:"이름", zh:"姓名", vi:"Họ tên", th:"ชื่อ"},
+  fNation:{ko:"국적", zh:"国籍", vi:"Quốc tịch", th:"สัญชาติ"},
+  fVisa:{ko:"체류자격", zh:"签证类型", vi:"Loại visa", th:"ประเภทวีซ่า"},
+  fExp:{ko:"체류 만료", zh:"居留到期", vi:"Hạn lưu trú", th:"หมดอายุการพำนัก"},
+  fComp:{ko:"회사", zh:"公司", vi:"Công ty", th:"บริษัท"},
+  fAddr:{ko:"주소", zh:"地址", vi:"Địa chỉ", th:"ที่อยู่"},
+  intro:{ko:"한국어로 자기소개 들려주기", zh:"用韩语播放自我介绍", vi:"Phát lời giới thiệu bằng tiếng Hàn", th:"เปิดแนะนำตัวเป็นภาษาเกาหลี"},
+  helpS:{ko:"무료 상담 전화예요. 통역을 지원하는 곳이 많아요.", zh:"这些是免费咨询电话，很多提供翻译。", vi:"Các số tư vấn miễn phí, nhiều nơi có phiên dịch.", th:"สายปรึกษาฟรี หลายแห่งมีล่าม"},
+  helpN:{ko:"이 앱은 법률 판단을 하지 않고 정보와 연결만 도와요.", zh:"本应用不做法律判断，只提供信息和联系方式。", vi:"Ứng dụng không đưa ra phán đoán pháp lý, chỉ cung cấp thông tin và kết nối.", th:"แอปนี้ไม่ให้คำวินิจฉัยทางกฎหมาย ช่วยเพียงให้ข้อมูลและเชื่อมต่อ"},
+  recS:{ko:"대화와 연습 기록", zh:"对话和练习记录", vi:"Lịch sử nói chuyện và luyện tập", th:"บันทึกบทสนทนาและการฝึก"},
+  recLease:{ko:"월세 계약서 쓰기", zh:"签租房合同", vi:"Ký hợp đồng thuê nhà", th:"เซ็นสัญญาเช่า"},
+  recWage:{ko:"월급 문의 연습", zh:"工资问题练习", vi:"Luyện hỏi về lương", th:"ฝึกถามเรื่องค่าจ้าง"},
+  justNow:{ko:"방금", zh:"刚刚", vi:"Vừa xong", th:"เมื่อสักครู่"},
+  sLang:{ko:"언어", zh:"语言", vi:"Ngôn ngữ", th:"ภาษา"},
+  sSound:{ko:"한국어 음성", zh:"韩语语音", vi:"Giọng tiếng Hàn", th:"เสียงภาษาเกาหลี"},
+  sSlow:{ko:"천천히 말하기", zh:"慢速说话", vi:"Nói chậm", th:"พูดช้า"},
+  sPriv:{ko:"개인정보", zh:"隐私", vi:"Quyền riêng tư", th:"ความเป็นส่วนตัว"},
+  privN:{ko:"대화 원음은 저장하지 않아요. 내 정보는 휴대폰에만 저장돼요.", zh:"不保存对话原声。个人信息只保存在手机上。", vi:"Không lưu âm thanh gốc. Thông tin cá nhân chỉ lưu trên điện thoại.", th:"ไม่เก็บเสียงสนทนาต้นฉบับ ข้อมูลส่วนตัวเก็บไว้ในเครื่องเท่านั้น"},
+  sVer:{ko:"버전", zh:"版本", vi:"Phiên bản", th:"เวอร์ชัน"},
+  protoNote:{ko:"프로토타입에서는 동작하지 않아요.", zh:"原型中暂不支持此功能。", vi:"Chức năng này chưa có trong bản mẫu.", th:"ยังใช้ไม่ได้ในต้นแบบนี้"},
+  install:{ko:"홈 화면에 설치", zh:"添加到主屏幕", vi:"Cài vào màn hình chính", th:"ติดตั้งบนหน้าจอหลัก"},
+  iosInstall:{ko:"Safari 아래쪽 공유 버튼을 누르고 '홈 화면에 추가'를 고르세요.", zh:"请点击 Safari 底部的分享按钮，然后选择“添加到主屏幕”。", vi:"Bấm nút Chia sẻ ở cuối Safari rồi chọn 'Thêm vào MH chính'.", th:"แตะปุ่มแชร์ด้านล่างของ Safari แล้วเลือก 'เพิ่มไปยังหน้าจอโฮม'"},
+  installHint:{ko:"브라우저 주소창의 설치 아이콘이나 메뉴의 '앱 설치'를 눌러 주세요.", zh:"请点击浏览器地址栏的安装图标，或菜单中的“安装应用”。", vi:"Hãy bấm biểu tượng cài đặt trên thanh địa chỉ hoặc 'Cài đặt ứng dụng' trong menu.", th:"แตะไอคอนติดตั้งบนแถบที่อยู่ หรือ 'ติดตั้งแอป' ในเมนูของเบราว์เซอร์"},
+  installed:{ko:"앱이 설치됐어요. 홈 화면에서 열어 보세요.", zh:"应用已安装，请从主屏幕打开。", vi:"Đã cài ứng dụng. Hãy mở từ màn hình chính.", th:"ติดตั้งแอปแล้ว เปิดจากหน้าจอหลักได้เลย"},
+  offlineNote:{ko:"인터넷이 끊겼어요. 대본·체크리스트·설명 카드는 그대로 쓸 수 있고, 번역·음성 인식은 연결되면 다시 돼요.", zh:"网络已断开。台词、检查清单和说明卡仍可使用，翻译和语音识别需联网后恢复。", vi:"Mất kết nối mạng. Kịch bản, danh sách kiểm tra và thẻ giải thích vẫn dùng được; dịch và nhận dạng giọng nói sẽ hoạt động lại khi có mạng.", th:"อินเทอร์เน็ตหลุด ยังใช้บทพูด รายการตรวจสอบ และบัตรอธิบายได้ ส่วนการแปลและการรู้จำเสียงจะกลับมาเมื่อเชื่อมต่อ"},
+  listenTr:{ko:"번역 듣기", zh:"收听翻译", vi:"Nghe bản dịch", th:"ฟังคำแปล"},
+  themSpeaking:{ko:"상대방이 말하는 중", zh:"对方正在说话", vi:"Đối phương đang nói", th:"อีกฝ่ายกำลังพูด"},
+  noNativeVoice:{ko:"이 기기에 모국어 음성이 없어요.", zh:"此设备没有中文语音。", vi:"Thiết bị này chưa có giọng đọc tiếng Việt.", th:"อุปกรณ์นี้ยังไม่มีเสียงภาษาไทย"},
+  noSound:{ko:"음성이 재생되지 않았어요. 소리 설정을 확인해 주세요.", zh:"语音没有播放，请检查声音设置。", vi:"Không phát được âm thanh. Hãy kiểm tra cài đặt âm thanh.", th:"เสียงไม่เล่น กรุณาตรวจสอบการตั้งค่าเสียง"},
+  voiceName:{ko:"음성", zh:"语音", vi:"Giọng đọc", th:"เสียง"},
+  inputPh:{ko:"모국어로 입력하세요", zh:"请用中文输入", vi:"Nhập bằng tiếng Việt", th:"พิมพ์เป็นภาษาไทย"},
+  send:{ko:"번역", zh:"翻译", vi:"Dịch", th:"แปล"},
+  hearThem:{ko:"상대방 말 듣기", zh:"听对方说话", vi:"Nghe đối phương", th:"ฟังอีกฝ่าย"},
+  typeThem:{ko:"상대방 말 입력 (한국어)", zh:"输入对方的话（韩语）", vi:"Nhập lời đối phương (tiếng Hàn)", th:"พิมพ์คำพูดของอีกฝ่าย (ภาษาเกาหลี)"},
+  typeShort:{ko:"직접 입력", zh:"手动输入", vi:"Nhập tay", th:"พิมพ์เอง"},
+  themPh:{ko:"상대방이 한 한국어를 입력", zh:"输入对方说的韩语", vi:"Nhập câu tiếng Hàn của đối phương", th:"พิมพ์ภาษาเกาหลีที่อีกฝ่ายพูด"},
+  samples:{ko:"예시 문장", zh:"示例句子", vi:"Câu ví dụ", th:"ประโยคตัวอย่าง"},
+  add:{ko:"추가", zh:"添加", vi:"Thêm", th:"เพิ่ม"},
+  listeningNow:{ko:"듣고 있어요. 말씀하세요", zh:"正在听，请说话", vi:"Đang nghe, hãy nói", th:"กำลังฟัง พูดได้เลย"},
+  stop:{ko:"멈추기", zh:"停止", vi:"Dừng", th:"หยุด"},
+  translating:{ko:"번역하는 중", zh:"正在翻译", vi:"Đang dịch", th:"กำลังแปล"},
+  trFail:{ko:"번역하지 못했어요. 인터넷 연결을 확인해 주세요.", zh:"翻译失败，请检查网络连接。", vi:"Không dịch được. Hãy kiểm tra kết nối mạng.", th:"แปลไม่สำเร็จ กรุณาตรวจสอบอินเทอร์เน็ต"},
+  noMic:{ko:"이 브라우저는 음성 인식을 지원하지 않아요. Chrome이나 Edge에서 열어 주세요.", zh:"此浏览器不支持语音识别，请用Chrome或Edge打开。", vi:"Trình duyệt này không hỗ trợ nhận dạng giọng nói. Hãy mở bằng Chrome hoặc Edge.", th:"เบราว์เซอร์นี้ไม่รองรับการรู้จำเสียง กรุณาเปิดด้วย Chrome หรือ Edge"},
+  micDenied:{ko:"마이크 권한이 필요해요. 주소창의 마이크 아이콘에서 허용해 주세요.", zh:"需要麦克风权限，请在地址栏的麦克风图标中允许。", vi:"Cần quyền micro. Hãy cho phép ở biểu tượng micro trên thanh địa chỉ.", th:"ต้องการสิทธิ์ไมโครโฟน กรุณาอนุญาตที่ไอคอนไมค์บนแถบที่อยู่"},
+  noSpeech:{ko:"말소리가 들리지 않았어요. 다시 해 주세요.", zh:"没有听到声音，请再试一次。", vi:"Không nghe thấy giọng nói. Hãy thử lại.", th:"ไม่ได้ยินเสียง กรุณาลองอีกครั้ง"},
+  srNet:{ko:"음성 인식에 인터넷 연결이 필요해요.", zh:"语音识别需要网络连接。", vi:"Nhận dạng giọng nói cần kết nối mạng.", th:"การรู้จำเสียงต้องใช้อินเทอร์เน็ต"},
+  machineTr:{ko:"자동 번역", zh:"自动翻译", vi:"Dịch tự động", th:"แปลอัตโนมัติ"},
+  sayKo:{ko:"한국어로 말해서 대답하기", zh:"用韩语说出回答", vi:"Trả lời bằng cách nói tiếng Hàn", th:"ตอบโดยพูดภาษาเกาหลี"},
+  heardKo:{ko:"인식된 말", zh:"识别结果", vi:"Nhận được", th:"ที่ได้ยิน"},
+  tryAgainKo:{ko:"추천 대답과 달라요. 다시 말해 보세요.", zh:"和推荐回答不一样，请再说一次。", vi:"Chưa khớp với câu gợi ý. Hãy nói lại.", th:"ไม่ตรงกับคำตอบแนะนำ ลองพูดอีกครั้ง"},
+};
+
+const USERS = {
+  zh:{name:"刘洋", ko:"류양", hello:"你好，刘洋", nation:{ko:"중국", zh:"中国"}},
+  vi:{name:"Nguyễn Văn Minh", ko:"응우옌 반 민", hello:"Xin chào, Minh", nation:{ko:"베트남", vi:"Việt Nam"}},
+  th:{name:"สมชาย แก้วดี", ko:"솜차이 깨우디", hello:"สวัสดี คุณสมชาย", nation:{ko:"태국", th:"ไทย"}},
+};
+const USER_COMMON = {visa:"E-9 (비전문취업)", expiry:"2028. 03. 14", company:"(주)한빛정밀", addr:"경기 안산시 단원구 ○○로 12"};
+
+const CHECK = {
+  c1:{key:true, ko:"등기부등본 확인", zh:"查看房产登记簿（등기부등본）", vi:"Kiểm tra sổ đăng ký bất động sản (등기부등본)", th:"ตรวจทะเบียนอสังหาริมทรัพย์ (등기부등본)"},
+  c2:{key:true, ko:"집주인 본인 확인 (신분증 또는 위임장)", zh:"确认房东本人身份（身份证或委托书）", vi:"Xác minh đúng là chủ nhà (giấy tờ tùy thân hoặc giấy ủy quyền)", th:"ยืนยันตัวตนเจ้าของบ้าน (บัตรประชาชนหรือหนังสือมอบอำนาจ)"},
+  c3:{ko:"보증금·월세·관리비 금액 확인", zh:"确认押金、月租和管理费金额", vi:"Xác nhận tiền cọc, tiền thuê tháng, phí quản lý", th:"ยืนยันเงินมัดจำ ค่าเช่ารายเดือน และค่าส่วนกลาง"},
+  c4:{key:true, ko:"계약금은 집주인 명의 계좌로만", zh:"定金只汇入房东本人名下的账户", vi:"Chỉ chuyển tiền cọc vào tài khoản đứng tên chủ nhà", th:"โอนเงินมัดจำเข้าบัญชีชื่อเจ้าของบ้านเท่านั้น"},
+  c5:{ko:"보증금 돌려받는 날 특약에 쓰기", zh:"把退还押金的日期写进特别条款", vi:"Ghi ngày trả lại tiền cọc vào điều khoản đặc biệt", th:"เขียนวันคืนเงินมัดจำไว้ในข้อตกลงพิเศษ"},
+  c6:{ko:"전입신고·확정일자 가능한지 묻기", zh:"询问能否办理迁入申报和确定日期（확정일자）", vi:"Hỏi có thể đăng ký chuyển đến và lấy ngày xác nhận (확정일자) không", th:"ถามว่าแจ้งย้ายเข้าและขอวันที่รับรอง (확정일자) ได้ไหม"},
+};
+const WAGE_CHECK = {
+  w1:{key:true, ko:"밀린 월급 지급 날짜를 문자로 받기", zh:"用短信拿到拖欠工资的支付日期", vi:"Nhận ngày trả lương bị chậm qua tin nhắn", th:"ขอวันจ่ายค่าจ้างที่ค้างเป็นข้อความ"},
+  w2:{key:true, ko:"근로계약서 사본 받기", zh:"拿到劳动合同复印件", vi:"Nhận bản sao hợp đồng lao động", th:"ขอสำเนาสัญญาจ้าง"},
+  w3:{ko:"일한 날짜·시간 기록 남기기", zh:"记录工作日期和时间", vi:"Ghi lại ngày và giờ đã làm việc", th:"จดบันทึกวันและเวลาที่ทำงาน"},
+  w4:{ko:"해결 안 되면 1350 상담", zh:"如果解决不了，拨打1350咨询", vi:"Nếu không giải quyết được, gọi 1350", th:"ถ้าแก้ไม่ได้ โทรปรึกษา 1350"},
+};
+
+const SCRIPT = {
+  s1:{ko:"안녕하세요. 제가 한국어가 서툴러서 앱으로 말해도 될까요?", rom:"annyeonghaseyo. jega hangugeoga seotulleoseo aebeuro malhaedo doelkkayo?", zh:"您好。我韩语说得不好，可以用应用和您说话吗？", vi:"Xin chào. Tôi chưa giỏi tiếng Hàn, tôi nói chuyện qua ứng dụng được không ạ?", th:"สวัสดี ฉันพูดภาษาเกาหลีไม่เก่ง ขอพูดผ่านแอปได้ไหม"},
+  s2:{ko:"관리비는 한 달에 얼마예요?", rom:"gwallibineun han dare eolmayeyo?", zh:"管理费一个月多少钱？", vi:"Phí quản lý mỗi tháng là bao nhiêu?", th:"ค่าส่วนกลางเดือนละเท่าไร"},
+  s3:{ko:"보증금 500만 원, 월세 45만 원, 관리비 7만 원 맞지요?", rom:"bojeunggeum obaengman won, wolse sasibo-man won, gwallibi chilman won matjiyo?", zh:"押金500万韩元，月租45万韩元，管理费7万韩元，对吗？", vi:"Tiền cọc 5.000.000 won, tiền thuê 450.000 won, phí quản lý 70.000 won, đúng không ạ?", th:"เงินมัดจำ 5,000,000 วอน ค่าเช่า 450,000 วอน ค่าส่วนกลาง 70,000 วอน ถูกต้องไหม", amounts:true},
+  s4:{ko:"등기부등본을 보여 주실 수 있나요?", rom:"deunggibu-deungboneul boyeo jusil su innayo?", zh:"可以给我看一下房产登记簿吗？", vi:"Anh/chị cho tôi xem sổ đăng ký bất động sản được không?", th:"ขอดูทะเบียนอสังหาริมทรัพย์ได้ไหม"},
+  s5:{ko:"집주인 신분증도 확인해도 될까요?", rom:"jipjuin sinbunjeungdo hwaginhaedo doelkkayo?", zh:"我可以也看一下房东的身份证吗？", vi:"Tôi xem giấy tờ tùy thân của chủ nhà được không?", th:"ขอดูบัตรประชาชนของเจ้าของบ้านด้วยได้ไหม"},
+  s6:{ko:"계약금은 집주인 이름으로 된 계좌로만 보낼게요.", rom:"gyeyakgeumeun jipjuin ireumeuro doen gyejwaroman bonaelgeyo.", zh:"定金我只汇到房东本人名下的账户。", vi:"Tôi chỉ chuyển tiền đặt cọc vào tài khoản đứng tên chủ nhà.", th:"ฉันจะโอนเงินมัดจำเข้าบัญชีชื่อเจ้าของบ้านเท่านั้น"},
+  s7:{ko:"위임장과 인감증명서를 보여 주세요.", rom:"wiimjanggwa ingamjeungmyeongseoreul boyeo juseyo.", zh:"请给我看委托书和印鉴证明。", vi:"Xin cho tôi xem giấy ủy quyền và giấy chứng nhận con dấu.", th:"ขอดูหนังสือมอบอำนาจและใบรับรองตราประทับ"},
+  s8:{ko:"이사 나갈 때 보증금은 언제 돌려받나요?", rom:"isa nagal ttae bojeunggeumeun eonje dollyeobannayo?", zh:"搬走的时候，押金什么时候退给我？", vi:"Khi chuyển đi, khi nào tôi được nhận lại tiền cọc?", th:"ตอนย้ายออก จะได้เงินมัดจำคืนเมื่อไร"},
+  s9:{ko:"그 내용을 특약에 써 주세요.", rom:"geu naeyongeul teugyage sseo juseyo.", zh:"请把这一点写进特别条款。", vi:"Xin ghi nội dung đó vào điều khoản đặc biệt.", th:"ช่วยเขียนเรื่องนี้ไว้ในข้อตกลงพิเศษด้วย"},
+  s10:{ko:"전입신고하고 확정일자를 받을 수 있나요?", rom:"jeonipsingohago hwakjeongiljareul badeul su innayo?", zh:"我可以办理迁入申报并拿到确定日期吗？", vi:"Tôi có thể đăng ký chuyển đến và lấy ngày xác nhận không?", th:"ฉันแจ้งย้ายเข้าและขอวันที่รับรองได้ไหม"},
+};
+const QUICK = [
+  {id:"q1", ko:"다시 한번 말해 주세요.", rom:"dasi hanbeon malhae juseyo.", zh:"请再说一遍。", vi:"Xin nói lại một lần nữa.", th:"ช่วยพูดอีกครั้งได้ไหม"},
+  {id:"q2", ko:"천천히 말해 주세요.", rom:"cheoncheonhi malhae juseyo.", zh:"请说慢一点。", vi:"Xin nói chậm lại.", th:"ช่วยพูดช้าๆ หน่อย"},
+  {id:"q3", ko:"잠시만요, 확인해 볼게요.", rom:"jamsimanyo, hwaginhae bolgeyo.", zh:"请稍等，我确认一下。", vi:"Xin chờ một chút, tôi kiểm tra đã.", th:"รอสักครู่ ขอตรวจสอบก่อน"},
+  {id:"q4", ko:"이 서류를 사진 찍어도 될까요?", rom:"i seoryureul sajin jjigeodo doelkkayo?", zh:"我可以拍一下这份文件吗？", vi:"Tôi chụp ảnh giấy tờ này được không?", th:"ขอถ่ายรูปเอกสารนี้ได้ไหม"},
+  {id:"q5", ko:"문자로 보내 주실 수 있나요?", rom:"munjaro bonae jusil su innayo?", zh:"可以发短信给我吗？", vi:"Anh/chị gửi tin nhắn cho tôi được không?", th:"ช่วยส่งเป็นข้อความได้ไหม"},
+  {id:"q6", ko:"오늘 결정하지 않고 생각해 볼게요.", rom:"oneul gyeoljeonghaji anko saenggakhae bolgeyo.", zh:"今天先不决定，我再考虑一下。", vi:"Hôm nay tôi chưa quyết định, tôi sẽ suy nghĩ thêm.", th:"วันนี้ยังไม่ตัดสินใจ ขอคิดดูก่อน"},
+];
+const AMOUNTS = [
+  {ko:"보증금", zh:"押金", vi:"Tiền cọc", th:"เงินมัดจำ", amt:5000000, read:"500만 원"},
+  {ko:"월세", zh:"月租", vi:"Tiền thuê tháng", th:"ค่าเช่ารายเดือน", amt:450000, read:"45만 원"},
+  {ko:"관리비", zh:"管理费", vi:"Phí quản lý", th:"ค่าส่วนกลาง", amt:70000, read:"7만 원"},
+];
+const THEM_SAMPLES = ["여권은 회사에서 보관할게요.", "계약서는 나중에 쓰고 오늘 계약금부터 보내세요.", "이번 달 월급은 다음 달에 한꺼번에 줄게요.", "관리비에 수도세는 포함 안 돼요."];
+const RISK_RULES = [
+  {re:/(동생|아내|와이프|남편|부인|가족|친구|지인|아들|딸|다른\s*사람).{0,12}(계좌|통장)/, ko:"본인 명의가 아닌 계좌로 송금 요구",
+   zh:"对方要求把钱转到不是本人名下的账户。确认之前不要转账。", vi:"Họ yêu cầu chuyển tiền vào tài khoản không phải của chính chủ. Đừng chuyển trước khi xác minh.", th:"เขาขอให้โอนเงินเข้าบัญชีที่ไม่ใช่ของเจ้าตัว อย่าโอนก่อนตรวจสอบ"},
+  {re:/(여권|외국인\s*등록증|신분증).{0,12}(맡|보관|두고|가지고\s*있)/, ko:"여권·신분증 보관 요구",
+   zh:"对方要求你交出护照或身份证。证件应该由你本人保管。", vi:"Họ yêu cầu bạn giao hộ chiếu hoặc giấy tờ tùy thân. Giấy tờ phải do chính bạn giữ.", th:"เขาขอให้ฝากพาสปอร์ตหรือบัตรประจำตัว เอกสารควรอยู่กับตัวคุณเอง"},
+  {re:/(오늘|지금|당장|바로|빨리).{0,12}(계약금|입금|송금|돈)|(계약금|돈).{0,6}(오늘|지금|당장|바로|빨리).{0,15}(보내|입금|송금|넣)/, ko:"당일 송금 재촉",
+   zh:"对方催你今天马上付钱。请确认完所有文件后再转账。", vi:"Họ hối thúc bạn chuyển tiền ngay hôm nay. Hãy kiểm tra đủ giấy tờ rồi mới chuyển.", th:"เขาเร่งให้โอนเงินวันนี้ทันที ตรวจเอกสารให้ครบก่อนแล้วค่อยโอน"},
+  {re:/계약서.{0,10}(나중에|안\s*써|필요\s*없|없이)|말로만|구두로/, ko:"서면 계약 회피",
+   zh:"对方想只口头约定、不签合同。一定要留下书面记录。", vi:"Họ muốn chỉ thỏa thuận miệng, không có hợp đồng. Hãy luôn giữ bằng văn bản.", th:"เขาอยากตกลงกันปากเปล่าโดยไม่มีสัญญา ต้องมีเป็นลายลักษณ์อักษรเสมอ"},
+  {re:/(월급|임금|급여|일당).{0,15}(다음\s*달|나중에|다음에).{0,12}(한꺼번에|같이|몰아서|줄|드릴)/, ko:"임금 지급 미루기",
+   zh:"对方说工资以后一起发。请让对方用短信写明支付日期。", vi:"Họ nói sẽ trả lương gộp sau. Hãy xin ngày trả lương bằng tin nhắn.", th:"เขาบอกว่าจะจ่ายค่าจ้างรวมกันทีหลัง ขอวันจ่ายเป็นข้อความไว้"},
+];
+
+const STEPS = [
+  {opts:["s1"], reply:{ko:"네, 괜찮아요. 천천히 하세요. 여기 계약서예요. 보증금 500만 원에 월세 45만 원이에요.", zh:"好的，没关系，慢慢来。这是合同。押金500万韩元，月租45万韩元。", vi:"Vâng, được ạ. Cứ từ từ. Đây là hợp đồng. Tiền cọc 5 triệu won, tiền thuê tháng 450 nghìn won.", th:"ได้ ไม่เป็นไร ค่อยๆ ก็ได้ นี่คือสัญญา เงินมัดจำ 5 ล้านวอน ค่าเช่าเดือนละ 450,000 วอน"}},
+  {opts:["s2"], reply:{ko:"관리비는 한 달에 7만 원이고, 인터넷이 포함돼요.", zh:"管理费每月7万韩元，包含网费。", vi:"Phí quản lý là 70 nghìn won mỗi tháng, đã gồm internet.", th:"ค่าส่วนกลางเดือนละ 70,000 วอน รวมอินเทอร์เน็ตแล้ว"}},
+  {opts:["s3"], reply:{ko:"네, 맞아요.", zh:"对，没错。", vi:"Vâng, đúng rồi.", th:"ใช่ ถูกต้อง", checks:["c3"]}},
+  {opts:["s4"], reply:{ko:"네, 여기 오늘 뗀 등기부등본이에요.", zh:"好的，这是今天刚开的登记簿。", vi:"Vâng, đây là sổ đăng ký vừa lấy hôm nay.", th:"นี่คือทะเบียนที่เพิ่งออกวันนี้", checks:["c1"],
+    tip:{ko:"소유자 이름이 계약하는 사람과 같은지, '을구'에 큰 근저당이 있는지 보세요.", zh:"提示：确认所有人（소유자）姓名是否与签合同的人一致，并查看“을구”部分有没有大额抵押（근저당）。", vi:"Mẹo: Xem tên chủ sở hữu (소유자) có giống người ký hợp đồng không, và phần 을구 có khoản thế chấp (근저당) lớn không.", th:"เคล็ดลับ: ดูว่าชื่อเจ้าของ (소유자) ตรงกับคนที่เซ็นสัญญาไหม และส่วน 을구 มีการจำนอง (근저당) จำนวนมากหรือไม่"}}},
+  {opts:["s5"], reply:{ko:"집주인은 지금 해외에 있어서 못 와요. 계약금 50만 원은 오늘 제 동생 계좌로 보내 주시면 돼요.", zh:"房东现在在国外，来不了。定金50万韩元今天转到我弟弟的账户就行。", vi:"Chủ nhà đang ở nước ngoài nên không đến được. Tiền đặt cọc 500 nghìn won hôm nay chuyển vào tài khoản của em tôi là được.", th:"เจ้าของบ้านอยู่ต่างประเทศ มาไม่ได้ เงินมัดจำ 500,000 วอน วันนี้โอนเข้าบัญชีน้องชายฉันได้เลย",
+    risk:{ko:"집주인 명의가 아닌 계좌로 송금 요구", zh:"对方要求把钱转到不是房东名下的账户。这是常见的诈骗信号，不要转账。", vi:"Họ yêu cầu chuyển tiền vào tài khoản không đứng tên chủ nhà. Đây là dấu hiệu lừa đảo thường gặp. Đừng chuyển tiền.", th:"เขาขอให้โอนเงินเข้าบัญชีที่ไม่ใช่ชื่อเจ้าของบ้าน นี่เป็นสัญญาณการโกงที่พบบ่อย อย่าโอนเงิน"}}},
+  {opts:["s6","s7"], reply:{ko:"알겠어요. 위임장이랑 인감증명서 여기 있고, 계약금은 집주인 계좌로 받을게요.", zh:"好的。委托书和印鉴证明在这里，定金就转到房东的账户。", vi:"Được rồi. Giấy ủy quyền và giấy chứng nhận con dấu đây, tiền cọc sẽ nhận vào tài khoản của chủ nhà.", th:"เข้าใจแล้ว นี่หนังสือมอบอำนาจกับใบรับรองตราประทับ เงินมัดจำจะรับเข้าบัญชีเจ้าของบ้าน", checks:["c2","c4"]}},
+  {opts:["s8"], reply:{ko:"보통 나가는 날 돌려드려요.", zh:"一般在搬走那天退还。", vi:"Thường thì trả lại vào ngày chuyển đi.", th:"ปกติจะคืนในวันที่ย้ายออก"}},
+  {opts:["s9"], reply:{ko:"네, '퇴거일에 보증금 전액 반환'이라고 특약에 적을게요.", zh:"好的，我会在特别条款里写上“搬出当日全额退还押金”。", vi:"Vâng, tôi sẽ ghi vào điều khoản đặc biệt: 'Trả lại toàn bộ tiền cọc vào ngày chuyển đi'.", th:"ได้ จะเขียนในข้อตกลงพิเศษว่า \"คืนเงินมัดจำเต็มจำนวนในวันย้ายออก\"", checks:["c5"]}},
+  {opts:["s10"], reply:{ko:"네, 가능해요. 이사하고 주민센터에 가시면 돼요.", zh:"可以。搬进来以后去居民中心（주민센터）办理就行。", vi:"Vâng, được. Sau khi chuyển đến, anh/chị đến 주민센터 là được.", th:"ได้ ย้ายเข้าแล้วไปที่ศูนย์บริการชุมชน (주민센터) ได้เลย", checks:["c6"]}},
+];
+
+const RP = {
+  r1:{name:"박 사장님", initial:"박", role:{ko:"집주인", zh:"急性子的房东", vi:"Chủ nhà khó tính", th:"เจ้าของบ้านใจร้อน"}, sit:{ko:"원룸 월세 계약", zh:"租单间", vi:"Thuê phòng một gian", th:"เช่าห้องสตูดิโอ"}, checks:CHECK,
+    script:[
+      {ai:{ko:"안녕하세요. 방 보러 오셨죠? 마음에 들면 오늘 바로 계약금 넣으세요. 다른 사람도 보러 온대요.", zh:"你好，是来看房的吧？喜欢的话今天就交定金吧。还有别人要来看。", vi:"Chào. Đến xem phòng phải không? Nếu thích thì hôm nay đặt cọc luôn đi. Có người khác cũng sắp đến xem.", th:"สวัสดี มาดูห้องใช่ไหม ถ้าชอบก็วางมัดจำวันนี้เลย มีคนอื่นจะมาดูด้วย"},
+       opts:[{good:true, c:"c1", ko:"등기부등본 먼저 볼 수 있을까요?", zh:"我可以先看一下登记簿吗？", vi:"Tôi xem sổ đăng ký bất động sản trước được không?", th:"ขอดูทะเบียนก่อนได้ไหม"},
+             {good:false, ko:"네, 지금 바로 보낼게요.", zh:"好，我现在就转。", vi:"Vâng, tôi chuyển ngay.", th:"ได้ จะโอนเดี๋ยวนี้เลย", why:{ko:"서류를 확인하기 전에 돈을 서둘러 보내지 마세요.", zh:"没确认文件之前不要急着转钱。", vi:"Đừng vội chuyển tiền khi chưa kiểm tra giấy tờ.", th:"อย่ารีบโอนเงินก่อนตรวจเอกสาร"}}]},
+      {ai:{ko:"등기부는 깨끗해요. 계약금은 제 아내 계좌로 보내면 돼요.", zh:"登记簿没问题。定金转到我太太的账户就行。", vi:"Sổ đăng ký sạch mà. Tiền cọc chuyển vào tài khoản vợ tôi là được.", th:"ทะเบียนไม่มีปัญหา เงินมัดจำโอนเข้าบัญชีภรรยาฉันได้เลย"},
+       opts:[{good:true, c:"c4", ko:"집주인 이름으로 된 계좌로만 보낼게요.", zh:"我只转到房东本人名下的账户。", vi:"Tôi chỉ chuyển vào tài khoản đứng tên chủ nhà.", th:"ฉันจะโอนเข้าบัญชีชื่อเจ้าของบ้านเท่านั้น"},
+             {good:false, ko:"알겠어요. 계좌 번호 주세요.", zh:"好的，请给我账号。", vi:"Được, cho tôi số tài khoản.", th:"ได้ ขอเลขบัญชีหน่อย", why:{ko:"집주인 명의가 아닌 계좌는 위험 신호예요.", zh:"不是房东名下的账户是危险信号。", vi:"Tài khoản không đứng tên chủ nhà là dấu hiệu nguy hiểm.", th:"บัญชีที่ไม่ใช่ชื่อเจ้าของบ้านเป็นสัญญาณอันตราย"}}]},
+      {ai:{ko:"보증금은 다음 세입자 들어오면 돌려줄게요.", zh:"押金等下一个租客搬进来再退给你。", vi:"Tiền cọc thì khi có người thuê mới vào tôi sẽ trả lại.", th:"เงินมัดจำจะคืนให้ตอนมีผู้เช่าคนใหม่เข้ามา"},
+       opts:[{good:true, c:"c5", ko:"나가는 날 돌려받는 걸로 특약에 써 주세요.", zh:"请在特别条款里写明搬走那天退还。", vi:"Xin ghi vào điều khoản đặc biệt là trả lại vào ngày tôi chuyển đi.", th:"ช่วยเขียนในข้อตกลงพิเศษว่าคืนในวันที่ฉันย้ายออก"},
+             {good:false, ko:"네, 괜찮아요.", zh:"好的，没问题。", vi:"Vâng, không sao.", th:"ได้ ไม่เป็นไร", why:{ko:"날짜를 정해 두지 않으면 오래 기다릴 수 있어요.", zh:"不写明具体日期，可能要等很久。", vi:"Nếu không ghi ngày cụ thể, bạn có thể phải chờ rất lâu.", th:"ถ้าไม่เขียนวันที่ชัดเจน อาจต้องรอนานมาก"}}]},
+      {ai:{ko:"음, 알겠어요. 그렇게 써 줄게요. 다른 거 있어요?", zh:"嗯，好吧，我就这么写。还有别的吗？", vi:"Ừm, được rồi. Tôi sẽ ghi như vậy. Còn gì nữa không?", th:"อืม ได้ จะเขียนให้ มีอะไรอีกไหม"},
+       opts:[{good:true, c:"c6", ko:"전입신고하고 확정일자 받을 수 있나요?", zh:"我可以办理迁入申报并拿到确定日期吗？", vi:"Tôi có thể đăng ký chuyển đến và lấy ngày xác nhận không?", th:"แจ้งย้ายเข้าและขอวันที่รับรองได้ไหม"},
+             {good:false, ko:"아니요, 없어요.", zh:"没有了。", vi:"Không, không có gì.", th:"ไม่มีแล้ว", why:{ko:"전입신고와 확정일자가 보증금을 지켜 줘요.", zh:"迁入申报和确定日期可以保护你的押金。", vi:"Đăng ký chuyển đến và ngày xác nhận giúp bảo vệ tiền cọc của bạn.", th:"การแจ้งย้ายเข้าและวันที่รับรองช่วยคุ้มครองเงินมัดจำของคุณ"}}]},
+    ],
+    outro:{ko:"네, 가능해요. 그럼 계약서 쓰죠.", zh:"可以。那我们签合同吧。", vi:"Ừ, được. Vậy viết hợp đồng thôi.", th:"ได้ งั้นมาเซ็นสัญญากัน"}},
+  r2:{name:"김 사장님", initial:"김", role:{ko:"공장 사장님", zh:"拖欠工资的老板", vi:"Chủ xưởng chậm trả lương", th:"เจ้าของโรงงานที่จ่ายค่าจ้างช้า"}, sit:{ko:"밀린 월급 요청", zh:"讨要拖欠的工资", vi:"Đòi lương bị chậm", th:"ขอค่าจ้างที่ค้าง"}, checks:WAGE_CHECK,
+    script:[
+      {ai:{ko:"이번 달 월급은 회사 사정이 어려워서 다음 달에 한꺼번에 줄게요.", zh:"公司最近困难，这个月的工资下个月一起发。", vi:"Lương tháng này công ty đang khó khăn, tháng sau tôi trả gộp một lần.", th:"บริษัทช่วงนี้ลำบาก เงินเดือนเดือนนี้จะจ่ายรวมกันเดือนหน้า"},
+       opts:[{good:true, c:"w1", ko:"정확히 언제 주시는지 날짜를 문자로 보내 주세요.", zh:"请用短信把具体发工资的日期发给我。", vi:"Xin nhắn tin cho tôi ngày trả chính xác.", th:"ช่วยส่งวันที่จะจ่ายที่แน่นอนเป็นข้อความด้วย"},
+             {good:false, ko:"네, 알겠습니다.", zh:"好的，我知道了。", vi:"Vâng, tôi hiểu rồi.", th:"เข้าใจแล้ว", why:{ko:"말로 한 약속은 나중에 증명하기 어려워요. 기록으로 받으세요.", zh:"口头承诺以后很难证明，请要求书面记录。", vi:"Lời hứa miệng khó chứng minh sau này. Hãy xin bằng tin nhắn.", th:"คำสัญญาปากเปล่าพิสูจน์ยากภายหลัง ขอเป็นลายลักษณ์อักษร"}}]},
+      {ai:{ko:"그냥 믿어요. 문자까지 필요해요?", zh:"你就相信我吧，还需要发短信吗？", vi:"Cứ tin tôi đi. Cần nhắn tin làm gì?", th:"เชื่อฉันเถอะ ต้องส่งข้อความด้วยเหรอ"},
+       opts:[{good:true, c:"w3", ko:"나중에 헷갈리지 않게 기록해 두고 싶어요.", zh:"我想留个记录，以后不会搞混。", vi:"Tôi muốn ghi lại để sau này không bị nhầm.", th:"อยากจดไว้ จะได้ไม่สับสนทีหลัง"},
+             {good:false, ko:"죄송해요. 괜찮아요.", zh:"对不起，没关系。", vi:"Xin lỗi. Không sao ạ.", th:"ขอโทษ ไม่เป็นไร", why:{ko:"기록을 요청할 권리가 있어요. 공손하지만 분명하게 말하세요.", zh:"你有权要求留下记录。礼貌但要清楚地说。", vi:"Bạn có quyền xin ghi lại. Nói lịch sự nhưng rõ ràng.", th:"คุณมีสิทธิ์ขอให้มีบันทึก พูดสุภาพแต่ชัดเจน"}}]},
+      {ai:{ko:"알았어요. 그런데 근로계약서는 회사에 있어요.", zh:"知道了。不过劳动合同放在公司。", vi:"Được rồi. Nhưng hợp đồng lao động thì để ở công ty.", th:"ได้ แต่สัญญาจ้างเก็บไว้ที่บริษัทนะ"},
+       opts:[{good:true, c:"w2", ko:"근로계약서 사본을 한 부 주세요.", zh:"请给我一份劳动合同的复印件。", vi:"Xin cho tôi một bản sao hợp đồng lao động.", th:"ขอสำเนาสัญญาจ้างหนึ่งชุด"},
+             {good:false, ko:"네.", zh:"好。", vi:"Vâng.", th:"ได้", why:{ko:"근로자는 계약서를 한 부 받아야 해요.", zh:"劳动者应该拿到一份合同。", vi:"Người lao động phải được giữ một bản hợp đồng.", th:"ลูกจ้างควรได้รับสัญญาหนึ่งฉบับ"}}]},
+    ],
+    outro:{ko:"알겠어요. 내일 복사해 줄게요.", zh:"好吧，明天给你复印。", vi:"Được, mai tôi photo cho.", th:"ได้ พรุ่งนี้จะถ่ายสำเนาให้"}},
+};
+
+const HELP = [
+  {num:"1577-0071", ko:"외국인력상담센터", zh:"外国人力咨询中心（多语言）", vi:"Trung tâm tư vấn lao động nước ngoài (đa ngôn ngữ)", th:"ศูนย์ให้คำปรึกษาแรงงานต่างชาติ (หลายภาษา)"},
+  {num:"1345", ko:"외국인종합안내센터", zh:"外国人综合咨询中心（居留、签证）", vi:"Trung tâm thông tin cho người nước ngoài (cư trú, visa)", th:"ศูนย์ข้อมูลสำหรับชาวต่างชาติ (การพำนัก วีซ่า)"},
+  {num:"132", ko:"대한법률구조공단", zh:"大韩法律救助公团", vi:"Tổng công ty trợ giúp pháp lý Hàn Quốc", th:"สำนักงานช่วยเหลือทางกฎหมายเกาหลี"},
+  {num:"1350", ko:"고용노동부 고객상담센터", zh:"雇佣劳动部咨询中心（拖欠工资）", vi:"Bộ Việc làm và Lao động (lương bị chậm)", th:"กระทรวงการจ้างงานและแรงงาน (ค่าจ้างค้าง)"},
+];
+const EXPLAIN = {ko:"저는 한국어가 서툴러서 통역 앱을 사용합니다. 천천히, 짧게 말씀해 주세요. 감사합니다.", zh:"我韩语不好，所以使用翻译应用。请说慢一点、简短一点。谢谢。", vi:"Tôi chưa giỏi tiếng Hàn nên dùng ứng dụng phiên dịch. Xin hãy nói chậm và ngắn. Cảm ơn.", th:"ฉันพูดภาษาเกาหลีไม่เก่ง จึงใช้แอปแปลภาษา กรุณาพูดช้าๆ และสั้นๆ ขอบคุณ"};
+
+/* ---------------- state ---------------- */
+const S = {
+  lang:"vi", uiKo:false, screen:"onboard", stack:[], sound:true, slow:false, sheet:null, full:false,
+  checks:new Set(), live:{step:0, log:[], waiting:false, done:false, preview:null, hearing:false},
+  records:[], pins:new Set(["q1","q2","q5"]), rp:null, themVoice:true,
+};
+try{ const s = JSON.parse(localStorage.getItem("tonghae-proto")||"{}"); if(LANGS[s.lang]) S.lang = s.lang; if(typeof s.uiKo==="boolean") S.uiKo = s.uiKo; if(s.onboarded) S.onboarded = true; }catch(e){}
+if(S.onboarded) S.screen = "home";
+function persist(){ try{ localStorage.setItem("tonghae-proto", JSON.stringify({lang:S.lang, uiKo:S.uiKo, onboarded:!!S.onboarded})); }catch(e){} }
+
+const app = document.getElementById("app");
+const wrap = document.getElementById("screenWrap");
+const uiLang = () => S.uiKo ? "ko" : S.lang;
+const L = k => { const o = U[k]; return o ? (o[uiLang()] ?? o.ko) : k; };
+const N = o => o[S.lang] ?? o.ko;                       // native content
+const G = o => S.uiKo ? (o.ko ?? N(o)) : N(o);          // gloss: native, or Korean in reviewer mode
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const fmt = n => new Intl.NumberFormat({zh:"zh-CN", vi:"vi-VN", th:"th-TH"}[S.lang]).format(n);
+
+const ICON = {
+  back:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>',
+  chev:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>',
+  play:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>',
+  speak:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 010 7"/></svg>',
+  mic:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v3"/></svg>',
+  ear:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8.5a6 6 0 0112 0c0 3.5-3 4.5-3 7.5a3 3 0 01-6 0"/><path d="M9.5 9a2.5 2.5 0 015 0"/></svg>',
+  kbd:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"/></svg>',
+  warn:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18v.5"/></svg>',
+  house:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg>',
+  won:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M7 9l1.5 6L10.5 10l2 5L14 9M6.5 12h8.5"/><circle cx="18" cy="12" r="1"/></svg>',
+  cross:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M9 3h6v6h6v6h-6v6H9v-6H3V9h6z"/></svg>',
+  pass:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><circle cx="12" cy="10" r="3"/><path d="M9 16h6"/></svg>',
+  card:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 10h10M7 14h6"/></svg>',
+  chat:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></svg>',
+  id:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M6 16c.6-1.5 1.7-2 3-2s2.4.5 3 2M14 10h4M14 13h3"/></svg>',
+  phone:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M5 3h4l2 5-2.5 1.5a11 11 0 006 6L16 13l5 2v4a2 2 0 01-2 2A17 17 0 013 5a2 2 0 012-2z"/></svg>',
+  tHome:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M3 11l9-7 9 7v9H3z"/></svg>',
+  tPrac:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><rect x="2" y="6" width="14" height="12" rx="2"/><path d="M16 10l6-3v10l-6-3z"/></svg>',
+  tRec:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M6 3h9l4 4v14H6z"/><path d="M9 11h7M9 15h7"/></svg>',
+  tSet:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 00.3 1.8l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.7 1.7 0 00-1.8-.3 1.7 1.7 0 00-1 1.5V21a2 2 0 11-4 0v-.1a1.7 1.7 0 00-1.1-1.5 1.7 1.7 0 00-1.8.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.7 1.7 0 00.3-1.8 1.7 1.7 0 00-1.5-1H3a2 2 0 110-4h.1a1.7 1.7 0 001.5-1.1 1.7 1.7 0 00-.3-1.8l-.1-.1a2 2 0 112.8-2.8l.1.1a1.7 1.7 0 001.8.3H9a1.7 1.7 0 001-1.5V3a2 2 0 114 0v.1a1.7 1.7 0 001 1.5 1.7 1.7 0 001.8-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.7 1.7 0 00-.3 1.8V9a1.7 1.7 0 001.5 1H21a2 2 0 110 4h-.1a1.7 1.7 0 00-1.5 1z"/></svg>',
+};
+
+/* ---------------- speech ---------------- */
+const synth = ("speechSynthesis" in window) ? window.speechSynthesis : null;
+const LANG_TAG = {ko:"ko-KR", zh:"zh-CN", vi:"vi-VN", th:"th-TH"};
+const VO = {ko:[], main:null, other:null};
+const voiceScore = v => (/natural|online|neural/i.test(v.name) ? 4 : 0) + (/google/i.test(v.name) ? 2 : 0) + (v.localService ? 0 : 1);
+function voicesFor(prefix){
+  if(!synth) return [];
+  return synth.getVoices().filter(v => (v.lang||"").toLowerCase().replace("_","-").startsWith(prefix)).sort((a,b) => voiceScore(b) - voiceScore(a));
+}
+function pickOther(main){ return VO.ko.find(v => v!==main && /injoon|hyunsu|male/i.test(v.name)) || VO.ko.find(v => v!==main) || main; }
+function loadVoices(){
+  VO.ko = voicesFor("ko");
+  let saved = null; try{ saved = localStorage.getItem("tonghae-voice"); }catch(e){}
+  VO.main = VO.ko.find(v => v.name===saved) || VO.ko[0] || null;
+  VO.other = pickOther(VO.main);
+  renderVoiceUI();
+}
+function renderVoiceUI(){
+  const sel = document.getElementById("voiceSel"), st = document.getElementById("voiceState");
+  if(!sel) return;
+  const bad = msg => { sel.disabled = true; st.textContent = msg; st.className = "voice-state bad"; };
+  if(!synth){ sel.innerHTML = "<option>지원 안 됨</option>"; return bad("이 브라우저는 음성 출력을 지원하지 않아요. Edge나 Chrome에서 열어 주세요."); }
+  if(!synth.getVoices().length){ sel.innerHTML = "<option>불러오는 중</option>"; sel.disabled = true; st.textContent = ""; return; }
+  if(!VO.ko.length){ sel.innerHTML = "<option>한국어 음성 없음</option>"; return bad("한국어 음성을 찾지 못했어요. Edge 브라우저를 쓰거나 Windows 설정 › 시간 및 언어 › 음성에서 한국어를 추가해 주세요."); }
+  sel.disabled = false;
+  sel.innerHTML = VO.ko.map((v,i) => `<option value="${i}" ${v===VO.main?"selected":""}>${esc(v.name.replace(/^(Microsoft|Google) /,""))}</option>`).join("");
+  st.textContent = ""; st.className = "voice-state";
+}
+if(synth){ loadVoices(); try{ synth.addEventListener("voiceschanged", loadVoices); }catch(e){ synth.onvoiceschanged = loadVoices; } setTimeout(loadVoices, 700); setTimeout(loadVoices, 2500); }
+
+let speakId = 0, curUtter = null, soundWarned = false;
+function speak(text, opt={}){
+  const id = ++speakId;
+  const lang = opt.lang || "ko";
+  const rate = (opt.rate ?? 1) * (S.slow && lang==="ko" ? 0.8 : 1);
+  showSpeaking(text, opt.label);
+  let finished = false, t1 = null, t2 = null;
+  const fin = () => {
+    if(finished) return; finished = true;
+    clearTimeout(t1); clearTimeout(t2);
+    if(id===speakId) hideSpeaking();
+    opt.onend && opt.onend();
+  };
+  if(!S.sound || !synth){ t1 = setTimeout(fin, Math.min(900 + [...text].length * 120 / rate, 4000)); return; }
+  const voice = opt.voice ? opt.voice : (lang==="ko" ? VO.main : (voicesFor(lang)[0] || null));
+  if(lang!=="ko" && !voice){ toast(L("noNativeVoice")); t1 = setTimeout(fin, 300); return; }
+  const run = () => {
+    if(id!==speakId){ fin(); return; }
+    const u = new SpeechSynthesisUtterance(text);
+    curUtter = u;                                   // keep a reference so Chrome does not drop onend
+    u.lang = voice ? voice.lang : LANG_TAG[lang];
+    if(voice) u.voice = voice;
+    u.rate = rate; u.pitch = opt.pitch ?? 1; u.volume = 1;
+    let started = false;
+    u.onstart = () => { started = true; clearTimeout(t1); t2 = setTimeout(fin, 6000 + [...text].length * 450 / rate); };
+    u.onend = fin;
+    u.onerror = fin;
+    synth.speak(u);
+    try{ if(synth.paused) synth.resume(); }catch(e){}
+    t1 = setTimeout(() => { if(!started){ if(!soundWarned){ soundWarned = true; toast(L("noSound")); } fin(); } }, 5000);
+  };
+  if(synth.speaking || synth.pending){ synth.cancel(); setTimeout(run, 120); }   // Chrome drops a speak() issued right after cancel()
+  else run();
+}
+function stopSpeech(){ speakId++; try{ synth && synth.cancel(); }catch(e){} hideSpeaking(); }
+function showSpeaking(text, label){
+  hideSpeaking();
+  const el = document.createElement("div");
+  el.className = "speaking"; el.id = "speaking"; el.setAttribute("role","status");
+  el.innerHTML = '<span class="wave"><i></i><i></i><i></i><i></i></span><span></span>';
+  el.lastChild.textContent = (label || L("speaking")) + " · " + text;
+  wrap.appendChild(el);
+}
+function hideSpeaking(){ document.getElementById("speaking")?.remove(); }
+function toast(msg){
+  wrap.querySelector(".toast")?.remove();
+  const el = document.createElement("div"); el.className = "toast"; el.setAttribute("role","status"); el.textContent = msg;
+  wrap.appendChild(el); setTimeout(() => el.remove(), 3000);
+}
+
+/* ---------------- navigation ---------------- */
+const TABS = {home:"home", rpick:"rpick", records:"records", settings:"settings"};
+const TITLE = {prep:"sign", live:"liveT", summary:"sumT", rpick:"nPrac", feedback:"fbT", card:"tCard", phrases:"tPhr", myinfo:"tInfo", help:"tHelp", records:"nRec", settings:"nSet"};
+function go(screen, push=true){
+  abortRec();
+  if(S.screen==="call" && screen!=="call") stopTimer();
+  if(TABS[screen]) S.stack = [];
+  else if(push && screen!==S.screen) S.stack.push(S.screen);
+  S.screen = screen; S.sheet = null; S.full = false;
+  render();
+  const m = app.querySelector(".main"); if(m) m.scrollTop = 0;
+}
+function back(){ go(S.stack.pop() || "home", false); }
+
+function render(){
+  const sc = S.screen;
+  wrap.classList.toggle("dark-ui", sc==="call");
+  document.documentElement.lang = uiLang();
+  let html = "";
+  if(sc!=="call" && sc!=="onboard"){
+    html += `<header class="bar">
+      ${TABS[sc] ? "" : `<button class="icon-btn" data-act="back" aria-label="back">${ICON.back}</button>`}
+      <h1>${sc==="home" ? '<span class="brand">통해</span>' : esc(L(TITLE[sc]))}</h1>
+    </header>`;
+  }
+  html += VIEWS[sc]();
+  if(TABS[sc]) html += tabs(sc);
+  if(S.sheet) html += SHEETS[S.sheet.type]();
+  if(S.full) html += `<div class="full" role="dialog"><span class="bigko">${EXPLAIN.ko}</span><span class="sub" style="color:#c8d3d6">${esc(N(EXPLAIN))}</span><button class="btn" data-act="full-close">${esc(L("close"))}</button></div>`;
+  const keep = {};
+  ["meInput","themInput"].forEach(k => { const el = document.getElementById(k); if(el && el.value) keep[k] = el.value; });
+  app.innerHTML = html;
+  Object.entries(keep).forEach(([k,v]) => { const el = document.getElementById(k); if(el) el.value = v; });
+  if(S.sheet && S.sheet.type==="them") document.getElementById("themInput")?.focus();
+  const auto = app.querySelector("[data-autoscroll]");
+  if(auto) auto.scrollTop = auto.scrollHeight;
+  if(sc==="call") tickTimer();
+  document.querySelectorAll("#langPick .pill").forEach(p => p.setAttribute("aria-pressed", p.dataset.lang===S.lang));
+  document.getElementById("uiNative").setAttribute("aria-pressed", !S.uiKo);
+  document.getElementById("uiKo").setAttribute("aria-pressed", S.uiKo);
+}
+function tabs(cur){
+  const it = [["home","nHome",ICON.tHome],["rpick","nPrac",ICON.tPrac],["records","nRec",ICON.tRec],["settings","nSet",ICON.tSet]];
+  return `<nav class="tabs">${it.map(([k,l,i]) => `<button data-go="${k}" ${cur===k?'aria-current="page"':""}>${i}${esc(L(l))}</button>`).join("")}</nav>`;
+}
+function chkItem(set, k, done){
+  const c = set[k];
+  return `<li class="${done?"done":""} ${c.key?"key":""}"><span class="box"></span><span><span class="nat">${esc(G(c))}</span>${S.uiKo?"":`<br><span class="ko-sub">${esc(c.ko)}</span>`}</span></li>`;
+}
+
+/* ---------------- views ---------------- */
+const VIEWS = {};
+VIEWS.onboard = () => `<div class="onboard">
+  <p class="logo">통해</p>
+  <p class="lead"><b>${esc(L("welcome"))}</b><br>${esc(L("welcome2"))}</p>
+  <div class="langs">
+    <p class="eyebrow">${esc(L("chooseLang"))}</p>
+    ${Object.entries(LANGS).map(([k,v]) => `<button class="lang-opt" data-act="pick-lang" data-id="${k}" aria-pressed="${S.lang===k}"><span><b>${v.label}</b><br><span class="sub">${v.ko}</span></span><span class="radio"></span></button>`).join("")}
+    <button class="btn" data-act="onboard-done" style="margin-top:8px">${esc(L("start"))}</button>
+  </div>
+</div>`;
+
+VIEWS.home = () => {
+  const u = USERS[S.lang];
+  return `<main class="main">
+  <div><p class="sub">${esc(S.uiKo ? u.ko + " 님, 안녕하세요" : u.hello)}</p><h2 class="big">${esc(L("homeQ"))}</h2></div>
+  <div class="sit-grid">
+    <button class="sit" data-act="sit-house"><span class="ico">${ICON.house}</span><b>${esc(L("sitHouse"))}</b><span class="sub">${esc(L("sitHouseSub"))}</span></button>
+    <button class="sit" data-act="sit-wage"><span class="ico">${ICON.won}</span><b>${esc(L("sitWage"))}</b><span class="sub">${esc(L("sitWageSub"))}</span></button>
+    <button class="sit" disabled><span class="ico">${ICON.cross}</span><b>${esc(L("sitHosp"))}</b><span class="tag soon">${esc(L("soon"))}</span></button>
+    <button class="sit" disabled><span class="ico">${ICON.pass}</span><b>${esc(L("sitImm"))}</b><span class="tag soon">${esc(L("soon"))}</span></button>
+  </div>
+  <div class="col">
+    <p class="eyebrow">${esc(L("tools"))}</p>
+    <div class="tools">
+      <button class="tool" data-go="card">${ICON.card}${esc(L("tCard"))}</button>
+      <button class="tool" data-go="phrases">${ICON.chat}${esc(L("tPhr"))}</button>
+      <button class="tool" data-go="myinfo">${ICON.id}${esc(L("tInfo"))}</button>
+      <button class="tool" data-go="help">${ICON.phone}${esc(L("tHelp"))}</button>
+    </div>
+  </div>
+  <button class="practice" data-act="rp" data-id="r1"><span class="ava">박</span><span><b>${esc(L("pracT"))}</b><br><span class="sub">${esc(L("pracS"))}</span></span></button>
+</main>`;
+};
+
+VIEWS.prep = () => `<main class="main">
+  <div class="col" style="gap:4px">
+    <p class="eyebrow">${esc(L("prepEb"))}</p>
+    <h2 class="big" style="font-size:21px">${esc(L("prepT"))}</h2>
+    <p class="sub">${esc(L("prepGoal"))}</p>
+  </div>
+  <section class="card col">
+    <p class="eyebrow">${esc(L("mustCheck"))} · 6</p>
+    <ul class="chk">${Object.keys(CHECK).map(k => chkItem(CHECK, k, S.checks.has(k))).join("")}</ul>
+  </section>
+  <section class="card">
+    <p class="eyebrow">${esc(L("script"))}</p>
+    ${Object.entries(SCRIPT).map(([id,s]) => `<div class="line-card">
+      <span class="ko">${esc(s.ko)}</span>
+      <span class="plays"><button class="play" data-act="say" data-id="${id}" aria-label="play">${ICON.play}</button><button class="play slow" data-act="say-slow" data-id="${id}" aria-label="slow">0.7×</button></span>
+      <span class="rom">${esc(s.rom)}</span>
+      <span class="sub">${esc(N(s))}</span>
+    </div>`).join("")}
+  </section>
+  <div class="col">
+    <button class="btn" data-act="start-live">${esc(L("startLive"))}</button>
+    <button class="btn ghost" data-act="rp" data-id="r1">${esc(L("pracFirst"))}</button>
+  </div>
+</main>`;
+
+VIEWS.live = () => {
+  const Lv = S.live, keys = Object.keys(CHECK), n = keys.filter(k => S.checks.has(k)).length, step = STEPS[Lv.step];
+  let log = Lv.log.map((m, i) => {
+    if(m.who==="them") return `<div class="msg them"><span class="who">${esc(L("them"))}</span><span class="nat">${esc(N(m))}</span><span class="ko">${esc(m.ko)}</span><button class="listen" data-act="listen" data-id="${i}">${ICON.speak}${esc(L("listenTr"))}</button></div>`;
+    if(m.who==="me") return `<div class="msg me"><span class="who">${esc(L("me"))}</span><span class="ko">${esc(m.ko)}</span><span class="nat">${esc(N(m))}</span></div>`;
+    if(m.who==="risk") return `<div class="alert" role="alert"><b>${ICON.warn}${esc(L("risk"))}</b><span>${esc(N(m))}</span><span class="ko-sub">${esc(m.ko)}</span></div>`;
+    if(m.who==="tip") return `<div class="tip">${esc(N(m))}</div>`;
+    return "";
+  }).join("");
+  if(!Lv.log.length) log = `<div class="tip">${esc(L("liveTip"))}</div>`;
+  if(!navigator.onLine) log = `<div class="tip offline">${esc(L("offlineNote"))}</div>` + log;
+  if(Lv.waiting) log += `<div class="listening"><span class="dots"><i></i><i></i><i></i></span>${esc(L("listening"))}</div>`;
+  if(Lv.translating) log += `<div class="listening" style="align-self:flex-end"><span class="dots"><i></i><i></i><i></i></span>${esc(L("translating"))}</div>`;
+  const busy = Lv.waiting || !!Lv.rec || Lv.translating;
+  let dock = "";
+  if(Lv.rec){
+    dock = `<div class="rec-card"><span class="rec-dot"></span><span class="grow"><b>${esc(L("listeningNow"))}</b><br><span class="sub">${esc(Lv.rec.interim || L(Lv.rec.who==="them" ? "hearThem" : "speakNative"))}</span></span><button class="btn line" style="width:auto;padding:10px 14px" data-act="rec-stop">${esc(L("stop"))}</button></div>`;
+  } else if(Lv.preview){
+    dock = `<div class="preview"><span class="ko-sub">${esc(L("youSaid"))}: ${esc(Lv.preview.src)}</span><span class="row"><span class="eyebrow grow">${esc(L("willSay"))}</span><span class="tag">${esc(L("machineTr"))}</span></span><span class="ko">${esc(Lv.preview.ko)}</span>
+      <div class="row"><button class="btn line grow" data-act="mic-cancel">${esc(L("cancel"))}</button><button class="btn grow" data-act="mic-say">${esc(L("sayIt"))}</button></div></div>`;
+  } else {
+    if(Lv.done) dock += `<button class="btn" data-act="to-summary">${esc(L("toSummary"))}</button>`;
+    else dock += `<span class="label">${esc(L("suggested"))}</span>
+    ${step.opts.map(id => { const s = SCRIPT[id]; return `<button class="reply" data-act="pick" data-id="${id}" ${busy?"disabled":""}><span class="ko">${esc(s.ko)}</span><span class="spk">${ICON.speak}</span><span class="nat">${esc(N(s))}</span></button>`; }).join("")}`;
+    dock += `<div class="chips"><button class="ear" data-act="hear-them" ${busy?"disabled":""}>${ICON.ear}${esc(L("hearThem"))}</button><button class="kb" data-act="type-them" ${busy?"disabled":""}>${ICON.kbd}${esc(L("typeShort"))}</button>${QUICK.filter(q => S.pins.has(q.id)).map(q => `<button data-act="quick" data-id="${q.id}" ${busy?"disabled":""}>${esc(q.ko)}</button>`).join("")}</div>
+    <form class="inrow" data-form="me"><input id="meInput" autocomplete="off" placeholder="${esc(L("inputPh"))}" ${busy?"disabled":""}><button type="button" class="round" data-act="mic-me" aria-label="${esc(L("speakNative"))}" ${busy?"disabled":""}>${ICON.mic}</button><button class="send" ${busy?"disabled":""}>${esc(L("send"))}</button></form>`;
+  }
+  return `<div class="progress"><div class="segs">${keys.map(k => `<i class="${S.checks.has(k)?"on":""}"></i>`).join("")}</div>
+    <button data-act="show-checks"><span>${esc(L("checklist"))} ${n}/${keys.length}</span><span>${esc(L("seeList"))} ›</span></button></div>
+  <main class="main" data-autoscroll><div class="log">${log}</div></main>
+  <div class="composer">${dock}</div>`;
+};
+
+VIEWS.summary = () => {
+  const miss = Object.keys(CHECK).filter(k => !S.checks.has(k));
+  return `<main class="main">
+  <div class="col" style="gap:4px"><p class="eyebrow">${esc(L("prepEb"))}</p><h2 class="big" style="font-size:21px">${esc(L(S.live.done?"sumDone":"sumMid"))}</h2><p class="sub">${esc(L("sumNote"))}</p></div>
+  <section class="card">
+    <p class="eyebrow" style="margin-bottom:4px">${esc(L("agreed"))}</p>
+    <ul class="sum-list">
+      ${AMOUNTS.map(a => `<li><span>${esc(G(a))}<br><span class="ko-sub">${a.ko} · ${a.read}</span></span><span class="v">${fmt(a.amt)} ₩</span></li>`).join("")}
+      <li><span>${esc(L("downPay"))}</span><span class="v">${fmt(500000)} ₩</span></li>
+      <li><span>${esc(L("depRet"))}</span><span class="v">${esc(L(S.checks.has("c5")?"depRetV":"notYet"))}</span></li>
+    </ul>
+  </section>
+  <section class="card col">
+    <p class="eyebrow">${miss.length ? `${esc(L("missed"))} · ${miss.length}` : esc(L("allDone"))}</p>
+    ${miss.length ? `<ul class="chk miss">${miss.map(k => chkItem(CHECK, k, false)).join("")}</ul>` : ""}
+  </section>
+  <section class="card col">
+    <p class="eyebrow">${esc(L("next"))}</p>
+    <ol class="todo"><li>${esc(L("todo1"))}</li><li>${esc(L("todo2"))}</li><li>${esc(L("todo3"))}</li></ol>
+  </section>
+  <section class="card col"><p class="eyebrow">${esc(L("trouble"))}</p>${helpList(HELP.slice(0,3))}</section>
+  <button class="btn" data-act="save-record">${esc(L("save"))}</button>
+</main>`;
+};
+function helpList(list){
+  return `<ul class="phone-list">${list.map(h => `<li><span class="num">${h.num}</span><span>${esc(G(h))}${S.uiKo?"":`<br><span class="ko-sub">${esc(h.ko)}</span>`}</span><button class="copy" data-act="copy" data-id="${h.num}">${esc(L("copy"))}</button></li>`).join("")}</ul>`;
+}
+
+VIEWS.rpick = () => `<main class="main">
+  <div class="col" style="gap:4px"><h2 class="big" style="font-size:21px">${esc(L("rpT"))}</h2><p class="sub">${esc(L("rpS"))}</p></div>
+  ${Object.entries(RP).map(([id,r]) => `<button class="practice" data-act="rp" data-id="${id}"><span class="ava">${r.initial}</span><span><b>${esc(r.name)} · ${esc(G(r.role))}</b><br><span class="sub">${esc(G(r.sit))}</span></span></button>`).join("")}
+  <p class="sub soft" style="margin:0">${esc(L("rpNote"))}</p>
+</main>`;
+
+VIEWS.call = () => {
+  const R = S.rp, c = RP[R.id];
+  const last = [...R.turns].reverse().find(t => t.who==="ai");
+  const hist = R.turns.slice(0,-1).slice(-6).map(t => `<div class="${t.who}">${esc(t.ko)}</div>`).join("");
+  let dock;
+  if(R.ended) dock = `<button class="btn" data-act="rp-feedback">${esc(L("seeFb"))}</button>`;
+  else dock = `<div class="lbl"><span>${esc(L("chooseReply"))}</span><button data-act="rp-replay">${esc(L("replay"))}</button></div>
+      ${R.heard ? `<span class="heard">${esc(L("heardKo"))}: ${esc(R.heard)}</span>` : ""}
+      ${R.sugg.map((o,i) => `<button class="sugg" data-act="rp-pick" data-id="${i}"><span>${esc(o.ko)}</span><span class="sub">${esc(N(o))}</span></button>`).join("")}
+      ${R.rec ? `<div class="rec-card"><span class="rec-dot"></span><span class="grow"><b>${esc(L("listeningNow"))}</b><br><span class="sub">${esc(R.rec.interim || "")}</span></span><button class="btn line" style="width:auto;padding:10px 14px;background:transparent" data-act="rec-stop">${esc(L("stop"))}</button></div>`
+              : `<button class="rp-mic" data-act="rp-mic">${ICON.mic}${esc(L("sayKo"))}</button>`}
+      <button class="hang" data-act="rp-end">${esc(L("hang"))}</button>`;
+  return `<div class="call">
+    <div class="call-top"><button class="icon-btn" data-act="back" aria-label="back" style="color:var(--call-ink)">${ICON.back}</button><span class="rec"><i></i><span id="callTime">00:00</span></span><span style="width:38px"></span></div>
+    <div class="call-who"><span class="ava ${R.talking?"talk":""}">${c.initial}</span><b>${esc(c.name)}</b><span>${esc(G(c.role))} · ${esc(G(c.sit))}</span></div>
+    <div class="caption" aria-live="polite">${last ? `<span class="ko">${esc(last.ko)}</span><span class="sub">${esc(N(last.src))}</span><button class="listen" data-act="listen-rp" style="background:transparent;color:var(--call-muted);border-color:rgba(255,255,255,.22)">${ICON.speak}${esc(L("listenTr"))}</button>` : ""}</div>
+    <div class="call-hist" data-autoscroll>${hist}</div>
+    <div class="call-dock">${dock}</div>
+  </div>`;
+};
+
+VIEWS.feedback = () => {
+  const R = S.rp, c = RP[R.id], total = c.script.length;
+  const good = R.bad.length===0 ? [L("allSafe")] : [L("safeN").replace("{a}", R.good).replace("{b}", total)];
+  const best = c.script[0].opts[0];
+  return `<main class="main">
+  <div class="row"><span class="score">${Math.round(R.good/total*100)}</span><span><b>${esc(c.name)} · ${esc(G(c.role))}</b><br><span class="sub">${esc(G(c.sit))}</span></span></div>
+  <section class="card col"><p class="eyebrow">${esc(L("checklist"))} ${R.covered.size}/${Object.keys(c.checks).length}</p>
+    <ul class="chk">${Object.keys(c.checks).map(k => chkItem(c.checks, k, R.covered.has(k))).join("")}</ul></section>
+  <section class="card col"><p class="eyebrow">${esc(L("good"))}</p><ul style="margin:0;padding-left:18px">${good.map(g => `<li>${esc(g)}</li>`).join("")}</ul></section>
+  ${R.bad.length ? `<section class="card col"><p class="eyebrow">${esc(L("improve"))}</p><ul style="margin:0;padding-left:18px">${R.bad.map(b => `<li>${esc(G(b))}</li>`).join("")}</ul></section>` : ""}
+  <section class="soft col"><p class="eyebrow">${esc(L("memorize"))}</p><div class="row"><span class="grow"><b>${esc(best.ko)}</b><br><span class="sub">${esc(N(best))}</span></span><button class="play" data-act="say-text" data-text="${esc(best.ko)}" aria-label="play">${ICON.play}</button></div></section>
+  <div class="row"><button class="btn ghost grow" data-act="rp" data-id="${R.id}">${esc(L("again"))}</button><button class="btn grow" data-go="home">${esc(L("nHome"))}</button></div>
+</main>`;
+};
+
+VIEWS.card = () => `<main class="main">
+  <p class="sub">${esc(L("cardS"))}</p>
+  <div class="show"><span class="bigko">${EXPLAIN.ko}</span><span class="sub">${esc(N(EXPLAIN))}</span></div>
+  <div class="row"><button class="btn ghost grow" data-act="say-text" data-text="${esc(EXPLAIN.ko)}">${esc(L("playAloud"))}</button><button class="btn grow" data-act="full">${esc(L("showBig"))}</button></div>
+</main>`;
+
+VIEWS.phrases = () => `<main class="main">
+  <p class="sub">${esc(L("phrS"))}</p>
+  <section class="card" style="padding-block:2px">${QUICK.map(q => `<div class="phrase">
+    <span><b>${esc(q.ko)}</b><br><span class="rom">${esc(q.rom)}</span><br><span class="sub">${esc(N(q))}</span></span>
+    <button class="star" data-act="pin" data-id="${q.id}" aria-pressed="${S.pins.has(q.id)}" aria-label="pin">${S.pins.has(q.id)?"★":"☆"}</button>
+    <button class="play" data-act="say-text" data-text="${esc(q.ko)}" aria-label="play">${ICON.play}</button></div>`).join("")}</section>
+  <button class="btn line" data-act="proto">${esc(L("addPhr"))}</button>
+</main>`;
+
+VIEWS.myinfo = () => {
+  const u = USERS[S.lang];
+  return `<main class="main">
+  <div class="row"><span class="grow sub">${esc(L("infoS"))}</span><span class="tag ex">${esc(L("example"))}</span></div>
+  <section class="card"><dl class="idcard">
+    <dt>${esc(L("fName"))}</dt><dd>${esc(u.name)}<br><span class="ko-sub">${esc(u.ko)}</span></dd>
+    <dt>${esc(L("fNation"))}</dt><dd>${esc(G(u.nation))}</dd>
+    <dt>${esc(L("fVisa"))}</dt><dd>${USER_COMMON.visa}</dd>
+    <dt>${esc(L("fExp"))}</dt><dd style="font-family:var(--f-mono)">${USER_COMMON.expiry}</dd>
+    <dt>${esc(L("fComp"))}</dt><dd>${USER_COMMON.company}</dd>
+    <dt>${esc(L("fAddr"))}</dt><dd>${USER_COMMON.addr}</dd>
+  </dl></section>
+  <button class="btn" data-act="say-text" data-text="제 이름은 ${esc(u.ko)}이고, ${esc(u.nation.ko)} 사람입니다. 한빛정밀에서 일합니다.">${esc(L("intro"))}</button>
+</main>`;
+};
+
+VIEWS.help = () => `<main class="main">
+  <p class="sub">${esc(L("helpS"))}</p>
+  <section class="card">${helpList(HELP)}</section>
+  <p class="sub" style="font-size:12.5px">${esc(L("helpN"))}</p>
+</main>`;
+
+VIEWS.records = () => {
+  const items = [...S.records, {t:"recWage", when:"9/28", note:"2/4", ex:true}];
+  return `<main class="main">
+  <p class="sub">${esc(L("recS"))}</p>
+  ${items.map(r => `<button class="opt" ${r.ex?"disabled":'data-go="summary"'}><span><b>${esc(L(r.t))}</b><br><span class="sub">${esc(r.when)} · ${esc(L("checklist"))} ${esc(r.note)}${r.ex?` · ${esc(L("example"))}`:""}</span></span>${ICON.chev}</button>`).join("")}
+</main>`;
+};
+
+VIEWS.settings = () => `<main class="main">
+  <section class="card" style="padding-block:2px"><ul class="set-list">
+    <li><span>${esc(L("sLang"))}</span><span class="row" style="gap:4px">${Object.entries(LANGS).map(([k,v]) => `<button class="pill" data-act="set-lang" data-id="${k}" aria-pressed="${S.lang===k}">${v.label}</button>`).join("")}</span></li>
+    <li><span>${esc(L("sSound"))}</span><button class="switch" data-act="toggle-sound" aria-pressed="${S.sound}" aria-label="sound"></button></li>
+    <li><span>${esc(L("sSlow"))}</span><button class="switch" data-act="toggle-slow" aria-pressed="${S.slow}" aria-label="slow"></button></li>
+    ${canInstall() ? `<li><span>${esc(L("install"))}</span><button class="pill" data-act="install">${esc(L("install"))}</button></li>` : ""}
+    <li><span>${esc(L("voiceName"))}</span><span class="sub" style="text-align:right">${esc(VO.main ? VO.main.name.replace(/^(Microsoft|Google) /,"") : "-")}</span></li>
+  </ul></section>
+  <section class="card col"><p class="eyebrow">${esc(L("sPriv"))}</p><p class="sub">${esc(L("privN"))}</p></section>
+  <p class="sub" style="text-align:center;font-size:12px">${esc(L("sVer"))} 0.1.0 (prototype)</p>
+</main>`;
+
+/* ---------------- sheets ---------------- */
+const SHEETS = {
+  house: () => `<div class="sheet-back" data-act="sheet-close"><div class="sheet" data-stop>
+    <h3>${esc(L("whatSit"))}</h3>
+    <div class="seg"><button data-act="mode" data-id="face" aria-pressed="${S.sheet.mode!=="call"}">${esc(L("face"))}</button><button data-act="mode" data-id="call" aria-pressed="${S.sheet.mode==="call"}">${esc(L("phoneCall"))}</button></div>
+    <button class="opt" disabled><b>${esc(L("view"))}</b><span class="tag soon">${esc(L("soon"))}</span></button>
+    <button class="opt" data-go="prep"><b>${esc(L("sign"))}</b>${ICON.chev}</button>
+    <button class="opt" disabled><b>${esc(L("refund"))}</b><span class="tag soon">${esc(L("soon"))}</span></button>
+    ${S.sheet.mode==="call" ? `<p class="sub">${esc(L("callNote"))}</p>` : ""}
+  </div></div>`,
+  wage: () => `<div class="sheet-back" data-act="sheet-close"><div class="sheet" data-stop>
+    <h3>${esc(L("sitWage"))}</h3>
+    <button class="opt" data-act="rp" data-id="r2"><span><b>${esc(L("lateWage"))}</b><br><span class="sub">${esc(L("withAI"))}</span></span>${ICON.chev}</button>
+    <button class="opt" disabled><b>${esc(L("wContract"))}</b><span class="tag soon">${esc(L("soon"))}</span></button>
+    <button class="opt" disabled><b>${esc(L("severance"))}</b><span class="tag soon">${esc(L("soon"))}</span></button>
+  </div></div>`,
+  amounts: () => `<div class="sheet-back" data-act="sheet-close"><div class="sheet" data-stop>
+    <h3>${esc(L("amtT"))}</h3>
+    <p class="sub">${esc(L("amtS"))}</p>
+    <dl class="money">${AMOUNTS.map(a => `<dt>${esc(G(a))}<small>${a.ko} · ${a.read}</small></dt><dd>${fmt(a.amt)} ₩</dd>`).join("")}</dl>
+    <div class="row"><button class="btn line grow" data-act="sheet-close">${esc(L("fix"))}</button><button class="btn grow" data-act="amounts-ok">${esc(L("okSay"))}</button></div>
+  </div></div>`,
+  them: () => `<div class="sheet-back" data-act="sheet-close"><div class="sheet" data-stop>
+    <h3>${esc(L("typeThem"))}</h3>
+    <form class="inrow" data-form="them"><input id="themInput" lang="ko" autocomplete="off" placeholder="${esc(L("themPh"))}"><button class="send">${esc(L("add"))}</button></form>
+    <p class="eyebrow">${esc(L("samples"))}</p>
+    <div class="col" style="gap:6px">${THEM_SAMPLES.map(s => `<button class="opt" data-act="them-sample" data-text="${esc(s)}"><span>${esc(s)}</span>${ICON.chev}</button>`).join("")}</div>
+  </div></div>`,
+  checks: () => `<div class="sheet-back" data-act="sheet-close"><div class="sheet" data-stop>
+    <h3>${esc(L("checklist"))}</h3><ul class="chk">${Object.keys(CHECK).map(k => chkItem(CHECK, k, S.checks.has(k))).join("")}</ul>
+    <button class="btn ghost" data-act="sheet-close">${esc(L("close"))}</button></div></div>`,
+};
+
+/* ---------------- live flow ---------------- */
+function sayLine(id){
+  const s = SCRIPT[id];
+  S.live.log.push({who:"me", ...s});
+  S.live.waiting = true; render();
+  speak(s.ko, {onend: () => setTimeout(answer, 700)});
+}
+function answer(){
+  const Lv = S.live, step = STEPS[Lv.step];
+  if(!step) return;
+  const r = step.reply;
+  const commit = () => {
+    Lv.waiting = false;
+    Lv.log.push({who:"them", ...r});
+    (r.checks||[]).forEach(c => S.checks.add(c));
+    if(r.risk) Lv.log.push({who:"risk", ...r.risk});
+    if(r.tip) Lv.log.push({who:"tip", ...r.tip});
+    Lv.step++;
+    if(Lv.step >= STEPS.length) Lv.done = true;
+    if(S.screen==="live") render();
+  };
+  if(S.themVoice && S.screen==="live") speak(r.ko, {voice:VO.other, pitch:0.9, label:L("themSpeaking"), onend:commit});
+  else commit();
+}
+function quick(id){
+  const q = QUICK.find(x => x.id===id), Lv = S.live;
+  Lv.log.push({who:"me", ...q});
+  Lv.waiting = true; render();
+  speak(q.ko, {onend: () => setTimeout(() => {
+    Lv.waiting = false;
+    const lastThem = [...Lv.log].reverse().find(m => m.who==="them");
+    if(id==="q3") Lv.log.push({who:"them", ko:"네, 천천히 보세요.", zh:"好的，您慢慢看。", vi:"Vâng, cứ từ từ xem.", th:"ได้ ค่อยๆ ดูนะ"});
+    else if(lastThem && (id==="q1"||id==="q2")) Lv.log.push({...lastThem});
+    else Lv.log.push({who:"them", ko:"네.", zh:"好的。", vi:"Vâng.", th:"ได้"});
+    if(S.themVoice && S.screen==="live") speak(Lv.log[Lv.log.length-1].ko, {voice:VO.other, pitch:0.9, label:L("themSpeaking")});
+    if(S.screen==="live") render();
+  }, 600)});
+}
+
+/* ---------------- input: speech recognition + translation ---------------- */
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+let rec = null;
+function startRec(lang, onFinal, onInterim){
+  if(!SR){ toast(L("noMic")); return false; }
+  stopSpeech(); abortRec();
+  const r = new SR(); rec = r;
+  r.lang = LANG_TAG[lang]; r.interimResults = true; r.continuous = false; r.maxAlternatives = 1;
+  let final = "";
+  r.onresult = e => {
+    let interim = "";
+    for(let i = e.resultIndex; i < e.results.length; i++){
+      const tr = e.results[i][0].transcript;
+      if(e.results[i].isFinal) final += tr; else interim += tr;
+    }
+    onInterim(final + interim);
+  };
+  r.onerror = e => { const k = {"not-allowed":"micDenied","service-not-allowed":"micDenied","audio-capture":"micDenied","no-speech":"noSpeech","network":"srNet"}[e.error]; if(k) toast(L(k)); };
+  r.onend = () => { if(rec===r) rec = null; onFinal(final.trim()); };
+  try{ r.start(); }catch(e){ rec = null; toast(L("noMic")); return false; }
+  return true;
+}
+function stopRec(){ if(rec){ try{ rec.stop(); }catch(e){} } }
+function abortRec(){
+  if(rec){ const r = rec; rec = null; r.onend = null; r.onresult = null; try{ r.abort(); }catch(e){} }
+  if(S.live) S.live.rec = null;
+  if(S.rp) S.rp.rec = null;
+}
+
+const MM_CODE = {ko:"ko", zh:"zh-CN", vi:"vi", th:"th"};
+function decodeEntities(s){ const ta = document.createElement("textarea"); ta.innerHTML = s; return ta.value; }
+async function translate(text, from, to){
+  const url = "https://api.mymemory.translated.net/get?" + new URLSearchParams({q:text.slice(0,450), langpair:MM_CODE[from] + "|" + MM_CODE[to]});
+  const res = await fetch(url);
+  const d = await res.json();
+  const out = d && d.responseData && d.responseData.translatedText;
+  if(String(d.responseStatus)!=="200" || !out || /MYMEMORY WARNING/i.test(out)) throw new Error("translate");
+  return decodeEntities(out);
+}
+const checkRisk = text => RISK_RULES.filter(r => r.re.test(text));
+
+async function translateMe(src){
+  const Lv = S.live;
+  Lv.translating = true; render();
+  try{ Lv.preview = {src, ko: await translate(src, S.lang, "ko")}; }
+  catch(e){ toast(L("trFail")); }
+  Lv.translating = false;
+  if(S.screen==="live") render();
+}
+async function addThem(text){
+  const Lv = S.live;
+  Lv.translating = true; render();
+  let tr = null;
+  try{ tr = await translate(text, "ko", S.lang); }catch(e){ toast(L("trFail")); }
+  Lv.translating = false;
+  const m = {who:"them", ko:text}; m[S.lang] = tr || text;
+  Lv.log.push(m);
+  checkRisk(text).forEach(r => Lv.log.push({who:"risk", ko:r.ko, zh:r.zh, vi:r.vi, th:r.th}));
+  if(S.screen==="live") render();
+}
+function bigramSim(a, b){
+  const norm = s => s.replace(/[^가-힣a-z0-9]/gi, "");
+  a = norm(a); b = norm(b);
+  if(a.length < 2 || b.length < 2) return a===b ? 1 : 0;
+  const grams = s => { const m = new Map(); for(let i = 0; i < s.length-1; i++){ const k = s.slice(i, i+2); m.set(k, (m.get(k)||0) + 1); } return m; };
+  const A = grams(a), B = grams(b); let inter = 0;
+  for(const [k,v] of A) inter += Math.min(v, B.get(k) || 0);
+  return 2 * inter / (a.length - 1 + b.length - 1);
+}
+
+/* ---------------- role-play (scripted demo) ---------------- */
+let timerId = null;
+function tickTimer(){
+  stopTimer();
+  const upd = () => { const el = document.getElementById("callTime"); if(!el || !S.rp) return; const s = Math.floor((Date.now()-S.rp.t0)/1000); el.textContent = String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0"); };
+  upd(); timerId = setInterval(upd, 1000);
+}
+function stopTimer(){ clearInterval(timerId); timerId = null; }
+function startRP(id){
+  const c = RP[id], first = c.script[0];
+  S.rp = {id, t0:Date.now(), turns:[{who:"ai", ko:first.ai.ko, src:first.ai}], sugg:first.opts, idx:0, good:0, bad:[], covered:new Set(), ended:false, talking:false};
+  go("call");
+  aiSpeak(first.ai.ko);
+}
+function aiSpeak(ko){
+  S.rp.talking = true; render();
+  speak(ko, {voice:VO.other, pitch:0.9, label:L("themSpeaking"), onend: () => { if(S.rp){ S.rp.talking = false; if(S.screen==="call") render(); } }});
+}
+function rpPick(i){
+  const R = S.rp, o = R.sugg[i], c = RP[R.id];
+  if(!o) return;
+  R.heard = null;
+  R.turns.push({who:"me", ko:o.ko});
+  if(o.good){ R.good++; if(o.c) R.covered.add(o.c); } else R.bad.push(o.why);
+  R.idx++;
+  const next = c.script[R.idx];
+  if(next){ R.turns.push({who:"ai", ko:next.ai.ko, src:next.ai}); R.sugg = next.opts; aiSpeak(next.ai.ko); }
+  else { R.turns.push({who:"ai", ko:c.outro.ko, src:c.outro}); R.sugg = []; R.ended = true; aiSpeak(c.outro.ko); }
+}
+
+/* ---------------- events ---------------- */
+app.addEventListener("click", e => {
+  const g = e.target.closest("[data-go]");
+  if(g && !g.disabled){ go(g.dataset.go); return; }
+  const b = e.target.closest("[data-act]");
+  if(!b || b.disabled) return;
+  if(b.classList.contains("sheet-back") && e.target!==b) return;
+  const id = b.dataset.id, Lv = S.live;
+  switch(b.dataset.act){
+    case "back": if(S.screen==="call") stopSpeech(); back(); break;
+    case "pick-lang": S.lang = id; persist(); render(); break;
+    case "onboard-done": S.onboarded = true; persist(); S.stack = []; go("home"); break;
+    case "install": doInstall(); break;
+    case "set-lang": S.lang = id; persist(); render(); break;
+    case "toggle-sound": S.sound = !S.sound; if(!S.sound) stopSpeech(); render(); break;
+    case "toggle-slow": S.slow = !S.slow; render(); break;
+    case "sit-house": S.sheet = {type:"house", mode:"face"}; render(); break;
+    case "sit-wage": S.sheet = {type:"wage"}; render(); break;
+    case "mode": S.sheet.mode = id; render(); break;
+    case "sheet-close": S.sheet = null; render(); break;
+    case "say": speak(SCRIPT[id].ko); break;
+    case "say-slow": speak(SCRIPT[id].ko, {rate:0.7}); break;
+    case "say-text": speak(b.dataset.text); break;
+    case "start-live": go("live"); S.full = true; render(); break;
+    case "pick": if(SCRIPT[id].amounts){ S.sheet = {type:"amounts", id}; render(); } else sayLine(id); break;
+    case "amounts-ok": { const sid = S.sheet.id; S.sheet = null; sayLine(sid); break; }
+    case "quick": quick(id); break;
+    case "mic-me": {
+      const ok = startRec(S.lang, txt => { Lv.rec = null; if(txt) translateMe(txt); else render(); },
+                                  txt => { if(Lv.rec){ Lv.rec.interim = txt; render(); } });
+      if(ok){ Lv.rec = {who:"me", interim:""}; render(); }
+      break;
+    }
+    case "hear-them": {
+      const ok = startRec("ko", txt => { Lv.rec = null; if(txt) addThem(txt); else render(); },
+                                txt => { if(Lv.rec){ Lv.rec.interim = txt; render(); } });
+      if(ok){ Lv.rec = {who:"them", interim:""}; render(); }
+      break;
+    }
+    case "rec-stop": stopRec(); break;
+    case "type-them": S.sheet = {type:"them"}; render(); break;
+    case "them-sample": S.sheet = null; addThem(b.dataset.text); break;
+    case "rp-mic": {
+      const R = S.rp;
+      const ok = startRec("ko", txt => {
+        R.rec = null;
+        if(!txt){ render(); return; }
+        const scores = R.sugg.map(o => bigramSim(txt, o.ko)), best = Math.max(...scores);
+        if(best >= 0.4) rpPick(scores.indexOf(best));
+        else { R.heard = txt; toast(L("tryAgainKo")); render(); }
+      }, txt => { if(R.rec){ R.rec.interim = txt; render(); } });
+      if(ok){ R.rec = {interim:""}; render(); }
+      break;
+    }
+    case "mic-cancel": Lv.preview = null; render(); break;
+    case "mic-say": { const pv = Lv.preview; Lv.preview = null; const m = {who:"me", ko:pv.ko}; m[S.lang] = pv.src; Lv.log.push(m); render(); speak(pv.ko); break; }
+    case "show-checks": S.sheet = {type:"checks"}; render(); break;
+    case "to-summary": go("summary"); break;
+    case "save-record":
+      if(!S.records.length) S.records.push({t:"recLease", when:L("justNow"), note:`${[...S.checks].length}/6`});
+      toast(L("saved")); go("records"); break;
+    case "rp": startRP(id); break;
+    case "rp-pick": rpPick(Number(id)); break;
+    case "rp-replay": { const last = [...S.rp.turns].reverse().find(t => t.who==="ai"); if(last) aiSpeak(last.ko); break; }
+    case "rp-end": stopSpeech(); S.rp.ended = true; S.stack.push("rpick"); go("feedback", false); break;
+    case "rp-feedback": S.stack.push("rpick"); go("feedback", false); break;
+    case "full": S.full = true; render(); break;
+    case "full-close": S.full = false; render(); break;
+    case "pin": S.pins.has(id) ? S.pins.delete(id) : S.pins.add(id); render(); break;
+    case "copy": navigator.clipboard?.writeText(id).then(() => { b.textContent = L("copied"); }, () => toast(id)); break;
+    case "proto": toast(L("protoNote")); break;
+    case "listen": { const m = S.live.log[Number(id)]; if(m) speak(N(m), {lang:S.lang, label:L("listenTr")}); break; }
+    case "listen-rp": { const last = [...S.rp.turns].reverse().find(x => x.who==="ai"); if(last) speak(N(last.src), {lang:S.lang, label:L("listenTr")}); break; }
+  }
+});
+
+app.addEventListener("submit", e => {
+  e.preventDefault();
+  const f = e.target.dataset.form;
+  if(f==="me"){ const el = document.getElementById("meInput"); const v = el.value.trim(); if(v){ el.value = ""; translateMe(v); } }
+  if(f==="them"){ const el = document.getElementById("themInput"); const v = el.value.trim(); if(v){ S.sheet = null; addThem(v); } }
+});
+
+document.getElementById("langPick").addEventListener("click", e => {
+  const p = e.target.closest("[data-lang]"); if(!p) return;
+  S.lang = p.dataset.lang; persist(); render();
+});
+document.getElementById("uiNative").addEventListener("click", () => { S.uiKo = false; persist(); render(); });
+document.getElementById("uiKo").addEventListener("click", () => { S.uiKo = true; persist(); render(); });
+document.getElementById("jumps").addEventListener("click", e => {
+  const b = e.target.closest("[data-jump]"); if(!b) return;
+  stopSpeech();
+  const j = b.dataset.jump;
+  const parents = {prep:["home"], live:["home","prep"], summary:["home"], card:["home"]};
+  S.stack = parents[j] ? [...parents[j]] : [];
+  go(j, false);
+});
+
+/* ---------------- intro <-> app ---------------- */
+const introEl = document.getElementById("intro"), appView = document.getElementById("appView");
+function showApp(greet){
+  introEl.hidden = true; appView.hidden = false; window.scrollTo(0,0);
+  try{ history.replaceState(null, "", "#app"); }catch(e){}
+  if(greet) speak("안녕하세요. 통해입니다. 필요한 말을 한국어로 대신 해 드릴게요.");
+}
+function showIntro(){
+  stopSpeech(); appView.hidden = true; introEl.hidden = false; window.scrollTo(0,0);
+  try{ history.replaceState(null, "", location.pathname + location.search); }catch(e){}
+}
+document.querySelectorAll("[data-start]").forEach(b => b.addEventListener("click", () => showApp(true)));
+document.getElementById("backIntro").addEventListener("click", showIntro);
+document.querySelectorAll("[data-demo-say]").forEach(b => b.addEventListener("click", () => {
+  b.disabled = true; speak(b.dataset.demoSay, {onend: () => { b.disabled = false; }});
+}));
+document.getElementById("voiceSel").addEventListener("change", e => {
+  const v = VO.ko[Number(e.target.value)]; if(!v) return;
+  VO.main = v; VO.other = pickOther(v);
+  try{ localStorage.setItem("tonghae-voice", v.name); }catch(err){}
+  speak("이 목소리로 말할게요.");
+  if(S.screen==="settings") render();
+});
+document.getElementById("voiceTest").addEventListener("click", () => speak("안녕하세요. 통해가 한국어로 대신 말해 드릴게요."));
+document.getElementById("themVoice").addEventListener("click", e => { S.themVoice = !S.themVoice; e.currentTarget.setAttribute("aria-pressed", S.themVoice); });
+/* ---------------- installable app (PWA) ---------------- */
+const isStandalone = () => (!!window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) || navigator.standalone === true;
+const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+let installEvt = null;
+function canInstall(){ return !isStandalone() && (!!installEvt || isIOS); }
+function updateInstallUI(){
+  const b = document.getElementById("installBtn");
+  if(b) b.hidden = !canInstall();
+  if(S.screen==="settings") render();
+}
+async function doInstall(){
+  if(installEvt){
+    installEvt.prompt();
+    try{ await installEvt.userChoice; }catch(e){}
+    installEvt = null; updateInstallUI();
+  } else toast(L(isIOS ? "iosInstall" : "installHint"));
+}
+window.addEventListener("beforeinstallprompt", e => { e.preventDefault(); installEvt = e; updateInstallUI(); });
+window.addEventListener("appinstalled", () => { installEvt = null; toast(L("installed")); updateInstallUI(); });
+document.getElementById("installBtn").addEventListener("click", () => {
+  if(installEvt) doInstall();
+  else { showApp(false); toast(L(isIOS ? "iosInstall" : "installHint")); }
+});
+window.addEventListener("online", () => { if(S.screen==="live") render(); });
+window.addEventListener("offline", () => { if(S.screen==="live") render(); });
+if("serviceWorker" in navigator && location.protocol.startsWith("http")){
+  window.addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));
+}
+
+const startHash = location.hash;
+if(isStandalone()) document.body.classList.add("standalone");
+if(isStandalone() || ["#app","#live","#practice"].includes(startHash)){
+  showApp(false);
+  if(startHash==="#live"){ S.stack = ["home","prep"]; go("live", false); }
+  else if(startHash==="#practice"){ go("rpick", false); }
+}
+updateInstallUI();
+
+(function clock(){ const d = new Date(); document.getElementById("clock").textContent = d.getHours() + ":" + String(d.getMinutes()).padStart(2,"0"); setTimeout(clock, 30000); })();
+render();
+</script>
+</body>
+</html>
