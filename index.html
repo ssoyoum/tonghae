@@ -106,7 +106,8 @@ h2.big{font-size:23px;line-height:1.3;margin:0;text-wrap:balance}
 /* onboarding */
 .onboard{flex:1;display:flex;flex-direction:column;padding:30px 24px 40px;gap:22px;background:linear-gradient(180deg,var(--accent-soft),var(--surface) 55%)}
 .logo{font-family:var(--f-brand);font-size:64px;line-height:1;color:var(--accent);margin:24px 0 0}
-.onboard .lead{font-size:15px;color:var(--ink);margin:0;line-height:1.6}
+.onboard .lead{font-size:15px;color:var(--ink);margin:0;line-height:1.6;min-height:4.8em;transition:opacity .14s ease,transform .14s ease}
+.onboard .lead.swap{opacity:0;transform:translateY(4px)}
 .langs{display:flex;flex-direction:column;gap:10px;margin-top:auto}
 .lang-opt{border:1.5px solid var(--line);background:var(--surface);border-radius:16px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;text-align:left}
 .lang-opt b{font-size:17px}
@@ -136,8 +137,78 @@ h2.big{font-size:23px;line-height:1.3;margin:0;text-wrap:balance}
 .sheet{background:var(--surface);width:100%;border-radius:24px 24px 0 0;padding:10px 18px 34px;display:flex;flex-direction:column;gap:10px;max-height:86%;overflow-y:auto}
 .sheet::before{content:"";width:40px;height:5px;border-radius:3px;background:var(--line);align-self:center;margin-bottom:6px}
 .sheet h3{margin:0;font-size:18px}
+/* v02 sheet entrance (first render only): peek with just the title -> slide fully up -> contents rise one by one */
+.sheet-back.enter{animation:sbFade .25s ease}
+.sheet-back.enter .sheet{animation:sheetIn .95s cubic-bezier(.22,.8,.24,1) both}
+.sheet-back.enter .sheet>h3{animation:sbRise .4s cubic-bezier(.2,.8,.2,1) .12s both}
+.sheet-back.enter .sheet>:not(h3){animation:sbRise .42s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(.6s + var(--n,0) * .07s)}
+.sheet-back.enter .sheet>:nth-child(3){--n:1}.sheet-back.enter .sheet>:nth-child(4){--n:2}.sheet-back.enter .sheet>:nth-child(5){--n:3}.sheet-back.enter .sheet>:nth-child(6){--n:4}.sheet-back.enter .sheet>:nth-child(n+7){--n:5}
+/* v02 prep (계약서 쓰기): hero intro -> compact header; checklist writes in L->R; key items get a marker underline */
+.pv-hero{position:absolute;inset:0;z-index:3;background:var(--surface);display:flex;flex-direction:column;justify-content:center;gap:10px;padding:0 24px 90px;cursor:pointer;animation:wOut .45s cubic-bezier(.4,0,.2,1) 2.2s forwards}
+.pv-hero .ln{display:block;overflow:hidden;padding-bottom:.1em}
+.pv-hero .ln>span{display:block;transform:translateY(105%);opacity:0;animation:wRise .7s cubic-bezier(.2,.8,.2,1) forwards}
+.pv-big{font-size:28px;font-weight:700;line-height:1.3;letter-spacing:-.02em;color:var(--ink)}
+.pv-hero .sub{font-size:15px;line-height:1.5}
+.pv-cnt{display:flex;align-items:center;gap:6px}
+.pv-n{display:inline-grid;place-items:center;min-width:22px;height:22px;padding:0 7px;border-radius:11px;background:var(--accent);color:#fff;font-size:12px;font-family:var(--f-mono)}
+.pv-checks{overflow:hidden}
+.pv-list{list-style:none;margin:0;padding:0}
+.pv-list li+li{border-top:1px solid var(--line)}
+.pv-item{all:unset;box-sizing:border-box;display:grid;grid-template-columns:20px 1fr 18px;gap:10px;align-items:center;width:calc(100% + 28px);margin:0 -14px;padding:11px 14px;cursor:pointer;transition:background-color .18s ease}
+.pv-item:hover{background:#eaf0ee}
+.pv-item:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.pv-item[aria-pressed="true"]{background:var(--accent-soft)}
+.pv-item>svg{width:18px;height:18px;color:#adb5bd;transition:transform .2s ease,color .2s ease}
+.pv-item[aria-pressed="true"]>svg{color:var(--accent);transform:rotate(90deg)}
+.pv-no{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.pv-t{display:inline-block;font-weight:600;line-height:1.45}
+.pv-item.key .pv-t{background:linear-gradient(transparent 62%,var(--hl) 62%) no-repeat 0 0/100% 100%}
+.pv-exh{margin:0 0 2px;font-size:14px;font-weight:700;color:var(--accent)}
+.pv-tap{margin:0;text-align:center;font-size:13px;color:var(--muted)}
+.pv-anim .pv-head{opacity:0;animation:pvIn .45s ease 2.4s forwards}
+.pv-anim .pv-checks{opacity:0;animation:pvIn .45s ease 2.6s forwards}
+.pv-anim .pv-n{animation:pvPop .5s cubic-bezier(.3,1.6,.5,1) 2.9s both}
+.pv-anim .pv-t,.pv-anim .pv-item .ko-sub{clip-path:inset(0 100% 0 0);animation:pvWrite .55s cubic-bezier(.4,0,.2,1) forwards;animation-delay:calc(2.9s + var(--i) * .2s)}
+.pv-anim .pv-item .ko-sub{display:inline-block;animation-delay:calc(3s + var(--i) * .2s)}
+.pv-anim .pv-item.key .pv-t{background-size:0% 100%;animation:pvWrite .55s cubic-bezier(.4,0,.2,1) forwards,pvLine .5s ease forwards;animation-delay:calc(2.9s + var(--i) * .2s),calc(3.4s + var(--i) * .2s)}
+.pv-anim .pv-tap,.pv-anim .pv-cta{opacity:0;animation:pvIn .45s ease 4.3s forwards}
+/* example drawer: peeks 78px from the bottom; tap/swipe slides it up, again slides it back */
+.pv.pv-has-ex{padding-bottom:124px}
+.pv-scrim{position:absolute;inset:0;z-index:14;background:rgba(8,14,16,.32);opacity:0;pointer-events:none;transition:opacity .3s ease}
+.pv-scrim.on{opacity:1;pointer-events:auto}
+.pv-drawer{position:absolute;left:0;right:0;bottom:0;z-index:15;max-height:72%;display:flex;flex-direction:column;background:var(--surface);border-radius:20px 20px 0 0;box-shadow:0 -4px 16px rgba(0,0,0,.08);transform:translateY(calc(100% - 100px));transition:transform .45s cubic-bezier(.22,.8,.24,1)}
+.pv-drawer.open{transform:none}
+.pv-drawer.in{animation:pvPeek .45s cubic-bezier(.22,.8,.24,1) backwards}
+.pv-dh{all:unset;box-sizing:border-box;flex:none;display:flex;flex-direction:column;gap:3px;padding:10px 20px 14px;min-height:100px;cursor:pointer;touch-action:none}
+.pv-dh::before{content:"";width:40px;height:4px;border-radius:2px;background:#dee2e6;align-self:center;margin-bottom:8px}
+.pv-dh:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;border-radius:20px 20px 0 0}
+.pv-dsel{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:12.5px;color:var(--muted)}
+.pv-dsel svg{width:18px;height:18px;color:var(--accent);transform:rotate(-90deg);transition:transform .3s ease}
+.pv-drawer.open .pv-dsel svg{transform:rotate(90deg)}
+.pv-db{overflow-y:auto;padding:0 20px 34px;border-top:1px solid #f1f3f5}
+.pv-speed{justify-content:space-between;padding:12px 0 4px}
+.pv-db .line-card{opacity:0;transform:translateY(14px);transition:opacity .35s ease,transform .35s ease}
+.pv-drawer.open .pv-db .line-card{opacity:1;transform:none;transition-delay:.18s}
+.pv-drawer.open .pv-db .line-card+.line-card{transition-delay:.28s}
+.pv-drawer.in .pv-exh{clip-path:inset(0 100% 0 0);animation:pvWrite .5s cubic-bezier(.4,0,.2,1) .3s forwards}
+@keyframes pvPeek{from{transform:translateY(100%)}}
+.pv-skip .pv-hero{display:none}
+.pv-skip *{animation-delay:0s!important;animation-duration:.01s!important}
+@keyframes pvIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes pvWrite{to{clip-path:inset(0 0 0 0)}}
+@keyframes pvLine{to{background-size:100% 100%}}
+@keyframes pvPop{from{transform:scale(0)}to{transform:scale(1)}}
+@media (prefers-reduced-motion:reduce){.pv-hero{display:none}.pv-anim *,.pv-ex.in,.pv-ex.in *{animation:none!important;opacity:1!important;clip-path:none!important}.pv-item.key .pv-t{background-size:100% 100%!important}.pv-drawer,.pv-drawer *{transition:none!important;animation:none!important;clip-path:none!important}}
+@keyframes sbFade{from{background:rgba(8,14,16,0)}}
+@keyframes sheetIn{0%{transform:translateY(100%)}32%,48%{transform:translateY(calc(100% - 100px))}100%{transform:none}}
+@keyframes sbRise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.sheet-back.enter,.sheet-back.enter .sheet,.sheet-back.enter .sheet>*{animation:none!important}}
 .opt{border:1px solid var(--line);background:var(--surface);border-radius:14px;padding:13px 14px;text-align:left;display:flex;justify-content:space-between;gap:10px;align-items:center;width:100%}
+.opt{transition:background-color .18s ease,border-color .18s ease}
+.opt:hover{background:#eaf0ee;border-color:#d3e0dc}
 .opt:hover:not([disabled]){border-color:var(--accent)}
+.opt:hover:not([disabled]) svg{color:var(--accent)}
+.opt:active:not([disabled]){background:#e0e8e5}
 .opt[disabled]{opacity:.5;cursor:default}
 .opt svg{width:20px;height:20px;color:var(--muted);flex:none}
 .seg{display:grid;grid-template-columns:1fr 1fr;gap:4px;background:var(--surface-2);padding:4px;border-radius:12px}
@@ -203,7 +274,10 @@ h2.big{font-size:23px;line-height:1.3;margin:0;text-wrap:balance}
 
 /* speaking toast */
 .speaking{position:absolute;left:50%;top:58px;transform:translateX(-50%);background:var(--ink);color:#fff;border-radius:999px;padding:8px 14px;font-size:13px;display:flex;gap:10px;align-items:center;z-index:30;max-width:86%;box-shadow:0 8px 24px rgba(0,0,0,.25)}
-.speaking span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.speaking{padding:9px 18px;justify-content:center}
+.speaking .wave{height:16px;gap:3px}
+.speaking .wave i:nth-child(5){height:9px;animation-delay:.4s}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .wave{display:inline-flex;gap:2px;align-items:center;height:14px;flex:none}
 .wave i{width:3px;background:currentColor;border-radius:2px;animation:wv .8s infinite ease-in-out}
 .wave i:nth-child(1){height:6px}.wave i:nth-child(2){height:12px;animation-delay:.1s}.wave i:nth-child(3){height:8px;animation-delay:.2s}.wave i:nth-child(4){height:13px;animation-delay:.3s}
@@ -228,6 +302,36 @@ h2.big{font-size:23px;line-height:1.3;margin:0;text-wrap:balance}
 .full{position:absolute;inset:0;z-index:25;background:var(--ink);color:#fff;display:flex;flex-direction:column;justify-content:center;gap:20px;padding:30px 24px}
 .full .bigko{font-size:30px;font-weight:700;line-height:1.4}
 .full .btn{background:#fff;color:var(--ink)}
+/* v02 full view controls: play + volume on dark */
+.full-ctl{display:flex;flex-direction:column;gap:10px;margin-top:6px}
+.full .full-play{display:flex;align-items:center;justify-content:center;gap:8px;height:52px;padding:0}
+.full .full-play svg{width:20px;height:20px}
+.full .full-close{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.3)}
+.full .full-close:hover{background:rgba(255,255,255,.08)}
+.full .vol{background:rgba(255,255,255,.08)}
+.full .vol-ic{color:#fff}
+.full .vol-ic:hover{background:rgba(255,255,255,.12)}
+.full .vol-v{color:#c8d3d6}
+.full .vol-range{background:linear-gradient(#5fd0bd,#5fd0bd) 0/var(--p,80%) 100% no-repeat,rgba(255,255,255,.22)}
+.full .vol-range::-webkit-slider-thumb{border-color:#5fd0bd}
+.full .vol-range::-moz-range-thumb{border-color:#5fd0bd}
+/* v02 karaoke words + volume row */
+.kara{position:relative;display:block}
+.kw{display:inline-block;transition:color .18s ease,transform .22s cubic-bezier(.2,.8,.2,1)}
+.kw.on{color:#ffd84d;transform:translateY(-2px)}
+.ks{transition:color .2s ease}
+.ks.on{color:#ffd84d}
+.vol{display:grid;grid-template-columns:44px 1fr 44px;align-items:center;gap:10px;padding:6px 10px 6px 4px;border-radius:14px;background:var(--surface-2)}
+.vol-ic{all:unset;width:44px;height:44px;display:grid;place-items:center;border-radius:12px;color:var(--ink);cursor:pointer}
+.vol-ic:hover{background:#e0e8e5}
+.vol-ic:focus-visible{outline:2px solid var(--accent)}
+.vol-ic svg{width:24px;height:24px}
+.vol-v{font-family:var(--f-mono);font-size:13px;color:var(--muted);text-align:right}
+.vol-range{-webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:3px;margin:0;cursor:pointer;background:linear-gradient(var(--accent),var(--accent)) 0/var(--p,80%) 100% no-repeat,#d6dfdc}
+.vol-range::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:#fff;border:2px solid var(--accent);box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.vol-range::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:#fff;border:2px solid var(--accent)}
+.vol-range:focus-visible{outline:2px solid var(--accent);outline-offset:6px}
+@media (prefers-reduced-motion:reduce){.kw{transition:none}}
 .idcard{display:grid;grid-template-columns:auto 1fr;gap:8px 16px;font-size:14px;margin:0}
 .idcard dt{color:var(--muted)}
 .idcard dd{margin:0;font-weight:500}
@@ -564,7 +668,57 @@ body.standalone .call-dock{padding-bottom:max(16px,env(safe-area-inset-bottom,0p
 .btn-install{border:1.5px solid var(--accent);background:var(--surface);color:var(--accent);border-radius:16px;font-weight:700;font-size:16px;padding:14px 20px;display:inline-flex;gap:8px;align-items:center}
 .btn-install svg{width:18px;height:18px}
 .tip.offline{border-color:var(--danger);background:var(--danger-soft)}
-@media (prefers-reduced-motion:reduce){.dots i,.wave i,.rec-dot{animation:none}.switch::after{transition:none}}
+/* welcome (v02): greeting -> menu reveal. White canvas, no nested cards: hierarchy from spacing + type weight. */
+.wel{flex:1;min-height:0;overflow-y:auto;position:relative;background:var(--surface);color:var(--ink);padding:0 24px 32px;display:flex;flex-direction:column;scrollbar-width:none}
+.wel::-webkit-scrollbar{display:none}
+.wel .ln{display:block;overflow:hidden;padding-bottom:.08em}
+.wel .ln>span{display:block;transform:translateY(105%);opacity:0;animation:wRise .7s cubic-bezier(.2,.8,.2,1) forwards}
+.wel-hi{position:absolute;left:24px;right:24px;top:132px;margin:0;font-size:30px;line-height:1.35;font-weight:700;letter-spacing:-.02em;animation:wOut .45s cubic-bezier(.4,0,.2,1) 2.5s forwards}
+.wel-hi .uline{display:block;width:0;height:4px;border-radius:2px;background:var(--accent);margin-top:14px;animation:wLine .5s cubic-bezier(.2,.8,.2,1) .75s forwards}
+.wel-hi em{font-style:normal;color:var(--accent)}
+.wel-menu{padding-top:40px;display:flex;flex-direction:column;flex:1}
+.wel-eb{margin:0 0 8px;font-size:14px;color:var(--muted);opacity:0;animation:wPop .4s ease forwards 2.9s;transform:translateY(8px)}
+.wel-q{margin:0 0 24px;font-size:24px;line-height:1.35;font-weight:700;letter-spacing:-.02em}
+.wel-q .ln>span{animation-delay:3s}
+.wel-q .ln:nth-child(2)>span{animation-delay:3.12s}
+.wel-list{list-style:none;margin:0;padding:0}
+.wel-list li{opacity:0;transform:translateX(-14px);animation:wPop .45s cubic-bezier(.2,.8,.2,1) forwards;animation-delay:calc(3.55s + var(--i) * .11s)}
+.wel-list li+li{border-top:1px solid #f1f3f5}
+.wel-item{all:unset;box-sizing:border-box;width:100%;min-height:72px;display:grid;grid-template-columns:44px 1fr 20px;gap:16px;align-items:center;padding:16px 24px;margin:0 -24px;width:calc(100% + 48px);border-radius:0;cursor:pointer;transition:background-color .18s ease}
+.wel-item:hover{background:#eaf0ee}
+.wel-item:hover .ic{background:#cfe8e1}
+.wel-item:hover>svg{color:var(--accent)}
+.wel-item:active{background:#e0e8e5}
+.wel-item:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:12px}
+.wel-item .ic{width:44px;height:44px;border-radius:12px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center}
+.wel-item .ic svg{width:22px;height:22px}
+.wel-item b{display:block;font-size:16px;line-height:1.4;font-weight:700;letter-spacing:-.01em}
+.wel-item .d{display:block;margin-top:2px;font-size:13px;line-height:1.45;color:var(--muted)}
+.wel-item>svg{width:18px;height:18px;color:#adb5bd}
+.wel-cta{margin-top:auto;padding-top:24px;opacity:0;animation:wPop .45s ease forwards 4.1s;transform:translateY(8px)}
+.wel-cta .btn{height:52px;padding:0}
+.wel-cta .later{all:unset;display:block;width:100%;min-height:44px;margin-top:4px;text-align:center;font-size:13px;color:var(--muted);cursor:pointer}
+/* waving flag: one SVG sliced into strips, each bobbing a little out of phase */
+.flag{display:flex;width:60px;height:40px;margin-top:22px;opacity:0;transform:translateY(10px);animation:wPop .5s cubic-bezier(.2,.8,.2,1) forwards 1s;filter:drop-shadow(0 2px 4px rgba(19,33,42,.18))}
+.flag i{flex:1;height:100%;background-size:60px 40px;background-repeat:no-repeat;animation:wWave 1.6s ease-in-out infinite;animation-delay:calc(var(--k) * -.11s)}
+.flag i:first-child{border-radius:3px 0 0 3px}.flag i:last-child{border-radius:0 3px 3px 0}
+.flag-s{display:inline-block;width:18px;height:12px;border-radius:2px;vertical-align:-1px;margin-right:6px;background-size:cover;box-shadow:0 0 0 1px rgba(19,33,42,.08)}
+@keyframes wWave{0%,100%{transform:translateY(0);filter:brightness(1)}50%{transform:translateY(-2.5px);filter:brightness(1.12)}}
+.wel.skip .flag i{animation-duration:1.6s!important}
+.wel-list li{transition:opacity .25s ease}
+.wel.has-pick .wel-list li:not(.on),.wel.has-pick .wel-cta{opacity:.35!important}
+.wel-list li.on .wel-item{background:var(--accent-soft)}
+.wel-list li.on .wel-item>svg{color:var(--accent)}
+.sheet h3 .crumb{display:block;font-size:12px;font-weight:700;color:var(--accent);margin-bottom:2px}
+.wel.skip .wel-hi{display:none}
+.wel.skip *{animation-delay:0s!important;animation-duration:.01s!important}
+@keyframes wRise{to{transform:none;opacity:1}}
+@keyframes wOut{to{transform:translateY(-28px);opacity:0;visibility:hidden}}
+@keyframes wLine{to{width:40px}}
+@keyframes wPop{to{transform:none;opacity:1}}
+
+@media (prefers-reduced-motion:reduce){.dots i,.wave i,.rec-dot{animation:none}.switch::after{transition:none}
+  .wel-hi{display:none}.wel *{animation-delay:0s!important;animation-duration:.01s!important}.flag i{animation:none!important}}
 </style>
 </head>
 <body>
@@ -947,6 +1101,7 @@ body.standalone .call-dock{padding-bottom:max(16px,env(safe-area-inset-bottom,0p
     </div>
     <div class="jumps" id="jumps">
       <button data-jump="onboard">첫 실행</button>
+      <button data-jump="welcome">환영</button>
       <button data-jump="home">홈</button>
       <button data-jump="prep">준비</button>
       <button data-jump="live">현장 모드</button>
@@ -976,6 +1131,22 @@ const U = {
   welcome2:{ko:"할 말을 미리 준비하고, 현장에서는 한국어로 대신 말해 드려요.", zh:"提前准备要说的话，现场由应用替你说韩语。", vi:"Chuẩn bị trước điều cần nói, và ứng dụng sẽ nói tiếng Hàn thay bạn.", th:"เตรียมสิ่งที่จะพูดล่วงหน้า แล้วแอปจะพูดภาษาเกาหลีแทนคุณ"},
   chooseLang:{ko:"언어를 선택하세요", zh:"请选择语言", vi:"Chọn ngôn ngữ", th:"เลือกภาษา"},
   start:{ko:"시작하기", zh:"开始", vi:"Bắt đầu", th:"เริ่มต้น"},
+  /* v02 welcome — {n} marks the highlighted name placeholder */
+  wName:{ko:"이름", zh:"名字", vi:"Tên", th:"ชื่อ"},
+  wHi1:{ko:"{n}님,", zh:"{n}，你好！", vi:"Chào {n},", th:"สวัสดี {n}"},
+  wHi2:{ko:"반가워요!", zh:"很高兴见到你", vi:"rất vui được gặp bạn!", th:"ยินดีที่ได้รู้จัก!"},
+  wEb:{ko:"{n}님, 반가워요", zh:"{n}，很高兴见到你", vi:"Chào {n}, rất vui được gặp bạn", th:"สวัสดี {n} ยินดีที่ได้รู้จัก"},
+  wQ1:{ko:"통해에서", zh:"在 통해", vi:"Bạn muốn làm gì", th:"อยากเริ่มทำอะไร"},
+  wQ2:{ko:"무엇을 해볼까요?", zh:"想先做什么？", vi:"với 통해 trước?", th:"กับ 통해 ก่อนดี?"},
+  wHouseT:{ko:"집 계약 준비하기", zh:"准备租房合同", vi:"Chuẩn bị hợp đồng thuê nhà", th:"เตรียมทำสัญญาเช่าบ้าน"},
+  wHouseD:{ko:"계약 전에 꼭 물어볼 말을 챙겨 드려요", zh:"签约前一定要问的话，帮你准备好", vi:"Chuẩn bị sẵn câu cần hỏi trước khi ký", th:"เตรียมคำถามที่ต้องถามก่อนเซ็นสัญญา"},
+  wWageT:{ko:"월급·근로 상담", zh:"工资·劳动咨询", vi:"Lương & lao động", th:"ค่าจ้างและการทำงาน"},
+  wWageD:{ko:"밀린 임금, 할 말을 한국어로 대신 전해요", zh:"被拖欠工资？替你用韩语说出来", vi:"Bị nợ lương? Ứng dụng nói tiếng Hàn thay bạn", th:"ค้างค่าจ้าง? แอปพูดภาษาเกาหลีแทนคุณ"},
+  wRpT:{ko:"AI와 미리 연습하기", zh:"先和 AI 练习", vi:"Luyện tập trước với AI", th:"ฝึกกับ AI ก่อน"},
+  wRpD:{ko:"집주인·사장님 역할 AI와 영상통화로", zh:"和扮演房东·老板的 AI 视频通话", vi:"Gọi video với AI đóng vai chủ nhà, chủ", th:"วิดีโอคอลกับ AI ที่รับบทเจ้าของบ้าน·นายจ้าง"},
+  wCardT:{ko:"상황 설명 카드", zh:"情况说明卡", vi:"Thẻ giải thích tình huống", th:"การ์ดอธิบายสถานการณ์"},
+  wCardD:{ko:"말이 막힐 땐 화면만 보여 주세요", zh:"说不出来时，给对方看屏幕就行", vi:"Khi bí lời, chỉ cần đưa màn hình ra", th:"พูดไม่ออก แค่ยื่นหน้าจอให้ดู"},
+  wCta:{ko:"홈으로 시작하기", zh:"开始使用", vi:"Bắt đầu", th:"เริ่มใช้งาน"},
   homeQ:{ko:"오늘은 어떤 대화를 준비할까요?", zh:"今天要准备什么对话？", vi:"Hôm nay bạn cần chuẩn bị cuộc nói chuyện nào?", th:"วันนี้จะเตรียมบทสนทนาเรื่องอะไร"},
   sitHouse:{ko:"집 계약", zh:"租房合同", vi:"Thuê nhà", th:"สัญญาเช่าบ้าน"},
   sitHouseSub:{ko:"월세, 보증금", zh:"月租、押金", vi:"Tiền thuê, tiền cọc", th:"ค่าเช่า เงินมัดจำ"},
@@ -1013,6 +1184,8 @@ const U = {
   prepEb:{ko:"대면 · 부동산 중개사무소", zh:"面对面 · 房产中介", vi:"Gặp trực tiếp · Văn phòng môi giới", th:"พบหน้า · สำนักงานนายหน้า"},
   prepT:{ko:"안전하게 월세 계약서 쓰기", zh:"安全地签租房合同", vi:"Ký hợp đồng thuê nhà an toàn", th:"เซ็นสัญญาเช่าอย่างปลอดภัย"},
   prepGoal:{ko:"아래 항목을 모두 확인하기 전에는 돈을 보내지 마세요.", zh:"在确认下面所有项目之前，不要转任何钱。", vi:"Đừng chuyển tiền trước khi kiểm tra đủ các mục dưới đây.", th:"อย่าโอนเงินจนกว่าจะตรวจครบทุกข้อด้านล่าง"},
+  prepTap:{ko:"확인할 항목을 눌러 보세요", zh:"点一下要确认的项目", vi:"Hãy chạm vào mục cần kiểm tra", th:"แตะรายการที่ต้องการตรวจสอบ"},
+  prepEx:{ko:"그 상황에 쓸만한 예시를 보여드릴게요", zh:"给你看看这种情况下可以用的例句", vi:"Đây là những câu mẫu dùng được trong tình huống này", th:"นี่คือตัวอย่างประโยคที่ใช้ได้ในสถานการณ์นี้"},
   mustCheck:{ko:"꼭 확인할 것", zh:"必须确认", vi:"Phải kiểm tra", th:"ต้องตรวจสอบ"},
   script:{ko:"대본 · 눌러서 듣기", zh:"台词 · 点击收听", vi:"Kịch bản · bấm để nghe", th:"บทพูด · แตะเพื่อฟัง"},
   startLive:{ko:"설명 카드 보여주고 시작", zh:"出示说明卡并开始", vi:"Đưa thẻ giải thích và bắt đầu", th:"แสดงบัตรอธิบายแล้วเริ่ม"},
@@ -1073,6 +1246,7 @@ const U = {
   allSafe:{ko:"모든 상황에서 안전하게 대답했어요.", zh:"你在所有情况下都回答得很安全。", vi:"Bạn đã trả lời an toàn ở mọi tình huống.", th:"คุณตอบได้อย่างปลอดภัยทุกสถานการณ์"},
   safeN:{ko:"안전한 대답 {a}/{b}", zh:"安全回答 {a}/{b}", vi:"Trả lời an toàn {a}/{b}", th:"ตอบอย่างปลอดภัย {a}/{b}"},
   cardS:{ko:"시작하기 전에 상대방에게 이 화면을 보여주세요.", zh:"开始前先给对方看这个画面。", vi:"Cho đối phương xem màn hình này trước khi bắt đầu.", th:"แสดงหน้าจอนี้ให้อีกฝ่ายดูก่อนเริ่ม"},
+  volume:{ko:"음량", zh:"音量", vi:"Âm lượng", th:"ระดับเสียง"},
   playAloud:{ko:"소리로 들려주기", zh:"播放语音", vi:"Phát âm thanh", th:"เปิดเสียง"},
   showBig:{ko:"크게 보여주기", zh:"全屏显示", vi:"Phóng to", th:"แสดงเต็มจอ"},
   phrS:{ko:"별표한 문장은 현장 모드에 바로 나와요.", zh:"加星的句子会出现在现场模式里。", vi:"Câu gắn sao sẽ hiện ở chế độ trực tiếp.", th:"ประโยคที่ติดดาวจะแสดงในโหมดใช้งานจริง"},
@@ -1239,9 +1413,10 @@ const S = {
   checks:new Set(), live:{step:0, log:[], waiting:false, done:false, preview:null, hearing:false},
   records:[], pins:new Set(["q1","q2","q5"]), rp:null, themVoice:true, rate:1,
 };
-try{ const s = JSON.parse(localStorage.getItem("tonghae-proto")||"{}"); if(LANGS[s.lang]) S.lang = s.lang; if(typeof s.uiKo==="boolean") S.uiKo = s.uiKo; if(s.onboarded) S.onboarded = true; if([0.7,1,1.3].includes(s.rate)) S.rate = s.rate; }catch(e){}
+S.volume = 0.8;
+try{ const s = JSON.parse(localStorage.getItem("tonghae-proto")||"{}"); if(LANGS[s.lang]) S.lang = s.lang; if(typeof s.uiKo==="boolean") S.uiKo = s.uiKo; if(s.onboarded) S.onboarded = true; if([0.7,1,1.3].includes(s.rate)) S.rate = s.rate; if(typeof s.volume==="number") S.volume = Math.min(1, Math.max(0, s.volume)); }catch(e){}
 if(S.onboarded) S.screen = "home";
-function persist(){ try{ localStorage.setItem("tonghae-proto", JSON.stringify({lang:S.lang, uiKo:S.uiKo, onboarded:!!S.onboarded, rate:S.rate})); }catch(e){} }
+function persist(){ try{ localStorage.setItem("tonghae-proto", JSON.stringify({lang:S.lang, uiKo:S.uiKo, onboarded:!!S.onboarded, rate:S.rate, volume:S.volume})); }catch(e){} }
 
 const app = document.getElementById("app");
 const wrap = document.getElementById("screenWrap");
@@ -1319,7 +1494,7 @@ function speak(text, opt={}){
     if(id===speakId) hideSpeaking();
     opt.onend && opt.onend();
   };
-  if(!S.sound || !synth){ t1 = setTimeout(fin, Math.min(900 + [...text].length * 120 / rate, 4000)); return; }
+  if(!S.sound || !synth){ opt.onstart && opt.onstart(); t1 = setTimeout(fin, Math.min(900 + [...text].length * 120 / rate, 4000)); return; }
   const voice = opt.voice ? opt.voice : (lang==="ko" ? VO.main : (voicesFor(lang)[0] || null));
   if(lang!=="ko" && !voice){ toast(L("noNativeVoice")); t1 = setTimeout(fin, 300); return; }
   const run = () => {
@@ -1328,9 +1503,10 @@ function speak(text, opt={}){
     curUtter = u;                                   // keep a reference so Chrome does not drop onend
     u.lang = voice ? voice.lang : LANG_TAG[lang];
     if(voice) u.voice = voice;
-    u.rate = rate; u.pitch = opt.pitch ?? 1; u.volume = 1;
+    u.rate = rate; u.pitch = opt.pitch ?? 1; u.volume = S.volume ?? 1;
     let started = false;
-    u.onstart = () => { started = true; clearTimeout(t1); t2 = setTimeout(fin, 6000 + [...text].length * 450 / rate); };
+    u.onstart = () => { started = true; clearTimeout(t1); t2 = setTimeout(fin, 6000 + [...text].length * 450 / rate); opt.onstart && opt.onstart(rate); };
+    if(opt.onboundary) u.onboundary = opt.onboundary;
     u.onend = fin;
     u.onerror = fin;
     synth.speak(u);
@@ -1345,7 +1521,8 @@ function showSpeaking(text, label){
   hideSpeaking();
   const el = document.createElement("div");
   el.className = "speaking"; el.id = "speaking"; el.setAttribute("role","status");
-  el.innerHTML = '<span class="wave"><i></i><i></i><i></i><i></i></span><span></span>';
+  // Visual: just the centered voice wave. The words stay in the live region for screen readers.
+  el.innerHTML = '<span class="wave"><i></i><i></i><i></i><i></i><i></i></span><span class="sr"></span>';
   el.lastChild.textContent = (label || L("speaking")) + " · " + text;
   wrap.appendChild(el);
 }
@@ -1364,6 +1541,9 @@ function go(screen, push=true){
   if(S.screen==="call" && screen!=="call") stopTimer();
   if(TABS[screen]) S.stack = [];
   else if(push && screen!==S.screen) S.stack.push(S.screen);
+  if(screen==="prep" && push){ S.prepSeen = false; S.prepSel = null; } // fresh visit replays the intro
+  if(screen==="welcome" && push) S.welSeen = false;
+  S.welPick = null;
   S.screen = screen; S.sheet = null; S.full = false;
   render();
   const m = app.querySelector(".main"); if(m) m.scrollTop = 0;
@@ -1375,7 +1555,7 @@ function render(){
   wrap.classList.toggle("dark-ui", sc==="call");
   document.documentElement.lang = uiLang();
   let html = "";
-  if(sc!=="call" && sc!=="onboard"){
+  if(sc!=="call" && sc!=="onboard" && sc!=="welcome"){
     html += `<header class="bar">
       ${TABS[sc] ? "" : `<button class="icon-btn" data-act="back" aria-label="back">${ICON.back}</button>`}
       <h1>${sc==="home" ? '<span class="brand">통해</span>' : esc(L(TITLE[sc]))}</h1>
@@ -1383,8 +1563,14 @@ function render(){
   }
   html += VIEWS[sc]();
   if(TABS[sc]) html += tabs(sc);
-  if(S.sheet) html += SHEETS[S.sheet.type]();
-  if(S.full) html += `<div class="full" role="dialog"><span class="bigko">${EXPLAIN.ko}</span><span class="sub" style="color:#c8d3d6">${esc(N(EXPLAIN))}</span><button class="btn" data-act="full-close">${esc(L("close"))}</button></div>`;
+  if(S.sheet){
+    let sh = SHEETS[S.sheet.type]();
+    if(!S.sheet.shown){ sh = sh.replace('class="sheet-back"', 'class="sheet-back enter"'); S.sheet.shown = true; } // animate on open only, not on re-render (e.g. 대면/전화 toggle)
+    html += sh;
+  }
+  if(S.full) html += `<div class="full" role="dialog"><span class="bigko">${kara(EXPLAIN.ko)}</span><span class="sub" style="color:#c8d3d6">${karaN()}</span>
+    <div class="full-ctl"><button class="btn full-play" data-act="say-kara">${ICON.play}${esc(L("playAloud"))}</button>${volRow()}</div>
+    <button class="btn full-close" data-act="full-close">${esc(L("close"))}</button></div>`;
   const keep = {};
   ["meInput","themInput"].forEach(k => { const el = document.getElementById(k); if(el && el.value) keep[k] = el.value; });
   app.innerHTML = html;
@@ -1408,15 +1594,59 @@ function chkItem(set, k, done){
 
 /* ---------------- views ---------------- */
 const VIEWS = {};
+// First-run copy previews whichever language is hovered/focused, else the picked one.
+const obLead = l => `<b>${esc(U.welcome[l])}</b><br>${esc(U.welcome2[l])}`;
+let obTimer = null;
+function previewLead(l){
+  const el = document.getElementById("obLead");
+  if(!el || el.dataset.l === l) return;
+  el.dataset.l = l; el.classList.add("swap"); clearTimeout(obTimer);
+  obTimer = setTimeout(() => { el.innerHTML = obLead(l); el.lang = l; el.classList.remove("swap"); }, 140);
+}
+const obHover = e => { if(S.screen==="onboard") previewLead(e.target.closest(".lang-opt")?.dataset.id || S.lang); };
 VIEWS.onboard = () => `<div class="onboard">
   <p class="logo">통해</p>
-  <p class="lead"><b>${esc(L("welcome"))}</b><br>${esc(L("welcome2"))}</p>
+  <p class="lead" id="obLead" lang="${S.lang}" data-l="${S.lang}">${obLead(S.lang)}</p>
   <div class="langs">
     <p class="eyebrow">${esc(L("chooseLang"))}</p>
     ${Object.entries(LANGS).map(([k,v]) => `<button class="lang-opt" data-act="pick-lang" data-id="${k}" aria-pressed="${S.lang===k}"><span><b>${v.label}</b><br><span class="sub">${v.ko}</span></span><span class="radio"></span></button>`).join("")}
     <button class="btn" data-act="onboard-done" style="margin-top:8px">${esc(L("start"))}</button>
   </div>
 </div>`;
+
+/* v02: first-visit greeting. Lines rise as whole units so kerning stays intact. Copy follows the user's language (U.w*). */
+const WEL_ITEMS = [
+  {act:"house", ic:"house", t:"wHouseT", d:"wHouseD"},
+  {act:"wage", ic:"won", t:"wWageT", d:"wWageD"},
+  {act:"rp", ic:"tPrac", t:"wRpT", d:"wRpD"},
+  {act:"card", ic:"card", t:"wCardT", d:"wCardD"},
+];
+// Inline SVG flags (Windows can't render flag emoji). 30x20 grid.
+const star = (cx, cy, r, rot=0) => Array.from({length:10}, (_, i) => {
+  const a = rot + Math.PI * i / 5 - Math.PI / 2, rr = i % 2 ? r * .382 : r;
+  return `${(cx + rr * Math.cos(a)).toFixed(2)},${(cy + rr * Math.sin(a)).toFixed(2)}`;
+}).join(" ");
+const FLAG_SVG = {
+  zh: `<rect width="30" height="20" fill="#EE1C25"/><g fill="#FFDE00"><polygon points="${star(5,5,3)}"/><polygon points="${star(10,2,1,.6)}"/><polygon points="${star(12,4,1,.3)}"/><polygon points="${star(12,7,1,0)}"/><polygon points="${star(10,9,1,-.3)}"/></g>`,
+  vi: `<rect width="30" height="20" fill="#DA251D"/><polygon fill="#FFFF00" points="${star(15,10,6)}"/>`,
+  th: `<rect width="30" height="20" fill="#A51931"/><rect y="3.33" width="30" height="13.34" fill="#F4F5F8"/><rect y="6.67" width="30" height="6.66" fill="#2D2A4A"/>`,
+};
+const flagUrl = l => `url("data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 20">${FLAG_SVG[l]}</svg>`)}")`;
+const FLAG_STRIPS = 12;
+const flagWave = l => `<span class="flag" role="img" aria-label="${LANGS[l].ko} 국기">${Array.from({length:FLAG_STRIPS}, (_, k) =>
+  `<i style="--k:${k};background-image:${flagUrl(l).replace(/"/g,"'")};background-position:${-k * 60 / FLAG_STRIPS}px 0"></i>`).join("")}</span>`;
+const wName = (k, hl) => esc(L(k)).replace("{n}", hl ? `<em>${esc(L("wName"))}</em>` : esc(L("wName")));
+VIEWS.welcome = () => { const seen = S.welSeen; S.welSeen = true; return `<div class="wel ${seen ? "skip" : ""} ${S.welPick ? "has-pick" : ""}" data-act="wel-skip">
+  <h2 class="wel-hi" aria-hidden="true"><span class="ln"><span style="animation-delay:.15s">${wName("wHi1", true)}</span></span><span class="ln"><span style="animation-delay:.3s">${esc(L("wHi2"))}</span></span><span class="uline"></span>${flagWave(S.lang)}</h2>
+  <div class="wel-menu">
+    <p class="wel-eb"><span class="flag-s" style="background-image:${flagUrl(S.lang).replace(/"/g,"'")}"></span>${wName("wEb")}</p>
+    <h2 class="wel-q"><span class="ln"><span>${esc(L("wQ1"))}</span></span><span class="ln"><span>${esc(L("wQ2"))}</span></span></h2>
+    <ul class="wel-list">
+      ${WEL_ITEMS.map((it,i) => `<li style="--i:${i}" class="${S.welPick===it.act ? "on" : ""}"><button class="wel-item" data-act="wel-go" data-id="${it.act}"><span class="ic">${ICON[it.ic]}</span><span><b>${esc(L(it.t))}</b><span class="d">${esc(L(it.d))}</span></span>${ICON.chev}</button></li>`).join("")}
+    </ul>
+    <div class="wel-cta"><button class="btn" data-go="home">${esc(L("wCta"))}</button></div>
+  </div>
+</div>`; };
 
 VIEWS.home = () => {
   const u = USERS[S.lang];
@@ -1443,30 +1673,56 @@ VIEWS.home = () => {
 </main>`;
 };
 
-VIEWS.prep = () => `<main class="main">
-  <div class="col" style="gap:4px">
+/* v02 prep: intro hero -> compact header -> checklist writes in left-to-right (key items get underlined).
+   Example lines appear only after a checklist item is tapped. */
+const PREP_EX = {c1:["s4"], c2:["s5","s7"], c3:["s2","s3"], c4:["s6"], c5:["s8","s9"], c6:["s10"]};
+VIEWS.prep = () => {
+  const anim = !S.prepSeen; S.prepSeen = true;          // intro plays once per visit, not on every re-render
+  const exIn = S.prepSelAnim; S.prepSelAnim = false;
+  const sel = S.prepSel, keys = Object.keys(CHECK);
+  return `<main class="main pv ${anim ? "pv-anim" : ""} ${sel ? "pv-has-ex" : ""}" style="position:relative">
+  ${anim ? `<div class="pv-hero" aria-hidden="true" data-act="pv-skip">
+    <span class="ln"><span class="eyebrow" style="animation-delay:.1s">${esc(L("prepEb"))}</span></span>
+    <span class="ln"><span class="pv-big" style="animation-delay:.25s">${esc(L("prepT"))}</span></span>
+    <span class="ln"><span class="sub" style="animation-delay:.55s">${esc(L("prepGoal"))}</span></span>
+  </div>` : ""}
+  <div class="col pv-head" style="gap:4px">
     <p class="eyebrow">${esc(L("prepEb"))}</p>
     <h2 class="big" style="font-size:21px">${esc(L("prepT"))}</h2>
     <p class="sub">${esc(L("prepGoal"))}</p>
   </div>
-  <section class="card col">
-    <p class="eyebrow">${esc(L("mustCheck"))} · 6</p>
-    <ul class="chk">${Object.keys(CHECK).map(k => chkItem(CHECK, k, S.checks.has(k))).join("")}</ul>
+  <section class="card col pv-checks">
+    <p class="eyebrow pv-cnt">${esc(L("mustCheck"))} <b class="pv-n">6</b></p>
+    <ul class="pv-list">${keys.map((k,i) => { const c = CHECK[k]; return `<li style="--i:${i}">
+      <button class="pv-item ${c.key ? "key" : ""}" data-act="prep-sel" data-id="${k}" aria-pressed="${sel===k}">
+        <span class="pv-no">${i+1}</span>
+        <span><span class="pv-t">${esc(G(c))}</span>${S.uiKo ? "" : `<br><span class="ko-sub">${esc(c.ko)}</span>`}</span>
+        ${ICON.chev}
+      </button></li>`; }).join("")}</ul>
   </section>
-  <section class="card">
-    <div class="row" style="justify-content:space-between"><p class="eyebrow">${esc(L("script"))}</p><span class="speed" role="group" aria-label="speed">${[0.7,1,1.3].map(r => `<button class="pill" data-act="rate" data-id="${r}" aria-pressed="${S.rate===r}">${r}×</button>`).join("")}</span></div>
-    ${Object.entries(SCRIPT).map(([id,s]) => `<div class="line-card">
+  ${sel ? "" : `<p class="pv-tap">${esc(L("prepTap"))}</p>`}
+  <div class="col pv-cta">
+    <button class="btn" data-act="start-live">${esc(L("startLive"))}</button>
+    <button class="btn ghost" data-act="rp" data-id="r1">${esc(L("pracFirst"))}</button>
+  </div>
+</main>
+${sel ? `<div class="pv-scrim ${S.prepOpen ? "on" : ""}" data-act="pv-close"></div>
+<section class="pv-drawer ${S.prepOpen ? "open" : ""} ${exIn ? "in" : ""}" aria-label="${esc(L("prepEx"))}">
+  <button class="pv-dh" data-act="pv-toggle" aria-expanded="${!!S.prepOpen}">
+    <span class="pv-exh">${esc(L("prepEx"))}</span>
+    <span class="pv-dsel">${esc(G(CHECK[sel]))}${ICON.chev}</span>
+  </button>
+  <div class="pv-db">
+    <div class="row pv-speed"><span class="eyebrow">${esc(L("sSpeed"))}</span><span class="speed" role="group" aria-label="speed">${[0.7,1,1.3].map(r => `<button class="pill" data-act="rate" data-id="${r}" aria-pressed="${S.rate===r}">${r}×</button>`).join("")}</span></div>
+    ${PREP_EX[sel].map(id => { const s = SCRIPT[id]; return `<div class="line-card">
       <span class="ko">${esc(s.ko)}</span>
       <span class="plays"><button class="play" data-act="say" data-id="${id}" aria-label="play">${ICON.play}</button></span>
       <span class="rom">${esc(s.rom)}</span>
       <span class="sub">${esc(N(s))}</span>
-    </div>`).join("")}
-  </section>
-  <div class="col">
-    <button class="btn" data-act="start-live">${esc(L("startLive"))}</button>
-    <button class="btn ghost" data-act="rp" data-id="r1">${esc(L("pracFirst"))}</button>
+    </div>`; }).join("")}
   </div>
-</main>`;
+</section>` : ""}`;
+};
 
 VIEWS.live = () => {
   const Lv = S.live, keys = Object.keys(CHECK), n = keys.filter(k => S.checks.has(k)).length, step = STEPS[Lv.step];
@@ -1570,10 +1826,83 @@ VIEWS.feedback = () => {
 </main>`;
 };
 
+/* v02: karaoke highlight — the word being spoken turns yellow and lifts slightly.
+   Uses the voice's word-boundary events when the voice sends them, else a syllable-timed estimate. */
+const kara = text => `<span class="kara" data-kara>${text.split(" ").map((w,i) => `<span class="kw" data-i="${i}">${esc(w)}</span>`).join(" ")}</span>`;
+// The translation can't be matched word for word, so it lights up by phrase.
+// ko = index of the Korean word each phrase starts at; the other lists must join back into EXPLAIN[lang].
+const EXPLAIN_SEG = {
+  ko:[0, 3, 6, 10],
+  zh:["我韩语不好，", "所以使用翻译应用。", "请说慢一点、简短一点。", "谢谢。"],
+  vi:["Tôi chưa giỏi tiếng Hàn", "nên dùng ứng dụng phiên dịch.", "Xin hãy nói chậm và ngắn.", "Cảm ơn."],
+  th:["ฉันพูดภาษาเกาหลีไม่เก่ง", "จึงใช้แอปแปลภาษา", "กรุณาพูดช้าๆ และสั้นๆ", "ขอบคุณ"],
+};
+const karaN = () => {
+  const segs = EXPLAIN_SEG[S.lang];
+  if(!segs) return esc(N(EXPLAIN));
+  return `<span data-kara-n>${segs.map((s,k) => `<span class="ks" data-s="${k}">${esc(s)}</span>`).join(S.lang==="zh" ? "" : " ")}</span>`;
+};
+function karaMark(i){
+  document.querySelectorAll("[data-kara]").forEach(box => {
+    box.querySelectorAll(".kw").forEach(w => w.classList.toggle("on", Number(w.dataset.i)===i));
+  });
+  const seg = i < 0 ? -1 : EXPLAIN_SEG.ko.filter(s => s <= i).length - 1;
+  document.querySelectorAll("[data-kara-n] .ks").forEach(s => s.classList.toggle("on", Number(s.dataset.s)===seg));
+}
+let karaRun = 0;
+function karaokeSpeak(text){
+  const run = ++karaRun, words = text.split(" ");
+  const starts = []; words.reduce((at, w) => { starts.push(at); return at + w.length + 1; }, 0);
+  let byBoundary = false, timer = null;
+  const live = () => run===karaRun;
+  speak(text, {
+    onstart: (rate=1) => {                      // fallback clock: ~170ms per syllable, longer after punctuation
+      let i = 0;
+      const step = () => {
+        if(!live() || byBoundary || i >= words.length) return;
+        karaMark(i);
+        const w = words[i++], ms = ([...w.replace(/[.,!?]/g,"")].length * 170 + (/[.,!?]$/.test(w) ? 380 : 70)) / rate;
+        timer = setTimeout(step, ms);
+      };
+      step();
+    },
+    onboundary: e => {
+      if(!live() || (e.name && e.name!=="word")) return;
+      byBoundary = true; clearTimeout(timer);
+      let i = starts.findIndex((s, k) => e.charIndex >= s && (k===starts.length-1 || e.charIndex < starts[k+1]));
+      if(i >= 0) karaMark(i);
+    },
+    onend: () => { clearTimeout(timer); if(live()) karaMark(-1); },
+  });
+}
+
+// Volume row: speaker toggles mute, slider sets 0–100%. Applies to every spoken line.
+const VOL_IC = {
+  mute:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M17 9l5 6M22 9l-5 6"/></svg>`,
+  low:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16.5 9.5a4 4 0 0 1 0 5"/></svg>`,
+  high:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16.5 9.5a4 4 0 0 1 0 5"/><path d="M19 7a7.5 7.5 0 0 1 0 10"/></svg>`,
+};
+const volIcon = v => v===0 ? VOL_IC.mute : v < .5 ? VOL_IC.low : VOL_IC.high;
+const volRow = () => { const p = Math.round(S.volume * 100); return `<div class="vol">
+  <button class="vol-ic" data-act="vol-mute" aria-label="${esc(L("volume"))}">${volIcon(S.volume)}</button>
+  <input type="range" class="vol-range" min="0" max="100" step="5" value="${p}" style="--p:${p}%" aria-label="${esc(L("volume"))}">
+  <span class="vol-v">${p}%</span>
+</div>`; };
+function setVolume(v){
+  if(v > 0) S.lastVol = v;
+  S.volume = v; persist();
+  const p = Math.round(v * 100);
+  // The card and the full-screen view can both show a volume row; keep every copy in sync.
+  app.querySelectorAll(".vol-range").forEach(r => { r.value = p; r.style.setProperty("--p", p + "%"); });
+  app.querySelectorAll(".vol-ic").forEach(el => { el.innerHTML = volIcon(v); });
+  app.querySelectorAll(".vol-v").forEach(el => { el.textContent = p + "%"; });
+}
+
 VIEWS.card = () => `<main class="main">
   <p class="sub">${esc(L("cardS"))}</p>
-  <div class="show"><span class="bigko">${EXPLAIN.ko}</span><span class="sub">${esc(N(EXPLAIN))}</span></div>
-  <div class="row"><button class="btn ghost grow" data-act="say-text" data-text="${esc(EXPLAIN.ko)}">${esc(L("playAloud"))}</button><button class="btn grow" data-act="full">${esc(L("showBig"))}</button></div>
+  <div class="show"><span class="bigko">${kara(EXPLAIN.ko)}</span><span class="sub">${karaN()}</span></div>
+  <div class="row"><button class="btn ghost grow" data-act="say-kara">${esc(L("playAloud"))}</button><button class="btn grow" data-act="full">${esc(L("showBig"))}</button></div>
+  ${volRow()}
 </main>`;
 
 VIEWS.phrases = () => `<main class="main">
@@ -1630,7 +1959,7 @@ VIEWS.settings = () => `<main class="main">
 /* ---------------- sheets ---------------- */
 const SHEETS = {
   house: () => `<div class="sheet-back" data-act="sheet-close"><div class="sheet" data-stop>
-    <h3>${esc(L("whatSit"))}</h3>
+    <h3>${S.sheet.from ? `<span class="crumb">${esc(L(S.sheet.from))}</span>` : ""}${esc(L("whatSit"))}</h3>
     <div class="seg"><button data-act="mode" data-id="face" aria-pressed="${S.sheet.mode!=="call"}">${esc(L("face"))}</button><button data-act="mode" data-id="call" aria-pressed="${S.sheet.mode==="call"}">${esc(L("phoneCall"))}</button></div>
     <button class="opt" disabled><b>${esc(L("view"))}</b><span class="tag soon">${esc(L("soon"))}</span></button>
     <button class="opt" data-go="prep"><b>${esc(L("sign"))}</b>${ICON.chev}</button>
@@ -1807,9 +2136,20 @@ app.addEventListener("click", e => {
   const id = b.dataset.id, Lv = S.live;
   switch(b.dataset.act){
     case "back": if(S.screen==="call") stopSpeech(); back(); break;
-    case "pick-lang": S.lang = id; persist(); render(); break;
-    case "onboard-done": S.onboarded = true; persist(); S.stack = []; go("home"); break;
+    case "pick-lang": S.lang = id; S.uiKo = false; persist(); render(); break;
+    case "onboard-done": S.onboarded = true; persist(); S.stack = []; go("welcome"); break;
     case "install": doInstall(); break;
+    case "wel-skip": b.classList.add("skip"); break;
+    case "wel-go": {
+      // Continue from the welcome screen itself: keep the picked row lit, dim the rest, then open its sheet on top.
+      b.closest(".wel").classList.add("has-pick"); b.closest("li").classList.add("on");
+      setTimeout(() => {
+        if(id==="house" || id==="wage"){ S.welPick = id; S.sheet = id==="house" ? {type:"house", mode:"face", from:"wHouseT"} : {type:"wage"}; render(); }
+        else if(id==="rp") startRP("r1");
+        else go("card");
+      }, 260);
+      break;
+    }
     case "set-lang": S.lang = id; persist(); render(); break;
     case "toggle-sound": S.sound = !S.sound; if(!S.sound) stopSpeech(); render(); break;
     case "rate": S.rate = Number(id); persist(); render(); break;
@@ -1817,9 +2157,19 @@ app.addEventListener("click", e => {
     case "sit-house": S.sheet = {type:"house", mode:"face"}; render(); break;
     case "sit-wage": S.sheet = {type:"wage"}; render(); break;
     case "mode": S.sheet.mode = id; render(); break;
-    case "sheet-close": S.sheet = null; render(); break;
+    case "sheet-close": S.sheet = null; S.welPick = null; render(); break;
+    case "pv-skip": b.closest(".main").classList.add("pv-skip"); break;
+    case "prep-sel":
+      { const y = app.querySelector(".main")?.scrollTop || 0;
+        S.prepSel = S.prepSel===id ? null : id; S.prepSelAnim = !!S.prepSel; S.prepOpen = false; render();
+        const m = app.querySelector(".main"); if(m) m.scrollTop = y; }
+      break;
+    case "pv-toggle": setPrepOpen(!S.prepOpen); break;
+    case "pv-close": setPrepOpen(false); break;
     case "say": speak(SCRIPT[id].ko); break;
     case "say-text": speak(b.dataset.text); break;
+    case "say-kara": karaokeSpeak(EXPLAIN.ko); break;
+    case "vol-mute": setVolume(S.volume > 0 ? 0 : (S.lastVol || 0.8)); break;
     case "start-live": go("live"); S.full = true; render(); break;
     case "pick": if(SCRIPT[id].amounts){ S.sheet = {type:"amounts", id}; render(); } else sayLine(id); break;
     case "amounts-ok": { const sid = S.sheet.id; S.sheet = null; sayLine(sid); break; }
@@ -1873,6 +2223,31 @@ app.addEventListener("click", e => {
   }
 });
 
+// Example drawer on 계약서 쓰기: toggled in place (no re-render) so the slide transition runs.
+function setPrepOpen(open){
+  S.prepOpen = open;
+  app.querySelector(".pv-drawer")?.classList.toggle("open", open);
+  app.querySelector(".pv-scrim")?.classList.toggle("on", open);
+  app.querySelector(".pv-dh")?.setAttribute("aria-expanded", open);
+}
+// Swipe on the drawer header: up opens, down closes. A real swipe swallows the click that follows.
+let pvDrag = null;
+app.addEventListener("pointerdown", e => { if(e.target.closest(".pv-dh")) pvDrag = {y:e.clientY, moved:false}; });
+app.addEventListener("pointerup", e => {
+  if(!pvDrag) return;
+  const dy = e.clientY - pvDrag.y; pvDrag = null;
+  if(Math.abs(dy) > 24){ setPrepOpen(dy < 0); pvSwallow = true; setTimeout(() => { pvSwallow = false; }, 50); }
+});
+let pvSwallow = false;
+app.addEventListener("click", e => { if(pvSwallow && e.target.closest(".pv-dh")){ e.stopImmediatePropagation(); pvSwallow = false; } }, true);
+
+app.addEventListener("input", e => { if(e.target.classList.contains("vol-range")) setVolume(Number(e.target.value) / 100); });
+app.addEventListener("change", e => { if(e.target.classList.contains("vol-range")) speak("이 정도 크기로 말할게요."); }); // preview at the chosen level
+
+app.addEventListener("mouseover", obHover);
+app.addEventListener("focusin", obHover);
+app.addEventListener("mouseleave", obHover);
+
 app.addEventListener("submit", e => {
   e.preventDefault();
   const f = e.target.dataset.form;
@@ -1882,7 +2257,7 @@ app.addEventListener("submit", e => {
 
 document.getElementById("langPick").addEventListener("click", e => {
   const p = e.target.closest("[data-lang]"); if(!p) return;
-  S.lang = p.dataset.lang; persist(); render();
+  S.lang = p.dataset.lang; S.uiKo = false; persist(); render(); // picking a language shows the app in it
 });
 document.getElementById("uiNative").addEventListener("click", () => { S.uiKo = false; persist(); render(); });
 document.getElementById("uiKo").addEventListener("click", () => { S.uiKo = true; persist(); render(); });
@@ -1892,6 +2267,8 @@ document.getElementById("jumps").addEventListener("click", e => {
   const j = b.dataset.jump;
   const parents = {prep:["home"], live:["home","prep"], summary:["home"], card:["home"]};
   S.stack = parents[j] ? [...parents[j]] : [];
+  if(j==="prep"){ S.prepSeen = false; S.prepSel = null; }
+  if(j==="welcome") S.welSeen = false;
   go(j, false);
 });
 
