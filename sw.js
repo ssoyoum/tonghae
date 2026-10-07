@@ -1,6 +1,6 @@
 // Offline cache for the Tonghae app shell.
 // Bump VERSION whenever index.html or the icons change so installed apps pick up the update.
-const VERSION = "tonghae-v1";
+const VERSION = "tonghae-v2";
 const SHELL = [
   "./",
   "./index.html",
