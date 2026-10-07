@@ -348,6 +348,8 @@ h2.big{font-size:23px;line-height:1.3;margin:0;text-wrap:balance}
 .bars.comp .fill{background:var(--bar-comp)}
 .bars .val{font-family:var(--f-mono);font-size:13.5px;text-align:right;font-variant-numeric:tabular-nums;color:var(--ink)}
 .bars li.pick .lbl{font-weight:700}
+.bars li.ext .fill{background:var(--bar-pick);opacity:.4}
+.bars li.ext .lbl{font-weight:700}
 .legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12.5px;color:var(--muted);margin-top:14px}
 .legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px}
 .sum-callout{margin-top:14px;padding:12px 14px;border-radius:12px;background:var(--accent-soft);font-size:14px}
@@ -366,7 +368,7 @@ h2.big{font-size:23px;line-height:1.3;margin:0;text-wrap:balance}
 .scene .say span{display:block;font-size:11.5px;font-weight:500;color:var(--muted);margin-bottom:2px}
 
 /* existing services */
-.i-reviews{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;align-items:start}
+.i-reviews{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;align-items:start}
 .units{display:flex;flex-direction:column;gap:14px}
 .units .row-u{display:grid;grid-template-columns:76px minmax(0,1fr);gap:10px;align-items:start;font-size:13.5px}
 .units .row-u b{display:block}
@@ -501,7 +503,6 @@ h2.big{font-size:23px;line-height:1.3;margin:0;text-wrap:balance}
 @media (max-width:960px){
   .i-scenes{grid-template-columns:repeat(2,minmax(0,1fr))}
   .i-reviews{grid-template-columns:1fr 1fr}
-  .i-reviews .units-panel{grid-column:1 / -1}
   .i-sol{grid-template-columns:1fr}
 }
 @media (max-width:860px){
@@ -551,12 +552,11 @@ body.standalone .call-dock{padding-bottom:max(16px,env(safe-area-inset-bottom,0p
   <!-- 1. 한 줄 소개 -->
   <section class="i-hero">
     <div>
-      <p class="i-eyebrow">기획 설명 · 이주민과 해외 한국인을 위한 생활 대화 도우미</p>
+      <p class="i-eyebrow">기획 설명 · 한국에 온 이주민을 위한 생활 대화 도우미</p>
       <h1 class="i-logo">통해</h1>
-      <p class="i-lead">한국에 온 이주민도, 해외에 나간 한국인도 일터·시장·집 계약·차 구매처럼 중요한 대화를 앞두고 할 말을 준비하고, 현장에서는 현지어로 대신 말해 주는 앱입니다.</p>
+      <p class="i-lead">한국에 온 이주민이 일터·시장·집 계약·차 구매처럼 생활 속 중요한 대화를 앞두고 할 말을 준비하고, 현장에서는 한국어로 대신 말해 주는 앱입니다.</p>
       <div class="i-chips">
         <span><b>MVP</b> 대화 전 준비 + 대화 중 현장</span>
-        <span><b>두 방향</b> 이주민 → 한국어 · 한국인 → 영어</span>
         <span>중국어 · 베트남어 · 태국어 · 영어</span>
         <span>일터 · 시장 · 집 계약 · 차 구매</span>
       </div>
@@ -578,47 +578,47 @@ body.standalone .call-dock{padding-bottom:max(16px,env(safe-area-inset-bottom,0p
     </div>
   </section>
 
-  <!-- 2. 배경: 두 방향 -->
+  <!-- 2. 배경: 왜 이 네 언어인가 -->
   <section class="i-sec" aria-labelledby="h-bg">
     <div class="i-head">
       <p class="i-kicker">배경</p>
-      <h2 id="h-bg">말이 통하지 않는 나라에서 사는 사람은 양쪽에 있습니다</h2>
-      <p>한국에 온 이주민과 해외에 나간 한국인 모두, 일하고 장을 보고 집과 차를 구하는 대화를 외국어로 해야 합니다.</p>
+      <h2 id="h-bg">체류외국인 278만 명, 국적 1~4위가 61.6%입니다</h2>
+      <p>그래서 통해는 중국어·베트남어·태국어·영어로 시작합니다. 영어권 사용자도 다른 언어 사용자와 똑같이 모국어 화면으로 보고 한국어로 말합니다.</p>
     </div>
     <div class="i-stats three">
       <div class="i-stat"><span class="num">278만<small>명</small></span><p>2025년 말 국내 체류외국인. 인구의 5.44%이고, 한국 생활의 가장 큰 어려움으로 언어(43.3%)를 꼽습니다.</p></div>
-      <div class="i-stat"><span class="num">240만<small>명</small></span><p>해외에 사는 재외국민(한국 국적). 미국·캐나다·호주에만 재외동포 299만 명이 삽니다.</p></div>
-      <div class="i-stat"><span class="num">54.1<small>%</small></span><p>해외 한국인 유학생 12만 9,726명 중 미국·호주·캐나다에 있는 비율</p></div>
+      <div class="i-stat"><span class="num">61.6<small>%</small></span><p>체류외국인 중 중국·베트남·미국·태국 출신 비율. 통해의 4개 언어로 이만큼을 돕습니다.</p></div>
+      <div class="i-stat"><span class="num">9.8만<small>명</small></span><p>2025년 베트남 장기 입국자. 통계 작성 이후 처음으로 중국(9.4만 명)을 앞섰습니다.</p></div>
     </div>
     <div class="i-bg two">
       <div class="i-panel">
-        <h3>한국에 온 사람 · 국적별 체류외국인</h3>
-        <p class="sub">2025년 6월 말, 전체 273만 2,797명</p>
+        <h3>한국에 온 사람 · 국적별 체류외국인과 통해 지원 언어</h3>
+        <p class="sub">2025년 6월 말, 전체 273만 2,797명. 정부 통계는 국적 기준이라 국적마다 통해가 지원하는 언어를 함께 표시했습니다.</p>
         <ul class="bars">
-          <li class="pick" tabindex="0" data-tip="중국 97만 2,176명 · 35.6% (한국계 포함)"><span class="lbl">중국</span><span class="track"><span class="fill" style="width:89%"></span></span><span class="val">35.6%</span></li>
-          <li class="pick" tabindex="0" data-tip="베트남 34만 1,153명 · 12.5%"><span class="lbl">베트남</span><span class="track"><span class="fill" style="width:31.2%"></span></span><span class="val">12.5%</span></li>
+          <li class="pick" tabindex="0" data-tip="중국 97만 2,176명 · 35.6% (한국계 포함)"><span class="lbl">중국<small>중국어</small></span><span class="track"><span class="fill" style="width:89%"></span></span><span class="val">35.6%</span></li>
+          <li class="pick" tabindex="0" data-tip="베트남 34만 1,153명 · 12.5%"><span class="lbl">베트남<small>베트남어</small></span><span class="track"><span class="fill" style="width:31.2%"></span></span><span class="val">12.5%</span></li>
           <li class="pick" tabindex="0" data-tip="미국 19만 6,664명 · 7.2% — 영어로 지원"><span class="lbl">미국<small>영어</small></span><span class="track"><span class="fill" style="width:18%"></span></span><span class="val">7.2%</span></li>
-          <li class="pick" tabindex="0" data-tip="태국 17만 3,710명 · 6.4%"><span class="lbl">태국</span><span class="track"><span class="fill" style="width:15.9%"></span></span><span class="val">6.4%</span></li>
+          <li class="pick" tabindex="0" data-tip="태국 17만 3,710명 · 6.4%"><span class="lbl">태국<small>태국어</small></span><span class="track"><span class="fill" style="width:15.9%"></span></span><span class="val">6.4%</span></li>
           <li tabindex="0" data-tip="그 외 104만 9,094명 · 38.4%"><span class="lbl">그 외</span><span class="track"><span class="fill" style="width:96%"></span></span><span class="val">38.4%</span></li>
         </ul>
         <p class="sum-callout">국적 1~4위 합계 <b>61.6%</b> → 중국어·베트남어·태국어·영어로 한국어를 말합니다.</p>
       </div>
       <div class="i-panel">
-        <h3>해외로 나간 한국인 · 유학 국가별</h3>
-        <p class="sub">2025년 4월, 해외 한국인 유학생 12만 9,726명</p>
+        <h3>확장 방향 · 해외로 나간 한국인 <span class="tag">확장</span></h3>
+        <p class="sub">해외 한국인 유학생 12만 9,726명의 유학 국가 (2025년 4월). 재외국민은 240만 명입니다.</p>
         <ul class="bars">
-          <li class="pick" tabindex="0" data-tip="미국 33.3%"><span class="lbl">미국</span><span class="track"><span class="fill" style="width:83.3%"></span></span><span class="val">33.3%</span></li>
-          <li class="pick" tabindex="0" data-tip="호주 12.7%"><span class="lbl">호주</span><span class="track"><span class="fill" style="width:31.8%"></span></span><span class="val">12.7%</span></li>
+          <li class="ext" tabindex="0" data-tip="미국 33.3%"><span class="lbl">미국</span><span class="track"><span class="fill" style="width:83.3%"></span></span><span class="val">33.3%</span></li>
+          <li class="ext" tabindex="0" data-tip="호주 12.7%"><span class="lbl">호주</span><span class="track"><span class="fill" style="width:31.8%"></span></span><span class="val">12.7%</span></li>
           <li tabindex="0" data-tip="일본 11.2% — 확장 언어 후보"><span class="lbl">일본<small>확장 후보</small></span><span class="track"><span class="fill" style="width:28%"></span></span><span class="val">11.2%</span></li>
           <li tabindex="0" data-tip="중국 8.2%"><span class="lbl">중국</span><span class="track"><span class="fill" style="width:20.5%"></span></span><span class="val">8.2%</span></li>
-          <li class="pick" tabindex="0" data-tip="캐나다 8.1%"><span class="lbl">캐나다</span><span class="track"><span class="fill" style="width:20.3%"></span></span><span class="val">8.1%</span></li>
+          <li class="ext" tabindex="0" data-tip="캐나다 8.1%"><span class="lbl">캐나다</span><span class="track"><span class="fill" style="width:20.3%"></span></span><span class="val">8.1%</span></li>
           <li tabindex="0" data-tip="그 외 26.5%"><span class="lbl">그 외</span><span class="track"><span class="fill" style="width:66.3%"></span></span><span class="val">26.5%</span></li>
         </ul>
-        <p class="sum-callout">영어권 3개국 합계 <b>54.1%</b> → 한국어 화면으로 보고 영어로 말합니다.</p>
+        <p class="sum-callout">영어권 3개국 합계 <b>54.1%</b> → 같은 엔진으로 "한국어 화면 → 영어로 말하기" 방향을 다음 단계에 엽니다.</p>
       </div>
     </div>
-    <div class="legend"><span><i style="background:var(--bar-pick)"></i>통해 MVP 지원 언어</span><span><i style="background:var(--bar-rest)"></i>그 외</span></div>
-    <p class="i-src">출처: 법무부 출입국외국인정책본부 체류외국인 통계 · 재외동포청 2025 재외동포현황(2024년 말 기준) · 교육부 해외 한국인 유학생 현황(2025년 4월) · 통계청·법무부 2022 이민자체류실태 및 고용조사</p>
+    <div class="legend"><span><i style="background:var(--bar-pick)"></i>통해 MVP 지원 언어</span><span><i style="background:var(--bar-pick);opacity:.4"></i>확장 단계 대상</span><span><i style="background:var(--bar-rest)"></i>그 외</span></div>
+    <p class="i-src">출처: 법무부 출입국외국인정책본부 체류외국인 통계 · 국가데이터처 2025 국제인구이동통계 · 통계청·법무부 2022 이민자체류실태 및 고용조사 · (확장) 재외동포청 2025 재외동포현황, 교육부 해외 한국인 유학생 현황(2025년 4월)</p>
   </section>
 
   <!-- 3. 문제: 생활 곳곳의 대화 -->
@@ -706,22 +706,14 @@ body.standalone .call-dock{padding-bottom:max(16px,env(safe-area-inset-bottom,0p
           <li tabindex="0" data-tip="오류·속도: 319건 중 31건"><span class="lbl">오류·속도</span><span class="track"><span class="fill" style="width:27.7%"></span></span><span class="val">9.7%</span></li>
         </ul>
       </div>
-      <div class="i-panel units-panel">
-        <h3>학습 앱은 시험 위주입니다</h3>
-        <p class="sub">베트남어 학습 앱 리뷰 1,183건에서 언급된 횟수 (점 하나 = 리뷰 1건)</p>
-        <div class="units">
-          <div class="row-u"><span><b>시험</b><small>145건</small></span><span class="unitdots" data-n="145" aria-label="시험 언급 145건"></span></div>
-          <div class="row-u"><span><b>실제 대화</b><small>9건</small></span><span class="unitdots talk" data-n="9" aria-label="실제 대화 언급 9건"></span></div>
         </div>
-      </div>
-    </div>
     <div class="i-table-wrap"><table class="i-table">
       <thead><tr><th></th><th>번역 앱</th><th>학습 앱</th><th>통역·상담</th><th class="us">통해</th></tr></thead>
       <tbody>
         <tr><th>무엇을 물어야 하는지</th><td><span class="mark n">없음</span></td><td><span class="mark n">없음</span></td><td><span class="mark y">알려 줌</span></td><td class="us"><span class="mark y">상황별 체크리스트</span></td></tr>
         <tr><th>사장님·판매자 앞 현장</th><td><span class="mark p">입력 필요</span></td><td><span class="mark n">없음</span></td><td><span class="mark p">연결 대기</span></td><td class="us"><span class="mark y">바로 사용</span></td></tr>
         <tr><th>한국어로 대신 말하기</th><td><span class="mark p">화면 보여주기</span></td><td><span class="mark n">없음</span></td><td><span class="mark n">없음</span></td><td class="us"><span class="mark y">음성 0.7·1·1.3배</span></td></tr>
-        <tr><th>생활 상황 연습<small>확장 기능</small></th><td><span class="mark n">없음</span></td><td><span class="mark p">시험 위주</span></td><td><span class="mark n">없음</span></td><td class="us"><span class="mark y">롤플레이</span></td></tr>
+        <tr><th>생활 상황 연습<small>확장 기능</small></th><td><span class="mark n">없음</span></td><td><span class="mark p">단어·문법 위주</span></td><td><span class="mark n">없음</span></td><td class="us"><span class="mark y">롤플레이</span></td></tr>
       </tbody>
     </table></div>
   </section>
@@ -731,7 +723,7 @@ body.standalone .call-dock{padding-bottom:max(16px,env(safe-area-inset-bottom,0p
     <div class="i-head">
       <p class="i-kicker">해결</p>
       <h2 id="h-sol">대화 전에는 준비하고, 대화 중에는 대신 말합니다</h2>
-      <p>MVP는 이 두 단계이고, 두 방향 모두 같은 화면과 엔진을 씁니다. 대화 정리와 롤플레이 연습은 다음 단계로 확장합니다.</p>
+      <p>MVP는 이 두 단계입니다. 대화 정리와 롤플레이 연습, 해외에 나간 한국인을 위한 역방향은 다음 단계로 확장합니다.</p>
     </div>
     <div class="i-sol">
       <article class="sol">
@@ -760,7 +752,7 @@ body.standalone .call-dock{padding-bottom:max(16px,env(safe-area-inset-bottom,0p
           <ul>
             <li>상대의 말을 모국어로 보여 줌</li>
             <li>아직 확인하지 않은 질문을 먼저 추천</li>
-            <li>고른 문장·모국어로 한 말을 현지어 음성으로, 상대 말은 모국어 음성으로</li>
+            <li>고른 문장·모국어로 한 말을 한국어 음성으로, 상대 말은 모국어 음성으로</li>
             <li>금액·날짜는 말하기 전에 다시 확인</li>
           </ul>
         </div>
@@ -806,7 +798,7 @@ body.standalone .call-dock{padding-bottom:max(16px,env(safe-area-inset-bottom,0p
       <li><b>스트리밍 STT</b><span>텍스트 + 언어 태그</span></li>
       <li><b>LLM · JSON 한 번</b><span>번역 · 요약 · 체크리스트 판별 · 다음 문장</span></li>
       <li><b>사용자 선택</b><span>추천 문장 또는 모국어 발화</span></li>
-      <li><b>TTS 재생</b><span>현지어 음성 · 목표 3초 이내</span></li>
+      <li><b>TTS 재생</b><span>한국어 음성 · 목표 3초 이내</span></li>
     </ol>
   </section>
 
@@ -826,7 +818,7 @@ body.standalone .call-dock{padding-bottom:max(16px,env(safe-area-inset-bottom,0p
         <span class="k">LLM · 대화 엔진</span>
         <h3>판단하고 추천하기</h3>
         <p class="io"><b>입력</b> 발화 + 상황 + 체크리스트 상태 <span>→</span> <b>출력</b> JSON</p>
-        <ul><li>모국어 요약, 다음 문장 2~3개, 확인된 체크리스트 항목</li><li>아직 묻지 않은 항목을 먼저 추천</li><li>모국어 → 현지어(해요체·영어) 변환 + 역번역</li></ul>
+        <ul><li>모국어 요약, 다음 문장 2~3개, 확인된 체크리스트 항목</li><li>아직 묻지 않은 항목을 먼저 추천</li><li>모국어 → 공손한 한국어(해요체) 변환 + 역번역</li></ul>
       </article>
       <article class="tc">
         <span class="k">RAG · 근거 검색</span>
@@ -838,10 +830,10 @@ body.standalone .call-dock{padding-bottom:max(16px,env(safe-area-inset-bottom,0p
         <span class="k">TTS · 음성 합성</span>
         <h3>대신 말하기</h3>
         <p class="io"><b>입력</b> 고른 문장 <span>→</span> <b>출력</b> 5개 언어 음성</p>
-        <ul><li>상대에게: 현지어(한국어·영어)로 대신 말하기</li><li>사용자에게: 모국어로 번역 듣기</li><li>0.7·1·1.3배속, 템플릿 문장은 미리 합성</li></ul>
+        <ul><li>상대에게: 한국어로 대신 말하기</li><li>사용자에게: 모국어로 번역 듣기</li><li>0.7·1·1.3배속, 템플릿 문장은 미리 합성</li></ul>
       </article>
     </div>
-    <div class="srcs"><b>근거 문서</b><span>표준근로계약서(다국어)</span><span>외국어 주택임대차표준계약서</span><span>중고차 성능·상태점검 안내</span><span>소비자분쟁해결기준</span><span>외교부 워킹홀리데이 인포센터</span><span>재외공관 국가별 생활 안내</span></div>
+    <div class="srcs"><b>근거 문서</b><span>표준근로계약서(다국어)</span><span>외국어 주택임대차표준계약서</span><span>중고차 성능·상태점검 안내</span><span>소비자분쟁해결기준</span></div>
   </section>
 
   <!-- 7. 예산 -->
@@ -897,10 +889,10 @@ body.standalone .call-dock{padding-bottom:max(16px,env(safe-area-inset-bottom,0p
       <p>경쟁 앱 리뷰 3,889건을 분석하며 시작한 만큼, 마지막 검증도 통해에 달린 실제 리뷰로 받겠습니다.</p>
     </div>
     <ol class="road">
-      <li><span class="when">선정 후 2개월</span><b>베타</b><p>두 방향 × 생활 상황 4가지, 준비·현장 모드, iOS·안드로이드</p></li>
-      <li><span class="when">베타 직후</span><b>검증</b><p>이주노동자 10명 + 출국 예정 한국인 10명, 기존 번역 앱과 비교</p></li>
+      <li><span class="when">선정 후 2개월</span><b>베타</b><p>4개 언어 × 생활 상황 4가지, 준비·현장 모드, iOS·안드로이드</p></li>
+      <li><span class="when">베타 직후</span><b>검증</b><p>언어별 이주민 5명씩 20명 이상, 기존 번역 앱과 비교</p></li>
       <li><span class="when">검증 후</span><b>스토어 출시</b><p>TestFlight·내부 테스트를 거쳐 앱스토어·구글플레이 출시</p></li>
-      <li class="later"><span class="when">출시 후</span><b>사용자 확대 · 확장</b><p>리뷰를 반영한 업데이트, 일본어·우즈베크어·네팔어, 병원·관공서·은행</p></li>
+      <li class="later"><span class="when">출시 후</span><b>사용자 확대 · 확장</b><p>해외 한국인용 한국어 → 영어 방향, 우즈베크어·네팔어, 병원·관공서·은행, 대화 정리·롤플레이</p></li>
     </ol>
     <div class="kpis six">
       <div class="kpi user"><span class="num">1,000</span><p>출시 3개월 설치 수</p></div>
