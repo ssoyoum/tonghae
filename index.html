@@ -179,9 +179,6 @@ h2.big{font-size:23px;line-height:1.3;margin:0;text-wrap:balance}
 .msg.me{background:var(--accent);color:var(--accent-ink);align-self:flex-end;border-bottom-right-radius:5px}
 .msg.me .who,.msg.me .nat{color:inherit;opacity:.82;font-size:12.5px}
 .msg.me .ko{font-size:15.5px;font-weight:500}
-.alert{border:1.5px solid var(--danger);background:var(--danger-soft);border-radius:16px;padding:12px 13px;display:flex;flex-direction:column;gap:4px}
-.alert b{color:var(--danger);display:flex;gap:6px;align-items:center}
-.alert b svg{width:18px;height:18px}
 .tip{border:1px dashed var(--accent);border-radius:16px;padding:10px 12px;font-size:13.5px;background:var(--accent-soft)}
 .listening{align-self:flex-start;font-size:13px;color:var(--muted);display:flex;gap:8px;align-items:center}
 .dots{display:inline-flex;gap:3px}
@@ -449,7 +446,7 @@ body.standalone .call-dock{padding-bottom:max(16px,env(safe-area-inset-bottom,0p
         <tr><th>무엇을 물어야 하는지</th><td><span class="mark n">없음</span></td><td><span class="mark y">알려줌</span></td><td class="us"><span class="mark y">체크리스트</span></td></tr>
         <tr><th>집주인·사장님 앞 현장</th><td><span class="mark p">입력 필요</span></td><td><span class="mark n">함께 못 감</span></td><td class="us"><span class="mark y">바로 사용</span></td></tr>
         <tr><th>한국어로 대신 말하기</th><td><span class="mark p">화면 보여주기</span></td><td><span class="mark n">없음</span></td><td class="us"><span class="mark y">음성(TTS)</span></td></tr>
-        <tr><th>위험 신호 경고</th><td><span class="mark n">없음</span></td><td><span class="mark p">사후 상담</span></td><td class="us"><span class="mark y">실시간</span></td></tr>
+        <tr><th>합의 내용 정리</th><td><span class="mark n">없음</span></td><td><span class="mark p">상담 기록</span></td><td class="us"><span class="mark y">자동 정리</span></td></tr>
         <tr><th>미리 연습</th><td><span class="mark n">없음</span></td><td><span class="mark n">없음</span></td><td class="us"><span class="mark y">AI 롤플레이</span></td></tr>
       </tbody>
     </table></div>
@@ -462,7 +459,7 @@ body.standalone .call-dock{padding-bottom:max(16px,env(safe-area-inset-bottom,0p
       <div class="node"><b>상대의 한국어</b><span>스피커폰 또는 대면</span></div><span class="arr">→</span>
       <div class="node ai"><b>음성 인식 (STT)</b><span>한국어 → 텍스트</span></div><span class="arr">→</span>
       <div class="node ai"><b>LLM 대화 엔진</b><span>모국어 요약, 다음 답변 추천, 체크리스트 확인</span></div><span class="arr">→</span>
-      <div class="node ai"><b>위험 신호 감지</b><span>규칙 + LLM 이중 확인</span></div><span class="arr">→</span>
+      <div class="node ai"><b>체크리스트 추적</b><span>확인한 항목 표시, 안 물어본 질문 먼저 추천</span></div><span class="arr">→</span>
       <div class="node ai"><b>음성 합성 (TTS)</b><span>고른 문장을 한국어로 말하기</span></div>
     </div>
     <p class="i-note">안내 문장과 체크리스트는 주택임대차표준계약서, 표준근로계약서, 찾기쉬운 생활법령정보 같은 공식 자료에서만 가져옵니다. 개별 사건의 법률 판단은 하지 않고 상담기관으로 연결합니다.</p>
@@ -576,7 +573,6 @@ const U = {
   seeList:{ko:"목록 보기", zh:"查看", vi:"Xem", th:"ดูรายการ"},
   them:{ko:"상대방", zh:"对方", vi:"Đối phương", th:"อีกฝ่าย"},
   me:{ko:"내가 한 말", zh:"我说的", vi:"Tôi đã nói", th:"ฉันพูด"},
-  risk:{ko:"위험 신호", zh:"危险信号", vi:"Dấu hiệu nguy hiểm", th:"สัญญาณอันตราย"},
   liveTip:{ko:"상대에게 설명 카드를 보여준 뒤, 아래 추천 문장을 누르세요. 앱이 한국어로 대신 말해요.", zh:"先给对方看说明卡，然后点下面的推荐句子，应用会用韩语替你说。", vi:"Cho đối phương xem thẻ giải thích, rồi bấm câu gợi ý bên dưới. Ứng dụng sẽ nói tiếng Hàn thay bạn.", th:"แสดงบัตรอธิบายให้อีกฝ่ายดู แล้วแตะประโยคแนะนำด้านล่าง แอปจะพูดภาษาเกาหลีแทนคุณ"},
   listening:{ko:"상대방 말을 듣는 중", zh:"正在听对方说话", vi:"Đang nghe đối phương", th:"กำลังฟังอีกฝ่าย"},
   hearingMe:{ko:"내 말을 듣는 중", zh:"正在听你说话", vi:"Đang nghe bạn nói", th:"กำลังฟังคุณพูด"},
@@ -733,19 +729,7 @@ const AMOUNTS = [
   {ko:"월세", zh:"月租", vi:"Tiền thuê tháng", th:"ค่าเช่ารายเดือน", amt:450000, read:"45만 원"},
   {ko:"관리비", zh:"管理费", vi:"Phí quản lý", th:"ค่าส่วนกลาง", amt:70000, read:"7만 원"},
 ];
-const THEM_SAMPLES = ["여권은 회사에서 보관할게요.", "계약서는 나중에 쓰고 오늘 계약금부터 보내세요.", "이번 달 월급은 다음 달에 한꺼번에 줄게요.", "관리비에 수도세는 포함 안 돼요."];
-const RISK_RULES = [
-  {re:/(동생|아내|와이프|남편|부인|가족|친구|지인|아들|딸|다른\s*사람).{0,12}(계좌|통장)/, ko:"본인 명의가 아닌 계좌로 송금 요구",
-   zh:"对方要求把钱转到不是本人名下的账户。确认之前不要转账。", vi:"Họ yêu cầu chuyển tiền vào tài khoản không phải của chính chủ. Đừng chuyển trước khi xác minh.", th:"เขาขอให้โอนเงินเข้าบัญชีที่ไม่ใช่ของเจ้าตัว อย่าโอนก่อนตรวจสอบ"},
-  {re:/(여권|외국인\s*등록증|신분증).{0,12}(맡|보관|두고|가지고\s*있)/, ko:"여권·신분증 보관 요구",
-   zh:"对方要求你交出护照或身份证。证件应该由你本人保管。", vi:"Họ yêu cầu bạn giao hộ chiếu hoặc giấy tờ tùy thân. Giấy tờ phải do chính bạn giữ.", th:"เขาขอให้ฝากพาสปอร์ตหรือบัตรประจำตัว เอกสารควรอยู่กับตัวคุณเอง"},
-  {re:/(오늘|지금|당장|바로|빨리).{0,12}(계약금|입금|송금|돈)|(계약금|돈).{0,6}(오늘|지금|당장|바로|빨리).{0,15}(보내|입금|송금|넣)/, ko:"당일 송금 재촉",
-   zh:"对方催你今天马上付钱。请确认完所有文件后再转账。", vi:"Họ hối thúc bạn chuyển tiền ngay hôm nay. Hãy kiểm tra đủ giấy tờ rồi mới chuyển.", th:"เขาเร่งให้โอนเงินวันนี้ทันที ตรวจเอกสารให้ครบก่อนแล้วค่อยโอน"},
-  {re:/계약서.{0,10}(나중에|안\s*써|필요\s*없|없이)|말로만|구두로/, ko:"서면 계약 회피",
-   zh:"对方想只口头约定、不签合同。一定要留下书面记录。", vi:"Họ muốn chỉ thỏa thuận miệng, không có hợp đồng. Hãy luôn giữ bằng văn bản.", th:"เขาอยากตกลงกันปากเปล่าโดยไม่มีสัญญา ต้องมีเป็นลายลักษณ์อักษรเสมอ"},
-  {re:/(월급|임금|급여|일당).{0,15}(다음\s*달|나중에|다음에).{0,12}(한꺼번에|같이|몰아서|줄|드릴)/, ko:"임금 지급 미루기",
-   zh:"对方说工资以后一起发。请让对方用短信写明支付日期。", vi:"Họ nói sẽ trả lương gộp sau. Hãy xin ngày trả lương bằng tin nhắn.", th:"เขาบอกว่าจะจ่ายค่าจ้างรวมกันทีหลัง ขอวันจ่ายเป็นข้อความไว้"},
-];
+const THEM_SAMPLES = ["관리비에 수도세는 포함 안 돼요.", "계약은 2년으로 할게요.", "다음 주 월요일부터 들어오시면 돼요.", "월급은 매달 25일에 들어가요."];
 
 const STEPS = [
   {opts:["s1"], reply:{ko:"네, 괜찮아요. 천천히 하세요. 여기 계약서예요. 보증금 500만 원에 월세 45만 원이에요.", zh:"好的，没关系，慢慢来。这是合同。押金500万韩元，月租45万韩元。", vi:"Vâng, được ạ. Cứ từ từ. Đây là hợp đồng. Tiền cọc 5 triệu won, tiền thuê tháng 450 nghìn won.", th:"ได้ ไม่เป็นไร ค่อยๆ ก็ได้ นี่คือสัญญา เงินมัดจำ 5 ล้านวอน ค่าเช่าเดือนละ 450,000 วอน"}},
@@ -754,7 +738,7 @@ const STEPS = [
   {opts:["s4"], reply:{ko:"네, 여기 오늘 뗀 등기부등본이에요.", zh:"好的，这是今天刚开的登记簿。", vi:"Vâng, đây là sổ đăng ký vừa lấy hôm nay.", th:"นี่คือทะเบียนที่เพิ่งออกวันนี้", checks:["c1"],
     tip:{ko:"소유자 이름이 계약하는 사람과 같은지, '을구'에 큰 근저당이 있는지 보세요.", zh:"提示：确认所有人（소유자）姓名是否与签合同的人一致，并查看“을구”部分有没有大额抵押（근저당）。", vi:"Mẹo: Xem tên chủ sở hữu (소유자) có giống người ký hợp đồng không, và phần 을구 có khoản thế chấp (근저당) lớn không.", th:"เคล็ดลับ: ดูว่าชื่อเจ้าของ (소유자) ตรงกับคนที่เซ็นสัญญาไหม และส่วน 을구 มีการจำนอง (근저당) จำนวนมากหรือไม่"}}},
   {opts:["s5"], reply:{ko:"집주인은 지금 해외에 있어서 못 와요. 계약금 50만 원은 오늘 제 동생 계좌로 보내 주시면 돼요.", zh:"房东现在在国外，来不了。定金50万韩元今天转到我弟弟的账户就行。", vi:"Chủ nhà đang ở nước ngoài nên không đến được. Tiền đặt cọc 500 nghìn won hôm nay chuyển vào tài khoản của em tôi là được.", th:"เจ้าของบ้านอยู่ต่างประเทศ มาไม่ได้ เงินมัดจำ 500,000 วอน วันนี้โอนเข้าบัญชีน้องชายฉันได้เลย",
-    risk:{ko:"집주인 명의가 아닌 계좌로 송금 요구", zh:"对方要求把钱转到不是房东名下的账户。这是常见的诈骗信号，不要转账。", vi:"Họ yêu cầu chuyển tiền vào tài khoản không đứng tên chủ nhà. Đây là dấu hiệu lừa đảo thường gặp. Đừng chuyển tiền.", th:"เขาขอให้โอนเงินเข้าบัญชีที่ไม่ใช่ชื่อเจ้าของบ้าน นี่เป็นสัญญาณการโกงที่พบบ่อย อย่าโอนเงิน"}}},
+    tip:{ko:"체크리스트 4번: 계약금은 집주인 명의 계좌로만 보내요. 아래 추천 문장으로 말해 보세요.", zh:"检查清单第4项：定金只转到房东本人名下的账户。可以用下面的推荐句子来说。", vi:"Mục 4 trong danh sách: chỉ chuyển tiền cọc vào tài khoản đứng tên chủ nhà. Hãy nói bằng câu gợi ý bên dưới.", th:"รายการที่ 4: โอนเงินมัดจำเข้าบัญชีชื่อเจ้าของบ้านเท่านั้น ลองพูดด้วยประโยคแนะนำด้านล่าง"}}},
   {opts:["s6","s7"], reply:{ko:"알겠어요. 위임장이랑 인감증명서 여기 있고, 계약금은 집주인 계좌로 받을게요.", zh:"好的。委托书和印鉴证明在这里，定金就转到房东的账户。", vi:"Được rồi. Giấy ủy quyền và giấy chứng nhận con dấu đây, tiền cọc sẽ nhận vào tài khoản của chủ nhà.", th:"เข้าใจแล้ว นี่หนังสือมอบอำนาจกับใบรับรองตราประทับ เงินมัดจำจะรับเข้าบัญชีเจ้าของบ้าน", checks:["c2","c4"]}},
   {opts:["s8"], reply:{ko:"보통 나가는 날 돌려드려요.", zh:"一般在搬走那天退还。", vi:"Thường thì trả lại vào ngày chuyển đi.", th:"ปกติจะคืนในวันที่ย้ายออก"}},
   {opts:["s9"], reply:{ko:"네, '퇴거일에 보증금 전액 반환'이라고 특약에 적을게요.", zh:"好的，我会在特别条款里写上“搬出当日全额退还押金”。", vi:"Vâng, tôi sẽ ghi vào điều khoản đặc biệt: 'Trả lại toàn bộ tiền cọc vào ngày chuyển đi'.", th:"ได้ จะเขียนในข้อตกลงพิเศษว่า \"คืนเงินมัดจำเต็มจำนวนในวันย้ายออก\"", checks:["c5"]}},
@@ -769,7 +753,7 @@ const RP = {
              {good:false, ko:"네, 지금 바로 보낼게요.", zh:"好，我现在就转。", vi:"Vâng, tôi chuyển ngay.", th:"ได้ จะโอนเดี๋ยวนี้เลย", why:{ko:"서류를 확인하기 전에 돈을 서둘러 보내지 마세요.", zh:"没确认文件之前不要急着转钱。", vi:"Đừng vội chuyển tiền khi chưa kiểm tra giấy tờ.", th:"อย่ารีบโอนเงินก่อนตรวจเอกสาร"}}]},
       {ai:{ko:"등기부는 깨끗해요. 계약금은 제 아내 계좌로 보내면 돼요.", zh:"登记簿没问题。定金转到我太太的账户就行。", vi:"Sổ đăng ký sạch mà. Tiền cọc chuyển vào tài khoản vợ tôi là được.", th:"ทะเบียนไม่มีปัญหา เงินมัดจำโอนเข้าบัญชีภรรยาฉันได้เลย"},
        opts:[{good:true, c:"c4", ko:"집주인 이름으로 된 계좌로만 보낼게요.", zh:"我只转到房东本人名下的账户。", vi:"Tôi chỉ chuyển vào tài khoản đứng tên chủ nhà.", th:"ฉันจะโอนเข้าบัญชีชื่อเจ้าของบ้านเท่านั้น"},
-             {good:false, ko:"알겠어요. 계좌 번호 주세요.", zh:"好的，请给我账号。", vi:"Được, cho tôi số tài khoản.", th:"ได้ ขอเลขบัญชีหน่อย", why:{ko:"집주인 명의가 아닌 계좌는 위험 신호예요.", zh:"不是房东名下的账户是危险信号。", vi:"Tài khoản không đứng tên chủ nhà là dấu hiệu nguy hiểm.", th:"บัญชีที่ไม่ใช่ชื่อเจ้าของบ้านเป็นสัญญาณอันตราย"}}]},
+             {good:false, ko:"알겠어요. 계좌 번호 주세요.", zh:"好的，请给我账号。", vi:"Được, cho tôi số tài khoản.", th:"ได้ ขอเลขบัญชีหน่อย", why:{ko:"계약금은 집주인 명의 계좌로만 보내야 해요 (체크리스트 4번).", zh:"定金只能转到房东本人名下的账户（检查清单第4项）。", vi:"Tiền cọc chỉ nên chuyển vào tài khoản đứng tên chủ nhà (mục 4).", th:"เงินมัดจำควรโอนเข้าบัญชีชื่อเจ้าของบ้านเท่านั้น (รายการที่ 4)"}}]},
       {ai:{ko:"보증금은 다음 세입자 들어오면 돌려줄게요.", zh:"押金等下一个租客搬进来再退给你。", vi:"Tiền cọc thì khi có người thuê mới vào tôi sẽ trả lại.", th:"เงินมัดจำจะคืนให้ตอนมีผู้เช่าคนใหม่เข้ามา"},
        opts:[{good:true, c:"c5", ko:"나가는 날 돌려받는 걸로 특약에 써 주세요.", zh:"请在特别条款里写明搬走那天退还。", vi:"Xin ghi vào điều khoản đặc biệt là trả lại vào ngày tôi chuyển đi.", th:"ช่วยเขียนในข้อตกลงพิเศษว่าคืนในวันที่ฉันย้ายออก"},
              {good:false, ko:"네, 괜찮아요.", zh:"好的，没问题。", vi:"Vâng, không sao.", th:"ได้ ไม่เป็นไร", why:{ko:"날짜를 정해 두지 않으면 오래 기다릴 수 있어요.", zh:"不写明具体日期，可能要等很久。", vi:"Nếu không ghi ngày cụ thể, bạn có thể phải chờ rất lâu.", th:"ถ้าไม่เขียนวันที่ชัดเจน อาจต้องรอนานมาก"}}]},
@@ -828,7 +812,6 @@ const ICON = {
   mic:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v3"/></svg>',
   ear:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8.5a6 6 0 0112 0c0 3.5-3 4.5-3 7.5a3 3 0 01-6 0"/><path d="M9.5 9a2.5 2.5 0 015 0"/></svg>',
   kbd:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"/></svg>',
-  warn:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18v.5"/></svg>',
   house:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg>',
   won:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M7 9l1.5 6L10.5 10l2 5L14 9M6.5 12h8.5"/><circle cx="18" cy="12" r="1"/></svg>',
   cross:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M9 3h6v6h6v6h-6v6H9v-6H3V9h6z"/></svg>',
@@ -1038,7 +1021,6 @@ VIEWS.live = () => {
   let log = Lv.log.map((m, i) => {
     if(m.who==="them") return `<div class="msg them"><span class="who">${esc(L("them"))}</span><span class="nat">${esc(N(m))}</span><span class="ko">${esc(m.ko)}</span><button class="listen" data-act="listen" data-id="${i}">${ICON.speak}${esc(L("listenTr"))}</button></div>`;
     if(m.who==="me") return `<div class="msg me"><span class="who">${esc(L("me"))}</span><span class="ko">${esc(m.ko)}</span><span class="nat">${esc(N(m))}</span></div>`;
-    if(m.who==="risk") return `<div class="alert" role="alert"><b>${ICON.warn}${esc(L("risk"))}</b><span>${esc(N(m))}</span><span class="ko-sub">${esc(m.ko)}</span></div>`;
     if(m.who==="tip") return `<div class="tip">${esc(N(m))}</div>`;
     return "";
   }).join("");
@@ -1241,7 +1223,6 @@ function answer(){
     Lv.waiting = false;
     Lv.log.push({who:"them", ...r});
     (r.checks||[]).forEach(c => S.checks.add(c));
-    if(r.risk) Lv.log.push({who:"risk", ...r.risk});
     if(r.tip) Lv.log.push({who:"tip", ...r.tip});
     Lv.step++;
     if(Lv.step >= STEPS.length) Lv.done = true;
@@ -1304,7 +1285,6 @@ async function translate(text, from, to){
   if(String(d.responseStatus)!=="200" || !out || /MYMEMORY WARNING/i.test(out)) throw new Error("translate");
   return decodeEntities(out);
 }
-const checkRisk = text => RISK_RULES.filter(r => r.re.test(text));
 
 async function translateMe(src){
   const Lv = S.live;
@@ -1322,7 +1302,6 @@ async function addThem(text){
   Lv.translating = false;
   const m = {who:"them", ko:text}; m[S.lang] = tr || text;
   Lv.log.push(m);
-  checkRisk(text).forEach(r => Lv.log.push({who:"risk", ko:r.ko, zh:r.zh, vi:r.vi, th:r.th}));
   if(S.screen==="live") render();
 }
 function bigramSim(a, b){
