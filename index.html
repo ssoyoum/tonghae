@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>통해 — 이주민 실전 대화 도우미</title>
-<meta name="description" content="이주노동자가 집 계약·월급 문제처럼 중요한 대화를 할 때, 할 말을 준비해 주고 현장에서는 한국어로 대신 말해 주는 앱 (중국어·베트남어·태국어)">
+<meta name="description" content="이주노동자가 일터·시장·집 계약·차 구매처럼 생활 속 중요한 대화를 할 때, 할 말을 준비해 주고 현장에서는 한국어로 대신 말해 주는 앱 (중국어·베트남어·태국어)">
 <meta name="theme-color" content="#0d6b5e">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icons/favicon-64.png">
@@ -16,7 +16,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="통해">
 <meta property="og:title" content="통해 — 이주민 실전 대화 도우미">
-<meta property="og:description" content="이주노동자가 집 계약·월급 문제처럼 중요한 대화를 할 때, 할 말을 준비해 주고 현장에서는 한국어로 대신 말해 주는 앱 (중국어·베트남어·태국어)">
+<meta property="og:description" content="이주노동자가 일터·시장·집 계약·차 구매처럼 생활 속 중요한 대화를 할 때, 할 말을 준비해 주고 현장에서는 한국어로 대신 말해 주는 앱 (중국어·베트남어·태국어)">
 <meta property="og:url" content="https://ssoyoum.github.io/tonghae/">
 <meta property="og:image" content="https://ssoyoum.github.io/tonghae/og.png">
 <meta property="og:image:width" content="1200">
@@ -161,7 +161,8 @@ h2.big{font-size:23px;line-height:1.3;margin:0;text-wrap:balance}
 .line-card .ko{font-size:16.5px;font-weight:700;line-height:1.4}
 .line-card .plays{grid-row:span 3;display:flex;flex-direction:column;gap:6px}
 .play{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--surface);display:grid;place-items:center;flex:none}
-.play.slow{font-size:10px;font-family:var(--f-mono)}
+.speed{display:inline-flex;gap:4px}
+.speed .pill{padding:3px 9px;font-size:12px;font-family:var(--f-mono)}
 .play svg{width:15px;height:15px}
 
 /* live */
@@ -399,7 +400,7 @@ body.standalone .call-dock{padding-bottom:max(16px,env(safe-area-inset-bottom,0p
     <div>
       <p class="i-eyebrow">기획 설명 · 이주노동자 실전 대화 도우미</p>
       <h1 class="i-logo">통해</h1>
-      <p class="i-lead">집 계약이나 월급 문제처럼 실수 한 번이 큰 손해로 이어지는 대화에서, 무엇을 물어야 하는지 미리 준비해 주고 현장에서는 한국어로 대신 말해 주는 앱입니다.</p>
+      <p class="i-lead">일터, 시장, 집 계약, 차 구매처럼 생활 속 중요한 대화에서 무엇을 물어야 하는지 미리 준비해 주고, 현장에서는 한국어로 대신 말해 주는 앱입니다.</p>
       <div class="i-cta">
         <button class="btn-lg" data-start>앱 체험하기</button>
         <button class="btn-install" id="installBtn" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>홈 화면에 설치</button>
@@ -407,14 +408,14 @@ body.standalone .call-dock{padding-bottom:max(16px,env(safe-area-inset-bottom,0p
       </div>
     </div>
     <div class="demo-line">
-      <p class="q">사용자가 버튼을 누르면, 앱이 이렇게 말해요</p>
-      <p class="ko">등기부등본을 보여 주실 수 있나요?</p>
+      <p class="q">첫 출근 날 인사팀 설명을 들을 때 버튼을 누르면, 앱이 이렇게 말해요</p>
+      <p class="ko">천천히 한 번만 더 설명해 주세요.</p>
       <dl class="tr">
-        <dt>中文</dt><dd>可以给我看一下房产登记簿吗？</dd>
-        <dt>Tiếng Việt</dt><dd>Anh/chị cho tôi xem sổ đăng ký bất động sản được không?</dd>
-        <dt>ภาษาไทย</dt><dd>ขอดูทะเบียนอสังหาริมทรัพย์ได้ไหม</dd>
+        <dt>中文</dt><dd>请慢一点，再给我解释一次。</dd>
+        <dt>Tiếng Việt</dt><dd>Anh/chị giải thích chậm lại cho tôi một lần nữa được không?</dd>
+        <dt>ภาษาไทย</dt><dd>ช่วยอธิบายช้าๆ อีกครั้งได้ไหม</dd>
       </dl>
-      <button data-demo-say="등기부등본을 보여 주실 수 있나요?"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 010 7"/></svg>한국어로 들어보기</button>
+      <button data-demo-say="천천히 한 번만 더 설명해 주세요."><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 010 7"/></svg>한국어로 들어보기</button>
     </div>
   </section>
 
@@ -423,7 +424,7 @@ body.standalone .call-dock{padding-bottom:max(16px,env(safe-area-inset-bottom,0p
     <p>번역이 정확해도, 무엇을 확인해야 하는지 모르면 피해를 막을 수 없습니다.</p>
     <div class="i-grid3">
       <div class="i-card"><span class="big">278만 명</span><p>2025년 말 국내 체류외국인. 그중 절반 이상이 중국·베트남·태국 출신입니다.</p><span class="src">법무부 체류외국인 통계</span></div>
-      <div class="i-card"><span class="big">1,548억 원</span><p>2025년 외국인 임금체불액. 피해자 3만 684명으로 1년 새 43.6% 늘었습니다. 전세사기 피해를 인정받은 외국인도 306명입니다.</p><span class="src">고용노동부 국정감사 자료 · 국토교통부</span></div>
+      <div class="i-card"><span class="big">54.5%</span><p>체류외국인 중 중국(35.6%)·베트남(12.5%)·태국(6.4%) 출신의 비율. 영어권인 미국을 빼면 상위 3개국이라 이 세 언어로 시작합니다.</p><span class="src">법무부 출입국외국인정책본부 · 2025년 6월 말</span></div>
       <div class="i-card"><span class="big">리뷰 3,889건</span><p>4개국 앱스토어 리뷰를 분석하니 번역 앱 불만은 오류·오역, 학습 앱 불만은 광고였습니다. 무엇을 물어야 하는지 알려주는 앱은 없었습니다.</p><span class="src">한국·베트남·태국·중국 앱스토어</span></div>
     </div>
   </section>
@@ -469,11 +470,11 @@ body.standalone .call-dock{padding-bottom:max(16px,env(safe-area-inset-bottom,0p
 
   <section class="i-sec">
     <h2>지원 언어와 출시</h2>
-    <p>국내 체류외국인 국적 1~3위 언어로 시작해 iOS·안드로이드 앱으로 출시합니다.</p>
+    <p>체류외국인 중 비영어권 상위 3개국 언어로 시작해 iOS·안드로이드 앱으로 출시합니다. 베트남은 2025년 장기 입국자 수에서 처음으로 중국을 앞질렀습니다.</p>
     <div class="i-langs">
-      <div class="i-lang"><b>中文</b><span>중국어 (간체)</span></div>
-      <div class="i-lang"><b>Tiếng Việt</b><span>베트남어</span></div>
-      <div class="i-lang"><b>ภาษาไทย</b><span>태국어</span></div>
+      <div class="i-lang"><b>中文</b><span>중국어 (간체) · 체류외국인의 35.6%</span></div>
+      <div class="i-lang"><b>Tiếng Việt</b><span>베트남어 · 12.5%</span></div>
+      <div class="i-lang"><b>ภาษาไทย</b><span>태국어 · 6.4%</span></div>
     </div>
   </section>
 
@@ -536,8 +537,12 @@ const U = {
   homeQ:{ko:"오늘은 어떤 대화를 준비할까요?", zh:"今天要准备什么对话？", vi:"Hôm nay bạn cần chuẩn bị cuộc nói chuyện nào?", th:"วันนี้จะเตรียมบทสนทนาเรื่องอะไร"},
   sitHouse:{ko:"집 계약", zh:"租房合同", vi:"Thuê nhà", th:"สัญญาเช่าบ้าน"},
   sitHouseSub:{ko:"월세, 보증금", zh:"月租、押金", vi:"Tiền thuê, tiền cọc", th:"ค่าเช่า เงินมัดจำ"},
-  sitWage:{ko:"월급·근로", zh:"工资·劳动", vi:"Lương & lao động", th:"ค่าจ้างและการทำงาน"},
-  sitWageSub:{ko:"임금, 근로계약", zh:"工资、劳动合同", vi:"Lương, hợp đồng lao động", th:"ค่าจ้าง สัญญาจ้าง"},
+  sitWage:{ko:"일터·직장", zh:"工作·职场", vi:"Nơi làm việc", th:"ที่ทำงาน"},
+  sitWageSub:{ko:"첫 출근, 근무 조건, 월급", zh:"第一天上班、工作条件、工资", vi:"Ngày đầu đi làm, điều kiện làm việc, lương", th:"วันแรกที่ทำงาน เงื่อนไขการทำงาน ค่าจ้าง"},
+  sitMarket:{ko:"시장·가게", zh:"市场·商店", vi:"Chợ, cửa hàng", th:"ตลาด·ร้านค้า"},
+  sitCar:{ko:"차 구매", zh:"买车", vi:"Mua xe", th:"ซื้อรถ"},
+  firstDay:{ko:"첫 출근·인사팀 상담", zh:"第一天上班·人事部门", vi:"Ngày đầu đi làm, gặp phòng nhân sự", th:"วันแรกที่ทำงาน·ฝ่ายบุคคล"},
+  sSpeed:{ko:"말하기 속도", zh:"语速", vi:"Tốc độ nói", th:"ความเร็วในการพูด"},
   sitHosp:{ko:"병원", zh:"医院", vi:"Bệnh viện", th:"โรงพยาบาล"},
   sitImm:{ko:"출입국·체류", zh:"出入境·居留", vi:"Xuất nhập cảnh, cư trú", th:"วีซ่าและการพำนัก"},
   soon:{ko:"곧 추가", zh:"即将推出", vi:"Sắp có", th:"เร็วๆ นี้"},
@@ -647,7 +652,6 @@ const U = {
   justNow:{ko:"방금", zh:"刚刚", vi:"Vừa xong", th:"เมื่อสักครู่"},
   sLang:{ko:"언어", zh:"语言", vi:"Ngôn ngữ", th:"ภาษา"},
   sSound:{ko:"한국어 음성", zh:"韩语语音", vi:"Giọng tiếng Hàn", th:"เสียงภาษาเกาหลี"},
-  sSlow:{ko:"천천히 말하기", zh:"慢速说话", vi:"Nói chậm", th:"พูดช้า"},
   sPriv:{ko:"개인정보", zh:"隐私", vi:"Quyền riêng tư", th:"ความเป็นส่วนตัว"},
   privN:{ko:"대화 원음은 저장하지 않아요. 내 정보는 휴대폰에만 저장돼요.", zh:"不保存对话原声。个人信息只保存在手机上。", vi:"Không lưu âm thanh gốc. Thông tin cá nhân chỉ lưu trên điện thoại.", th:"ไม่เก็บเสียงสนทนาต้นฉบับ ข้อมูลส่วนตัวเก็บไว้ในเครื่องเท่านั้น"},
   sVer:{ko:"버전", zh:"版本", vi:"Phiên bản", th:"เวอร์ชัน"},
@@ -764,7 +768,7 @@ const RP = {
              {good:false, ko:"아니요, 없어요.", zh:"没有了。", vi:"Không, không có gì.", th:"ไม่มีแล้ว", why:{ko:"전입신고와 확정일자가 보증금을 지켜 줘요.", zh:"迁入申报和确定日期可以保护你的押金。", vi:"Đăng ký chuyển đến và ngày xác nhận giúp bảo vệ tiền cọc của bạn.", th:"การแจ้งย้ายเข้าและวันที่รับรองช่วยคุ้มครองเงินมัดจำของคุณ"}}]},
     ],
     outro:{ko:"네, 가능해요. 그럼 계약서 쓰죠.", zh:"可以。那我们签合同吧。", vi:"Ừ, được. Vậy viết hợp đồng thôi.", th:"ได้ งั้นมาเซ็นสัญญากัน"}},
-  r2:{name:"김 사장님", initial:"김", role:{ko:"공장 사장님", zh:"拖欠工资的老板", vi:"Chủ xưởng chậm trả lương", th:"เจ้าของโรงงานที่จ่ายค่าจ้างช้า"}, sit:{ko:"밀린 월급 요청", zh:"讨要拖欠的工资", vi:"Đòi lương bị chậm", th:"ขอค่าจ้างที่ค้าง"}, checks:WAGE_CHECK,
+  r2:{name:"김 사장님", initial:"김", role:{ko:"사장님", zh:"拖欠工资的老板", vi:"Chủ chậm trả lương", th:"นายจ้างที่จ่ายค่าจ้างช้า"}, sit:{ko:"밀린 월급 요청", zh:"讨要拖欠的工资", vi:"Đòi lương bị chậm", th:"ขอค่าจ้างที่ค้าง"}, checks:WAGE_CHECK,
     script:[
       {ai:{ko:"이번 달 월급은 회사 사정이 어려워서 다음 달에 한꺼번에 줄게요.", zh:"公司最近困难，这个月的工资下个月一起发。", vi:"Lương tháng này công ty đang khó khăn, tháng sau tôi trả gộp một lần.", th:"บริษัทช่วงนี้ลำบาก เงินเดือนเดือนนี้จะจ่ายรวมกันเดือนหน้า"},
        opts:[{good:true, c:"w1", ko:"정확히 언제 주시는지 날짜를 문자로 보내 주세요.", zh:"请用短信把具体发工资的日期发给我。", vi:"Xin nhắn tin cho tôi ngày trả chính xác.", th:"ช่วยส่งวันที่จะจ่ายที่แน่นอนเป็นข้อความด้วย"},
@@ -791,11 +795,11 @@ const EXPLAIN = {ko:"저는 한국어가 서툴러서 통역 앱을 사용합니
 const S = {
   lang:"vi", uiKo:false, screen:"onboard", stack:[], sound:true, slow:false, sheet:null, full:false,
   checks:new Set(), live:{step:0, log:[], waiting:false, done:false, preview:null, hearing:false},
-  records:[], pins:new Set(["q1","q2","q5"]), rp:null, themVoice:true,
+  records:[], pins:new Set(["q1","q2","q5"]), rp:null, themVoice:true, rate:1,
 };
-try{ const s = JSON.parse(localStorage.getItem("tonghae-proto")||"{}"); if(LANGS[s.lang]) S.lang = s.lang; if(typeof s.uiKo==="boolean") S.uiKo = s.uiKo; if(s.onboarded) S.onboarded = true; }catch(e){}
+try{ const s = JSON.parse(localStorage.getItem("tonghae-proto")||"{}"); if(LANGS[s.lang]) S.lang = s.lang; if(typeof s.uiKo==="boolean") S.uiKo = s.uiKo; if(s.onboarded) S.onboarded = true; if([0.7,1,1.3].includes(s.rate)) S.rate = s.rate; }catch(e){}
 if(S.onboarded) S.screen = "home";
-function persist(){ try{ localStorage.setItem("tonghae-proto", JSON.stringify({lang:S.lang, uiKo:S.uiKo, onboarded:!!S.onboarded})); }catch(e){} }
+function persist(){ try{ localStorage.setItem("tonghae-proto", JSON.stringify({lang:S.lang, uiKo:S.uiKo, onboarded:!!S.onboarded, rate:S.rate})); }catch(e){} }
 
 const app = document.getElementById("app");
 const wrap = document.getElementById("screenWrap");
@@ -814,6 +818,8 @@ const ICON = {
   mic:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v3"/></svg>',
   ear:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8.5a6 6 0 0112 0c0 3.5-3 4.5-3 7.5a3 3 0 01-6 0"/><path d="M9.5 9a2.5 2.5 0 015 0"/></svg>',
   kbd:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"/></svg>',
+  bag:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M5 8h14l-1.2 12H6.2z"/><path d="M9 8V6a3 3 0 016 0v2"/></svg>',
+  car:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M3 15v-3l2-5h14l2 5v3z"/><circle cx="7.5" cy="16.5" r="1.8"/><circle cx="16.5" cy="16.5" r="1.8"/><path d="M5 12h14"/></svg>',
   house:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg>',
   won:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M7 9l1.5 6L10.5 10l2 5L14 9M6.5 12h8.5"/><circle cx="18" cy="12" r="1"/></svg>',
   cross:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M9 3h6v6h6v6h-6v6H9v-6H3V9h6z"/></svg>',
@@ -862,7 +868,7 @@ let speakId = 0, curUtter = null, soundWarned = false;
 function speak(text, opt={}){
   const id = ++speakId;
   const lang = opt.lang || "ko";
-  const rate = (opt.rate ?? 1) * (S.slow && lang==="ko" ? 0.8 : 1);
+  const rate = (opt.rate ?? 1) * (lang==="ko" && !opt.them ? S.rate : 1);   // the user's own lines follow the chosen speed
   showSpeaking(text, opt.label);
   let finished = false, t1 = null, t2 = null;
   const fin = () => {
@@ -975,8 +981,10 @@ VIEWS.home = () => {
   return `<main class="main">
   <div><p class="sub">${esc(S.uiKo ? u.ko + " 님, 안녕하세요" : u.hello)}</p><h2 class="big">${esc(L("homeQ"))}</h2></div>
   <div class="sit-grid">
-    <button class="sit" data-act="sit-house"><span class="ico">${ICON.house}</span><b>${esc(L("sitHouse"))}</b><span class="sub">${esc(L("sitHouseSub"))}</span></button>
     <button class="sit" data-act="sit-wage"><span class="ico">${ICON.won}</span><b>${esc(L("sitWage"))}</b><span class="sub">${esc(L("sitWageSub"))}</span></button>
+    <button class="sit" data-act="sit-house"><span class="ico">${ICON.house}</span><b>${esc(L("sitHouse"))}</b><span class="sub">${esc(L("sitHouseSub"))}</span></button>
+    <button class="sit" disabled><span class="ico">${ICON.bag}</span><b>${esc(L("sitMarket"))}</b><span class="tag soon">${esc(L("soon"))}</span></button>
+    <button class="sit" disabled><span class="ico">${ICON.car}</span><b>${esc(L("sitCar"))}</b><span class="tag soon">${esc(L("soon"))}</span></button>
     <button class="sit" disabled><span class="ico">${ICON.cross}</span><b>${esc(L("sitHosp"))}</b><span class="tag soon">${esc(L("soon"))}</span></button>
     <button class="sit" disabled><span class="ico">${ICON.pass}</span><b>${esc(L("sitImm"))}</b><span class="tag soon">${esc(L("soon"))}</span></button>
   </div>
@@ -1004,10 +1012,10 @@ VIEWS.prep = () => `<main class="main">
     <ul class="chk">${Object.keys(CHECK).map(k => chkItem(CHECK, k, S.checks.has(k))).join("")}</ul>
   </section>
   <section class="card">
-    <p class="eyebrow">${esc(L("script"))}</p>
+    <div class="row" style="justify-content:space-between"><p class="eyebrow">${esc(L("script"))}</p><span class="speed" role="group" aria-label="speed">${[0.7,1,1.3].map(r => `<button class="pill" data-act="rate" data-id="${r}" aria-pressed="${S.rate===r}">${r}×</button>`).join("")}</span></div>
     ${Object.entries(SCRIPT).map(([id,s]) => `<div class="line-card">
       <span class="ko">${esc(s.ko)}</span>
-      <span class="plays"><button class="play" data-act="say" data-id="${id}" aria-label="play">${ICON.play}</button><button class="play slow" data-act="say-slow" data-id="${id}" aria-label="slow">0.7×</button></span>
+      <span class="plays"><button class="play" data-act="say" data-id="${id}" aria-label="play">${ICON.play}</button></span>
       <span class="rom">${esc(s.rom)}</span>
       <span class="sub">${esc(N(s))}</span>
     </div>`).join("")}
@@ -1041,7 +1049,7 @@ VIEWS.live = () => {
     if(Lv.done) dock += `<button class="btn" data-act="to-summary">${esc(L("toSummary"))}</button>`;
     else dock += `<span class="label">${esc(L("suggested"))}</span>
     ${step.opts.map(id => { const s = SCRIPT[id]; return `<button class="reply" data-act="pick" data-id="${id}" ${busy?"disabled":""}><span class="ko">${esc(s.ko)}</span><span class="spk">${ICON.speak}</span><span class="nat">${esc(N(s))}</span></button>`; }).join("")}`;
-    dock += `<div class="chips"><button class="ear" data-act="hear-them" ${busy?"disabled":""}>${ICON.ear}${esc(L("hearThem"))}</button><button class="kb" data-act="type-them" ${busy?"disabled":""}>${ICON.kbd}${esc(L("typeShort"))}</button>${QUICK.filter(q => S.pins.has(q.id)).map(q => `<button data-act="quick" data-id="${q.id}" ${busy?"disabled":""}>${esc(q.ko)}</button>`).join("")}</div>
+    dock += `<div class="chips"><button class="ear" data-act="hear-them" ${busy?"disabled":""}>${ICON.ear}${esc(L("hearThem"))}</button><button class="kb" data-act="type-them" ${busy?"disabled":""}>${ICON.kbd}${esc(L("typeShort"))}</button><button class="kb" data-act="rate-cycle" aria-label="${esc(L("sSpeed"))}">${S.rate}×</button>${QUICK.filter(q => S.pins.has(q.id)).map(q => `<button data-act="quick" data-id="${q.id}" ${busy?"disabled":""}>${esc(q.ko)}</button>`).join("")}</div>
     <form class="inrow" data-form="me"><input id="meInput" autocomplete="off" placeholder="${esc(L("inputPh"))}" ${busy?"disabled":""}><button type="button" class="round" data-act="mic-me" aria-label="${esc(L("speakNative"))}" ${busy?"disabled":""}>${ICON.mic}</button><button class="send" ${busy?"disabled":""}>${esc(L("send"))}</button></form>`;
   }
   return `<div class="progress"><div class="segs">${keys.map(k => `<i class="${S.checks.has(k)?"on":""}"></i>`).join("")}</div>
@@ -1169,7 +1177,7 @@ VIEWS.settings = () => `<main class="main">
   <section class="card" style="padding-block:2px"><ul class="set-list">
     <li><span>${esc(L("sLang"))}</span><span class="row" style="gap:4px">${Object.entries(LANGS).map(([k,v]) => `<button class="pill" data-act="set-lang" data-id="${k}" aria-pressed="${S.lang===k}">${v.label}</button>`).join("")}</span></li>
     <li><span>${esc(L("sSound"))}</span><button class="switch" data-act="toggle-sound" aria-pressed="${S.sound}" aria-label="sound"></button></li>
-    <li><span>${esc(L("sSlow"))}</span><button class="switch" data-act="toggle-slow" aria-pressed="${S.slow}" aria-label="slow"></button></li>
+    <li><span>${esc(L("sSpeed"))}</span><span class="speed" role="group" aria-label="speed">${[0.7,1,1.3].map(r => `<button class="pill" data-act="rate" data-id="${r}" aria-pressed="${S.rate===r}">${r}×</button>`).join("")}</span></li>
     ${canInstall() ? `<li><span>${esc(L("install"))}</span><button class="pill" data-act="install">${esc(L("install"))}</button></li>` : ""}
     <li><span>${esc(L("voiceName"))}</span><span class="sub" style="text-align:right">${esc(VO.main ? VO.main.name.replace(/^(Microsoft|Google) /,"") : "-")}</span></li>
   </ul></section>
@@ -1189,6 +1197,7 @@ const SHEETS = {
   </div></div>`,
   wage: () => `<div class="sheet-back" data-act="sheet-close"><div class="sheet" data-stop>
     <h3>${esc(L("sitWage"))}</h3>
+    <button class="opt" disabled><b>${esc(L("firstDay"))}</b><span class="tag soon">${esc(L("soon"))}</span></button>
     <button class="opt" data-act="rp" data-id="r2"><span><b>${esc(L("lateWage"))}</b><br><span class="sub">${esc(L("withAI"))}</span></span>${ICON.chev}</button>
     <button class="opt" disabled><b>${esc(L("wContract"))}</b><span class="tag soon">${esc(L("soon"))}</span></button>
     <button class="opt" disabled><b>${esc(L("severance"))}</b><span class="tag soon">${esc(L("soon"))}</span></button>
@@ -1230,7 +1239,7 @@ function answer(){
     if(Lv.step >= STEPS.length) Lv.done = true;
     if(S.screen==="live") render();
   };
-  if(S.themVoice && S.screen==="live") speak(r.ko, {voice:VO.other, pitch:0.9, label:L("themSpeaking"), onend:commit});
+  if(S.themVoice && S.screen==="live") speak(r.ko, {voice:VO.other, pitch:0.9, them:true, label:L("themSpeaking"), onend:commit});
   else commit();
 }
 function quick(id){
@@ -1243,7 +1252,7 @@ function quick(id){
     if(id==="q3") Lv.log.push({who:"them", ko:"네, 천천히 보세요.", zh:"好的，您慢慢看。", vi:"Vâng, cứ từ từ xem.", th:"ได้ ค่อยๆ ดูนะ"});
     else if(lastThem && (id==="q1"||id==="q2")) Lv.log.push({...lastThem});
     else Lv.log.push({who:"them", ko:"네.", zh:"好的。", vi:"Vâng.", th:"ได้"});
-    if(S.themVoice && S.screen==="live") speak(Lv.log[Lv.log.length-1].ko, {voice:VO.other, pitch:0.9, label:L("themSpeaking")});
+    if(S.themVoice && S.screen==="live") speak(Lv.log[Lv.log.length-1].ko, {voice:VO.other, pitch:0.9, them:true, label:L("themSpeaking")});
     if(S.screen==="live") render();
   }, 600)});
 }
@@ -1332,7 +1341,7 @@ function startRP(id){
 }
 function aiSpeak(ko){
   S.rp.talking = true; render();
-  speak(ko, {voice:VO.other, pitch:0.9, label:L("themSpeaking"), onend: () => { if(S.rp){ S.rp.talking = false; if(S.screen==="call") render(); } }});
+  speak(ko, {voice:VO.other, pitch:0.9, them:true, label:L("themSpeaking"), onend: () => { if(S.rp){ S.rp.talking = false; if(S.screen==="call") render(); } }});
 }
 function rpPick(i){
   const R = S.rp, o = R.sugg[i], c = RP[R.id];
@@ -1361,13 +1370,13 @@ app.addEventListener("click", e => {
     case "install": doInstall(); break;
     case "set-lang": S.lang = id; persist(); render(); break;
     case "toggle-sound": S.sound = !S.sound; if(!S.sound) stopSpeech(); render(); break;
-    case "toggle-slow": S.slow = !S.slow; render(); break;
+    case "rate": S.rate = Number(id); persist(); render(); break;
+    case "rate-cycle": S.rate = S.rate===0.7 ? 1 : S.rate===1 ? 1.3 : 0.7; persist(); render(); toast(L("sSpeed") + " " + S.rate + "×"); break;
     case "sit-house": S.sheet = {type:"house", mode:"face"}; render(); break;
     case "sit-wage": S.sheet = {type:"wage"}; render(); break;
     case "mode": S.sheet.mode = id; render(); break;
     case "sheet-close": S.sheet = null; render(); break;
     case "say": speak(SCRIPT[id].ko); break;
-    case "say-slow": speak(SCRIPT[id].ko, {rate:0.7}); break;
     case "say-text": speak(b.dataset.text); break;
     case "start-live": go("live"); S.full = true; render(); break;
     case "pick": if(SCRIPT[id].amounts){ S.sheet = {type:"amounts", id}; render(); } else sayLine(id); break;
