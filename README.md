@@ -6,6 +6,17 @@
 
 휴대폰에서 열고 "홈 화면에 설치"를 누르면 앱처럼 설치됩니다. iPhone은 Safari 공유 버튼에서 "홈 화면에 추가"를 고르세요.
 
+## 화면 미리보기
+모바일 화면(390×844) 캡처입니다. 베트남어 사용자로 설정한 모습이고, 이름과 체류 정보는 예시입니다.
+
+| 소개 | 홈 | 준비 |
+|:---:|:---:|:---:|
+| <img src="screenshots/01-intro.png" width="220" alt="소개 화면"> | <img src="screenshots/02-home.png" width="220" alt="홈 화면"> | <img src="screenshots/03-prep.png" width="220" alt="준비 화면: 필수 체크리스트"> |
+
+| 현장 | 정리 | 연습 |
+|:---:|:---:|:---:|
+| <img src="screenshots/04-live.png" width="220" alt="현장 모드"> | <img src="screenshots/05-summary.png" width="220" alt="정리 화면: 합의 금액과 놓친 항목"> | <img src="screenshots/06-practice.png" width="220" alt="연습 화면: 롤플레이 선택"> |
+
 ## 할 수 있는 것
 - **준비:** 상황별 필수 체크리스트와 한국어 대본(모국어 뜻·발음)을 0.7·1·1.3배속 음성으로 듣기
 - **현장:** 추천 문장을 누르거나 모국어로 말하면 한국어로 대신 말하기, 상대방의 한국어는 모국어로 번역, 체크리스트 진행 표시와 아직 확인하지 않은 질문 추천
@@ -27,5 +38,6 @@
 | `manifest.webmanifest` | 앱 이름·아이콘·바로가기 (홈 화면 설치용) |
 | `sw.js` | 오프라인 캐시 |
 | `icons/`, `og.png` | 앱 아이콘, 링크 미리보기 이미지 |
+| `screenshots/` | README용 화면 캡처 |
 
 2026 모두의 AI 실험실 AI 서비스 개발 프로젝트 제출용으로 만들었습니다.
