@@ -1,6 +1,6 @@
 // Offline cache for the Tonghae app shell.
 // Bump VERSION whenever index.html or the icons change so installed apps pick up the update.
-const VERSION = "tonghae-v17";
+const VERSION = "tonghae-v18";
 const SHELL = [
   "./",
   "./index.html",
@@ -48,7 +48,12 @@ self.addEventListener("fetch", e => {
   // Pages: network first so updates show up, cache when offline.
   if (req.mode === "navigate") {
     e.respondWith(
-      fetch(req).then(res => { const copy = res.clone(); caches.open(VERSION).then(c => c.put("./index.html", copy)); return res; })
+      fetch(req).then(res => {
+        // Only the app page itself refreshes the cached shell (not privacy.html or a 404 page).
+        const isShell = url.pathname === new URL("./", self.registration.scope).pathname || url.pathname.endsWith("/index.html");
+        if (res.ok && isShell) { const copy = res.clone(); caches.open(VERSION).then(c => c.put("./index.html", copy)); }
+        return res;
+      })
         .catch(() => caches.match("./index.html"))
     );
     return;
