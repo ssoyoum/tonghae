@@ -4,6 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>통해 앱 소개 · 통해 앱 프로토타입</title>
+<link rel="icon" type="image/png" href="icons/favicon-64.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="theme-color" content="#6C4CF1">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=IBM+Plex+Mono:wght@500&family=Noto+Sans+Khmer:wght@400;500;700&family=Noto+Sans+KR:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Sans+Thai:wght@400;500;700&display=swap">
@@ -11,10 +14,10 @@
 /* Light-only app mockup: reviewer controls on top, one phone below. */
 :root{
   color-scheme:light;
-  --page:#e4e9e6; --surface:#ffffff; --surface-2:#f1f4f3; --ink:#13212a; --muted:#5b6b73; --line:#dde4e1;
-  --accent:#0d6b5e; --accent-ink:#ffffff; --accent-soft:#e0f0eb;
+  --page:#efebfa; --surface:#ffffff; --surface-2:#f5f3fc; --ink:#13212a; --muted:#5b6b73; --line:#e1dcf0;
+  --accent:#6C4CF1; --accent-ink:#ffffff; --accent-soft:#EFEAFF;
   --hl:#ffe27a; --danger:#bf3a2e; --danger-soft:#fdecea; --ok:#2b7a48;
-  --call-bg:#0e1c20; --call-2:#1a3533; --call-ink:#eef5f4; --call-muted:#9fb6b3;
+  --call-bg:#17112e; --call-2:#2a2150; --call-ink:#f1eeff; --call-muted:#b4acd6;
   --f-brand:"Black Han Sans","Noto Sans KR",sans-serif;
   --f-body:"Noto Sans KR","Noto Sans SC","Noto Sans Thai","Noto Sans Khmer","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
   --f-mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
@@ -39,7 +42,7 @@ button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .jumps button:hover{background:var(--surface);color:var(--ink)}
 
 /* phone */
-.phone{position:relative;width:390px;height:844px;max-width:100%;background:#0b0f11;border-radius:54px;padding:12px;box-shadow:0 30px 70px -30px rgba(10,30,30,.45)}
+.phone{position:relative;width:390px;height:844px;max-width:100%;background:#0b0f11;border-radius:54px;padding:12px;box-shadow:0 30px 70px -30px rgba(30,20,70,.45)}
 .screen-wrap{position:relative;width:100%;height:100%;background:var(--surface);border-radius:43px;overflow:hidden;display:flex;flex-direction:column}
 .island{position:absolute;top:11px;left:50%;transform:translateX(-50%);width:118px;height:34px;background:#0b0f11;border-radius:20px;z-index:50}
 .status{height:52px;flex:none;display:flex;align-items:flex-end;justify-content:space-between;padding:0 30px 6px;font-size:14px;font-weight:700;font-family:-apple-system,"Segoe UI",sans-serif;z-index:5}
@@ -235,7 +238,7 @@ h2.big{font-size:23px;line-height:1.3;margin:0;text-wrap:balance}
 .call-top .rec{display:inline-flex;align-items:center;gap:6px;font-family:var(--f-mono)}
 .call-top .rec i{width:8px;height:8px;border-radius:50%;background:#ff5d4f}
 .ava{width:108px;height:108px;border-radius:50%;display:grid;place-items:center;font-family:var(--f-body);font-weight:700;font-size:40px;background:linear-gradient(160deg,#2b5f58,#173b38);color:#d8f1ec;border:3px solid rgba(255,255,255,.12);flex:none;transition:box-shadow .2s}
-.ava.talk{box-shadow:0 0 0 6px rgba(59,181,159,.28),0 0 0 14px rgba(59,181,159,.1)}
+.ava.talk{box-shadow:0 0 0 6px rgba(62,230,193,.28),0 0 0 14px rgba(62,230,193,.1)}
 .call-who{display:flex;flex-direction:column;align-items:center;gap:8px;padding:2px 16px 6px;text-align:center}
 .call-who b{font-size:17px}
 .call-who span{font-size:12.5px;color:var(--call-muted)}
@@ -243,14 +246,14 @@ h2.big{font-size:23px;line-height:1.3;margin:0;text-wrap:balance}
 .caption .ko{font-size:17px;font-weight:500;line-height:1.45}
 .caption .sub{color:var(--call-muted)}
 .call-hist{flex:1;overflow-y:auto;padding:10px 16px;display:flex;flex-direction:column;gap:6px;font-size:12.5px;color:var(--call-muted);min-height:0}
-.call-hist .me{align-self:flex-end;background:rgba(59,181,159,.22);color:var(--call-ink);border-radius:12px;padding:6px 10px;max-width:85%}
+.call-hist .me{align-self:flex-end;background:rgba(62,230,193,.22);color:var(--call-ink);border-radius:12px;padding:6px 10px;max-width:85%}
 .call-hist .ai{align-self:flex-start;max-width:85%}
 .call-dock{padding:10px 14px 30px;display:flex;flex-direction:column;gap:8px;background:rgba(0,0,0,.28)}
 .call-dock .lbl{font-size:12px;color:var(--call-muted);display:flex;justify-content:space-between;align-items:center}
 .call-dock .lbl button{border:1px solid rgba(255,255,255,.2);background:transparent;color:var(--call-ink);border-radius:999px;padding:3px 10px;font-size:12px}
 .sugg{border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.06);color:var(--call-ink);border-radius:14px;padding:9px 12px;text-align:left;display:flex;flex-direction:column;gap:1px;width:100%}
 .sugg .sub{color:var(--call-muted);font-size:12.5px}
-.sugg:hover{border-color:#3bb59f}
+.sugg:hover{border-color:#3EE6C1}
 .hang{border:0;background:#d6453a;color:#fff;border-radius:999px;padding:11px;font-weight:700;width:100%}
 .score{font-family:var(--f-brand);font-size:58px;color:var(--accent);line-height:1}
 .inrow{display:flex;gap:6px}
@@ -269,7 +272,7 @@ h2.big{font-size:23px;line-height:1.3;margin:0;text-wrap:balance}
 .call .rec-card{background:rgba(255,93,79,.12);border-color:#ff5d4f;color:var(--call-ink)}
 .call .rec-card .sub{color:var(--call-muted)}
 .call .rec-card .btn.line{color:var(--call-ink);border-color:rgba(255,255,255,.3)}
-.rp-mic{border:1px solid #3bb59f;background:rgba(59,181,159,.15);color:var(--call-ink);border-radius:999px;padding:10px;font-weight:700;display:flex;gap:8px;justify-content:center;align-items:center;width:100%}
+.rp-mic{border:1px solid #3EE6C1;background:rgba(62,230,193,.15);color:var(--call-ink);border-radius:999px;padding:10px;font-weight:700;display:flex;gap:8px;justify-content:center;align-items:center;width:100%}
 .rp-mic svg{width:18px;height:18px}
 .heard{font-size:12.5px;color:var(--call-muted)}
 .listen{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:3px 9px;font-size:11.5px;color:var(--muted);display:inline-flex;gap:4px;align-items:center;align-self:flex-start;margin-top:3px}
@@ -297,7 +300,7 @@ h2.big{font-size:23px;line-height:1.3;margin:0;text-wrap:balance}
 .demo-line .tr{display:grid;grid-template-columns:auto 1fr;gap:6px 12px;font-size:13.5px;color:var(--call-muted);margin:0}
 .demo-line .tr dt{font-weight:700;color:var(--call-ink)}
 .demo-line .tr dd{margin:0}
-.demo-line button{border:0;border-radius:999px;background:#3bb59f;color:#06201b;font-weight:700;padding:11px 16px;display:inline-flex;gap:8px;align-items:center;align-self:flex-start}
+.demo-line button{border:0;border-radius:999px;background:#3EE6C1;color:#06201b;font-weight:700;padding:11px 16px;display:inline-flex;gap:8px;align-items:center;align-self:flex-start}
 .demo-line button svg{width:16px;height:16px}
 .demo-line button[disabled]{opacity:.6}
 .i-sec h2{font-size:24px;margin:0 0 6px;text-wrap:balance}
@@ -336,7 +339,7 @@ h2.big{font-size:23px;line-height:1.3;margin:0;text-wrap:balance}
 .i-end{background:var(--ink);color:#fff;border-radius:24px;padding:32px;display:flex;flex-wrap:wrap;gap:16px 24px;align-items:center;justify-content:space-between}
 .i-end h2{margin:0;font-size:24px}
 .i-end p{margin:4px 0 0;color:#c8d3d6}
-.i-end .btn-lg{background:#3bb59f;color:#06201b}
+.i-end .btn-lg{background:#3EE6C1;color:#06201b}
 .back-intro{border:0;background:transparent;color:var(--muted);font-size:12.5px;padding:4px 8px;border-radius:8px;text-decoration:underline}
 
 /* ---- 돈의 흐름 (MF) ---- */
@@ -348,7 +351,7 @@ h2.big{font-size:23px;line-height:1.3;margin:0;text-wrap:balance}
 @keyframes mfflow{to{stroke-dashoffset:-16}}
 .mf-core{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:132px;height:132px;border-radius:50%;background:var(--call-bg);color:var(--call-ink);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:2px;box-shadow:0 0 0 10px var(--accent-soft)}
 .mf-core b{font-size:16px}.mf-core span{font-size:11.5px;color:var(--call-muted);line-height:1.35}
-.mf-node{position:absolute;transform:translate(-50%,-50%);width:22%;min-width:136px;text-align:left;border:1.5px solid var(--line);background:var(--surface);border-radius:16px;padding:10px 12px;display:flex;flex-direction:column;gap:1px;box-shadow:0 6px 18px -12px rgba(10,30,30,.4);transition:border-color .15s,transform .15s,box-shadow .15s}
+.mf-node{position:absolute;transform:translate(-50%,-50%);width:22%;min-width:136px;text-align:left;border:1.5px solid var(--line);background:var(--surface);border-radius:16px;padding:10px 12px;display:flex;flex-direction:column;gap:1px;box-shadow:0 6px 18px -12px rgba(30,20,70,.4);transition:border-color .15s,transform .15s,box-shadow .15s}
 .mf-node:hover{border-color:var(--c);transform:translate(-50%,-50%) scale(1.03)}
 .mf-node[aria-pressed="true"]{border-color:var(--c);background:color-mix(in srgb,var(--c) 8%,var(--surface));box-shadow:0 0 0 3px color-mix(in srgb,var(--c) 22%,transparent)}
 .mf-node .k{font-size:11.5px;font-weight:700;color:var(--c)}
@@ -555,7 +558,7 @@ details.dd ul,details.dd ol{margin:8px 0 0;padding-left:18px;font-size:13px;line
         <div class="mf-legend" aria-hidden="true">
           <span><i style="color:#b45309"></i>안 들어온 돈</span>
           <span><i style="color:#bf3a2e"></i>새는 돈·위험</span>
-          <span><i style="color:#0d6b5e"></i>빠져나가는 돈</span>
+          <span><i style="color:#6C4CF1"></i>빠져나가는 돈</span>
           <span><i style="color:#5b6b73"></i>지원 돈</span>
         </div>
       </div>
@@ -668,7 +671,7 @@ const NODES = {
      series:{unit:"억원", data:[["2022",68.95],["2023",71.08],["2024\n정부안",0]],
        note:"사례 68 기준. 국회 신규 편성 18억원(지자체당 연 2억원 한도, 9개 지자체 선정)은 사례 67입니다."},
      resp:[["도움 기관 목록에 '운영 여부 확인 날짜'를 표시","제안"],["센터 협력 시 예산이 바뀌어도 쓸 수 있게 1350·1345 같은 상시 번호를 함께 안내","제안"]]},
-  C:{key:"본국 송금", fig:"35.6억 달러", sub:"2025년 은행 경유", c:"#0d6b5e", dir:"out", x:648, y:92, nums:[40,50,35,37,42,43,58],
+  C:{key:"본국 송금", fig:"35.6억 달러", sub:"2025년 은행 경유", c:"#6C4CF1", dir:"out", x:648, y:92, nums:[40,50,35,37,42,43,58],
      head:"가족에게 가는 돈", big:"35.6억 달러",
      text:"2025년 외국인 근로자의 은행 경유 해외송금액은 35억5,700만달러(약 4조8,200억원)로 2022년보다 15% 늘었습니다. 한패스는 2026년 10월 한 달에 4,600억원(64만건)을 처리했습니다.",
      series:{unit:"억 달러", data:[["2022",30.91],["2025",35.57]],
@@ -689,7 +692,7 @@ const NODES = {
   B:{key:"브로커·송출 비용", fig:"62만원", sub:"월급 206만원 중 수수료(사례)", c:"#bf3a2e", dir:"out", x:112, y:408, nums:[55,54],
      head:"월급에서 먼저 빠지는 돈", big:"월급의 30%",
      text:"필리핀 계절근로자 사례에서 월급 206만원 중 숙식·보험 공제 60만원, 브로커 수수료 62만원이 빠지고 84만원이 남았습니다. 양구 사건에서는 1,017명에게서 약 20억원을 걷은 혐의가 있고, 실제로는 무료인 비자 연장에 약 70만원을 받았습니다.",
-     stack:[["숙식·보험 공제",60,"#5b6b73"],["브로커 수수료",62,"#bf3a2e"],["실수령",84,"#0d6b5e"]],
+     stack:[["숙식·보험 공제",60,"#5b6b73"],["브로커 수수료",62,"#bf3a2e"],["실수령",84,"#6C4CF1"]],
      note:"사례 55 기준. 통해의 현재 지원 언어(중국어·베트남어·태국어)와 다른 국적 사례지만, 월급에서 따로 새는 구조를 보여줍니다.",
      resp:[["위험 신호 후보: '출국 전 수수료·대출 계약', '무료 절차에 비용 요구'","제안"],["아래 '내 월급은 어디로 가나요'로 손에 남는 돈 확인","이 페이지에 구현"]]}
 };
@@ -767,7 +770,7 @@ function calc(){
   else msg = `<div class="mf-msg">월급에서 따로 빠지는 수수료가 없습니다. 월급 명세서의 공제 항목이 계약서와 같은지 확인하세요.</div>`;
   $("mfOut").innerHTML = `<div class="mf-big">손에 남는 돈 <b>${bad ? "—" : fmt(net)+"만원"}</b>${!bad && t>0 ? ` <span style="color:var(--muted)">(월급의 ${pct(net)}%)</span>` : ""}</div>
     <div class="mf-stack" role="img" aria-label="월급 구성">${bad ? "" : seg(d,"s1")+seg(f,"s2")+seg(net,"s3")}</div>
-    <div class="mf-rows"><i style="background:#5b6b73"></i><span>숙식·보험 공제</span><b>${fmt(d)}만원</b><i style="background:#bf3a2e"></i><span>수수료·대출 상환</span><b>${fmt(f)}만원</b><i style="background:#0d6b5e"></i><span>손에 남는 돈</span><b>${bad ? "—" : fmt(net)+"만원"}</b></div>
+    <div class="mf-rows"><i style="background:#5b6b73"></i><span>숙식·보험 공제</span><b>${fmt(d)}만원</b><i style="background:#bf3a2e"></i><span>수수료·대출 상환</span><b>${fmt(f)}만원</b><i style="background:#6C4CF1"></i><span>손에 남는 돈</span><b>${bad ? "—" : fmt(net)+"만원"}</b></div>
     ${msg}
     <p class="mf-note" style="margin:0">참고용 계산입니다. 세금·4대보험 등 법으로 정해진 공제의 정확한 금액은 월급 명세서로 확인하세요.</p>`;
 }
