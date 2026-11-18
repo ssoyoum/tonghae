@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>통해 개인정보처리방침</title>
 <link rel="icon" type="image/png" href="icons/favicon-64.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <meta name="theme-color" content="#6C4CF1">
+<title>통해 개인정보처리방침</title>
 <style>
   :root { --bg:#fff; --fg:#1b1f24; --muted:#5b6470; --line:#e3e6ea; }
   @media (prefers-color-scheme: dark) { :root { --bg:#111418; --fg:#e8eaed; --muted:#a0a8b3; --line:#2a2f36; } }
@@ -22,7 +22,7 @@
 <body>
 <main>
 <h1>통해(Tonghae) 개인정보처리방침</h1>
-<p class="muted">시행일: 2026년 11월 14일 (이전 판: 11월 9일, 11월 5일) · 운영: 통해 팀(대표 박소영)</p>
+<p class="muted">시행일: 2026년 11월 18일 (이전 판: 11월 16일, 11월 14일, 11월 9일, 11월 5일) · 운영: 통해 팀(대표 박소영)</p>
 
 <p>통해는 한국에 사는 이주민이 생활 대화를 준비하고, 현장에서 상대의 말을 모국어로 확인하도록 돕는 앱입니다. 통해는 회원가입이 없고, 이름·전화번호·위치 같은 개인정보를 모으지 않습니다.</p>
 
@@ -32,6 +32,7 @@
   <tr><td>음성</td><td>마이크 버튼을 누른 동안만, 말을 글자로 바꾸기 위해 휴대폰의 음성 인식 기능(Apple 또는 Google)이 처리합니다. 통해 서버로는 음성을 보내지 않습니다.</td><td>통해는 저장하지 않음</td></tr>
   <tr><td>대화 문장(글자)</td><td>외부 AI 전송에 동의한 뒤, 번역·다음 할 말 추천·금액 확인, 그리고 AI 연습 상대의 대답·AI 대화 정리를 위해 통해 서버로 보냅니다. 서버는 번역을 Microsoft Azure Translator로, 다음 할 말 추천·확인할 내용 판별·연습 상대 대답·대화 정리를 aitestbed.kr AI 게이트웨이를 거쳐 AI 모델(Anthropic Claude)로 보냅니다. 서버가 없거나 실패하면 앱이 무료 번역 서비스(MyMemory)로 직접 보냅니다.</td><td>통해 서버는 대화 내용을 저장하지 않음</td></tr>
   <tr><td>사용 기록</td><td>서비스 안정성과 비용 관리를 위해 요청 시각, 상황 종류, 언어, 응답 시간, 사용 토큰 수만 기록합니다. 대화 내용과 IP 주소는 기록하지 않습니다.</td><td>프로젝트 종료 후 삭제</td></tr>
+  <tr><td>익명 기기 표시</td><td>앱이 처음 서버를 쓸 때 휴대폰 안에서 무작위 값을 하나 만들어, 서버 요청에 함께 보냅니다. 이름·전화번호·광고 ID와 연결되지 않습니다. 서버는 한 사람이 하루에 AI를 너무 많이 쓰지 않도록 횟수를 세는 데만 쓰고, 이 값과 IP 주소는 바꾼 형태(해시)로 메모리에만 두며 기록하지 않습니다.</td><td>서버: 날짜가 바뀌면 삭제 · 휴대폰: 동의 철회·데이터 지우기 또는 앱 삭제 시 삭제</td></tr>
   <tr><td>앱 설정</td><td>고른 언어, 말하기 속도, 음량, 음성 선택은 휴대폰 안에만 저장합니다.</td><td>앱 삭제 시 함께 삭제</td></tr>
   <tr><td>저장한 기록</td><td>대화 정리 화면에서 '저장'을 누르면 날짜, 확인한 항목, 대화에서 나온 금액, 그리고 AI 정리를 받았다면 그 내용(요약·금액·날짜·다음 할 일)을 휴대폰 안에만 저장합니다(최대 30개). 서버로 보내지 않습니다.</td><td>설정 › 개인정보 › 동의 철회·데이터 지우기 또는 앱 삭제 시 삭제</td></tr>
 </table>
@@ -46,15 +47,26 @@
 </ul>
 <p>위의 경우 말고는 정보를 다른 곳에 제공하거나 판매하지 않습니다.</p>
 
-<h2>3. 주의해 주세요</h2>
+<h2>3. 국외 이전</h2>
+<p>AI 기능과 대체 번역을 위해 대화 문장(글자)이 아래와 같이 국외로 전송됩니다. 통해는 첫 실행 화면에서 이 내용을 모국어로 알리고 '동의하고 시작하기'로 동의를 받습니다(개인정보 보호법 제28조의8).</p>
+<table>
+  <tr><th>받는 곳 (국가)</th><th>보내는 정보</th><th>언제, 어떻게</th><th>목적</th><th>보유 기간</th></tr>
+  <tr><td>Anthropic (미국)</td><td>대화 문장(글자), 상황 종류, 언어</td><td>다음 할 말 추천·확인할 내용 판별·AI 연습·AI 대화 정리를 쓸 때마다, 통해 서버와 aitestbed.kr 게이트웨이를 거쳐 암호화 통신(https)으로</td><td>AI 응답 생성</td><td>통해는 저장하지 않음. 받는 곳의 보관은 해당 회사 정책을 따름</td></tr>
+  <tr><td>Translated S.r.l. · MyMemory (이탈리아)</td><td>번역할 문장(글자)</td><td>통해 서버를 쓸 수 없을 때만, 앱에서 암호화 통신(https)으로</td><td>대체 번역</td><td>통해는 저장하지 않음. 받는 곳의 보관은 해당 회사 정책을 따름</td></tr>
+</table>
+<p>Microsoft Azure Translator는 한국 중부 지역 리소스를 사용합니다. 휴대폰 음성 인식(Apple·Google)은 기기 설정에 따라 각 회사 서버에서 처리될 수 있으며, 각 회사의 개인정보 정책을 따릅니다.</p>
+<p><b>동의하지 않거나 철회하려면:</b> 설정 › 개인정보 › '동의 철회·데이터 지우기'를 누르면 휴대폰에 저장된 통해 정보가 모두 지워지고 첫 화면(동의 단계)으로 돌아갑니다. 동의하지 않으면 번역·AI 기능이 대화 문장을 보낼 수 없어 앱을 쓸 수 없습니다.</p>
+
+<h2>4. 이용 원칙과 주의</h2>
+<p><b>내가 직접 참여한 대화에만 써 주세요.</b> 다른 사람끼리 나누는 대화를 몰래 녹음·청취하거나 번역하는 데 쓰면 안 됩니다(통신비밀보호법 제3조). 상대에게는 앱의 안내 카드로 번역 앱을 쓰고 있다고 알려 주세요.</p>
 <p>주민등록번호, 외국인등록번호, 계좌 비밀번호처럼 민감한 정보는 말하거나 입력하지 마세요. 통해는 계약이나 법률 판단을 대신하지 않으며, 금액·날짜는 반드시 상대와 서류로 다시 확인해 주세요.</p>
 
-<h2>4. 아동</h2>
+<h2>5. 아동</h2>
 <p>통해는 만 14세 미만 아동을 대상으로 하지 않습니다.</p>
 
-<h2>5. 문의</h2>
+<h2>6. 문의</h2>
 <p>개인정보 관련 문의: ssoyoum.dev@gmail.com (통해 팀 대표 박소영)</p>
-<h2>6. 이 소개 페이지(ssoyoum.github.io/tonghae)</h2>
+<h2>7. 이 소개 페이지(ssoyoum.github.io/tonghae)</h2>
 <p>이 웹페이지는 서비스 소개·설치 안내용이며 대화 입력, 녹음, 번역 기능을 제공하지 않습니다. 호스팅 제공자(GitHub Pages)는 보안과 서비스 운영을 위해 접속 정보를 처리할 수 있습니다. 외부 출처 링크를 누르면 해당 사이트의 정책이 적용됩니다.</p>
 <p><a href="./">앱 소개로 돌아가기</a></p>
 <p class="muted">이 방침이 바뀌면 이 페이지에 시행일과 함께 알립니다.</p>
@@ -65,11 +77,14 @@
 <p>Tonghae has no sign-up and does not collect names, phone numbers, or location.</p>
 <ul>
   <li><b>Voice:</b> processed only while the mic button is on, by your phone's speech recognition (Apple or Google). Tonghae's server never receives audio.</li>
+  <li><b>Anonymous device tag:</b> the app makes one random value on your phone and sends it with server requests. It is not linked to your name, phone number, or advertising ID. The server uses it only to count how often one person uses AI features per day (a daily limit), keeps it and your IP address only in memory in hashed form, does not log them, and clears them every day.</li>
   <li><b>Conversation text:</b> after you agree to sending text to external AI, it goes to the Tonghae server for translation, suggested replies, and amount checks. The server sends it to Microsoft Azure Translator for translation, and through the aitestbed.kr AI gateway to an AI model (Anthropic Claude) for suggested replies and checks. If the server is unavailable, the app sends text directly to the MyMemory translation service. The server does not store conversation content.</li>
   <li><b>Saved records</b> (date, checked items, amounts from the conversation) stay on your device only, up to 30.</li>
   <li><b>Usage logs:</b> time, situation type, language, response time, and token counts only. No conversation content or IP addresses. Deleted after the project ends.</li>
   <li><b>Settings</b> (language, speed, volume, voice) stay on your device.</li>
 </ul>
+<p><b>Transfers abroad:</b> conversation text is sent to Anthropic (United States) for AI features, via the Tonghae server and the aitestbed.kr gateway, and, only when the server is unavailable, to MyMemory by Translated S.r.l. (Italy) for translation, over https. Tonghae stores none of it; each recipient's retention follows its own policy. Tonghae asks for your consent on the first screen ("Agree and start"). To withdraw, go to Settings › Privacy › Withdraw consent and delete data: everything Tonghae saved on your phone is deleted and the app returns to the consent screen.</p>
+<p><b>Use it only for conversations you take part in.</b> Secretly recording, listening to, or translating other people's conversations is prohibited under Korean law (Protection of Communications Secrets Act, Article 3). Tonghae does not give legal judgments.</p>
 <p>Please do not say or type sensitive data such as ID or account passwords. Contact: ssoyoum.dev@gmail.com</p>
 </div>
 </main>
