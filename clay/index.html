@@ -53,6 +53,10 @@
     .caption { height:2.7em; font-size:clamp(17px,5vw,22px); overflow-wrap:anywhere; }
     .foreign-caption { height:3.4em; font-size:clamp(12px,3.55vw,16px); line-height:1.7; overflow-wrap:anywhere; opacity:1; transition:opacity .16s ease; }
     .foreign-caption.is-changing { opacity:0; }
+    .copy { transition:opacity .2s ease, transform .3s cubic-bezier(.16,1,.3,1); }
+    .copy.is-changing { opacity:0; transform:translateY(6px); }
+    .reduced-motion .copy { transition:opacity .2s ease; }
+    .reduced-motion .copy.is-changing { transform:none; }
     .review-note { right:8px; bottom:max(4px,env(safe-area-inset-bottom)); max-width:calc(100% - 16px); font-size:8px; letter-spacing:0; }
     .progress { margin:0 4px 12px; }
     .actions { grid-template-columns:minmax(0,1fr) minmax(0,1.22fr) minmax(0,1fr); gap:6px; }
@@ -143,6 +147,7 @@
     const recordingMode = query.get('rec') === '1';
     if(recordingMode) player.classList.add('recording');
     const caption = document.getElementById('caption');
+    const copy = document.querySelector('.copy');
     const foreignCaption = document.getElementById('foreignCaption');
     const languageChips = [...document.querySelectorAll('.lang-chip')];
     const languageNames = { zh:'中文', vi:'Tiếng Việt', th:'ภาษาไทย', en:'English' };
@@ -348,7 +353,7 @@
       const confetti=[];const colors=['#ffd1e3','#b9e7ff','#d8c8ff','#fff0a9','#bdebcf'];for(let i=0;i<26;i++){const bit=roundedBox(.09,.15,.025,clay(colors[i%colors.length]),.015);bit.position.set(-2.6+(i%7)*.86,2.1+(i%5)*.65,-.15);bit.rotation.z=(i*.7)%Math.PI;propGroup.add(bit);confetti.push({bit,baseY:bit.position.y,speed:.22+(i%4)*.055,phase:i*.63});}
       propGroup.userData.ending={logo,confetti};
     }
-    function setupScene(index){
+    function setupScene(index, updateText=true){
       const data=scenes[index]; clearProps(); propGroup.userData={};background.material.color.set(data.theme);floor.material.color.set(data.theme);rug.material.color.set('#ffffff');
       if(data.set!=='ending') addClouds(data.accent);
       tongi.visible=true;human.visible=index!==0&&index!==7;tongi.position.set(-.72,0,0);human.position.set(.98,0,-.35);human.rotation.y=-.08;
@@ -362,17 +367,44 @@
       if(data.set==='ending'){tongi.position.set(-3.2,0,0);addEnding()}
       if(data.set==='hello'){addSign(index===5?'걱정 마세요!':'안녕하세요',data.accent);if(index===5){human.visible=true;human.position.set(1.0,0,-.34);addHearts()}}
       document.getElementById('endingOverlay').classList.toggle('show', data.set==='ending');
-      caption.textContent=data.caption;updateForeignCaption(index);sceneTitle.textContent=data.title;sceneNumber.textContent=`장면 ${index+1} / ${scenes.length}`;
+      if(updateText) updateSceneText(index);
     }
     let index=0, elapsed=0, playing=true, last=performance.now(), hintTimer=0;
+    let transition=null;
+    const easeOutBack=(value)=>{ const c1=1.70158, c3=c1+1; return 1+c3*Math.pow(value-1,3)+c1*Math.pow(value-1,2); };
+    const lerpColor=(from,to,amount)=>{ const a=new THREE.Color(from), b=new THREE.Color(to); return a.lerp(b,amount); };
+    function finishTransition(){
+      if(!transition) return;
+      root.position.set(0,0,0); root.scale.set(1,1,1);
+      stage.visible=true; actors.visible=true;
+      stage.position.set(0,0,0); actors.position.set(0,0,0);
+      stage.scale.set(1,1,1); actors.scale.set(1,1,1);
+      transition=null;
+    }
+    function updateSceneText(sceneIndex, immediate=false){
+      const data=scenes[sceneIndex];
+      const apply=()=>{ caption.textContent=data.caption; updateForeignCaption(sceneIndex); sceneTitle.textContent=data.title; sceneNumber.textContent=`장면 ${sceneIndex+1} / ${scenes.length}`; requestAnimationFrame(()=>copy.classList.remove('is-changing')); };
+      if(immediate || reducedMotion){ copy.classList.add('is-changing'); setTimeout(apply, immediate?0:200); }
+      else { copy.classList.add('is-changing'); setTimeout(apply,200); }
+    }
+    function beginSceneTransition(nextIndex){
+      finishTransition();
+      const previous=index;
+      const target=(nextIndex+scenes.length)%scenes.length;
+      if(reducedMotion){
+        index=target; elapsed=0; setupScene(index,false); updateSceneText(index); transition={start:performance.now(),duration:200,reduced:true,from:scenes[previous].theme,to:scenes[index].theme}; return;
+      }
+      transition={start:performance.now(),duration:500,phase:'out',target,from:scenes[previous].theme,to:scenes[target].theme};
+      copy.classList.add('is-changing');
+    }
     function updateButtons(){
       statusText.textContent=playing?'재생 중':'일시정지';
       playPause.textContent=playing?'❚❚ 일시정지':'▶ 재생';
       playPause.setAttribute('aria-label',playing?'일시정지':'재생');
     }
     function togglePlay(){ playing=!playing; if(playing) startMusic(); else stopMusic(); updateButtons(); showHint(playing?'재생합니다':'일시정지'); }
-    function goToScene(nextIndex){ index=(nextIndex+scenes.length)%scenes.length; elapsed=0; setupScene(index); popSound(); }
-    function restartPlayback(){ index=0;elapsed=0;playing=true;setupScene(index);startMusic();updateButtons();showHint('처음부터 재생합니다'); }
+    function goToScene(nextIndex){ beginSceneTransition(nextIndex); popSound(); }
+    function restartPlayback(){ finishTransition(); index=0;elapsed=0;playing=true;setupScene(index,false);updateSceneText(index,true);startMusic();updateButtons();showHint('처음부터 재생합니다'); }
     function showHint(text){ hint.textContent=text;hint.classList.add('show');clearTimeout(hintTimer);hintTimer=setTimeout(()=>hint.classList.remove('show'),850); }
     playPause.addEventListener('click',togglePlay);
     restart.addEventListener('click',restartPlayback);
@@ -446,15 +478,44 @@
     }
     function render(now){
       const delta=Math.min(.08,(now-last)/1000); last=now;
-      if(playing){ elapsed+=delta; const duration=sceneDuration(index); if(elapsed>=duration){ goToScene(index+1); } }
+      if(transition){
+        const age=now-transition.start;
+        const mix=Math.min(age/transition.duration,1);
+        background.material.color.copy(lerpColor(transition.from,transition.to,mix));
+        floor.material.color.copy(lerpColor(transition.from,transition.to,mix));
+        if(transition.reduced){
+          renderer.domElement.style.opacity=String(.72+.28*mix);
+          if(mix>=1){ renderer.domElement.style.opacity='1'; finishTransition(); }
+        } else if(transition.phase==='out'){
+          const out=Math.min(age/250,1);
+          const shrink=1-out*.08;
+          root.scale.setScalar(shrink); root.position.y=-out*.42;
+          if(out>=1){
+            index=transition.target; elapsed=0; setupScene(index,false); updateSceneText(index);
+            transition.phase='in'; transition.start=now;
+            root.scale.setScalar(.86); root.position.y=-.38;
+          }
+        } else {
+          const enter=Math.min(age/350,1);
+          const pop=easeOutBack(enter);
+          root.scale.setScalar(.86+.14*pop); root.position.y=-.38*(1-pop);
+          if(enter>=1) finishTransition();
+        }
+      } else if(playing){
+        elapsed+=delta;
+        const duration=sceneDuration(index);
+        if(elapsed>=duration) goToScene(index+1);
+      }
       const fitted=fitCameraToScene();
       const targetX=scenes[index].set==='ending'?0:fitted.x;
-      const targetZ=fitted.z+(reducedMotion?0:Math.sin(now*.00025)*.22);
+      const zoomLimit=Math.max(.02, fitted.z*.025);
+      const zoomAmount=reducedMotion||transition?0:Math.min(zoomLimit, fitted.z*.04*(elapsed/sceneDuration(index)));
+      const targetZ=fitted.z-zoomAmount;
       const follow=reducedMotion?.12:.026;
       camera.position.x+=(targetX-camera.position.x)*follow;camera.position.z+=(targetZ-camera.position.z)*(reducedMotion?.12:.02);camera.position.y+=(fitted.y-camera.position.y)*(reducedMotion?.12:.025);camera.lookAt(new THREE.Vector3(cameraTarget.x,fitted.y+.28,cameraTarget.z));
       animateActor(now/1000); progressBar.style.width=`${(elapsed/sceneDuration(index))*100}%`;renderer.render(world,camera);requestAnimationFrame(render);
     }
-    setupScene(0); updateLanguageChips(); updateButtons(); requestAnimationFrame(render);
+    setupScene(0,false); updateSceneText(0,true); updateLanguageChips(); updateButtons(); requestAnimationFrame(render);
   </script>
 </body>
 </html>
