@@ -1,0 +1,460 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#f7eaf4" />
+  <meta property="og:title" content="통해 — 중요한 대화, 함께" />
+  <meta property="og:description" content="낯선 한국 생활의 중요한 대화를 통이와 함께 준비해요. 중국어·베트남어·태국어·영어 자막." />
+  <meta property="og:image" content="https://ssoyoum.github.io/tonghae/og.png" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" href="https://ssoyoum.github.io/tonghae/icons/favicon-64.png" />
+  <title>통해 — 중요한 대화, 함께</title>
+  <style>
+    :root { --ink:#263348; --soft:#f7eaf4; --panel:rgba(255,255,255,.72); --line:rgba(38,51,72,.14); --blue:#89d7ee; --purple:#b7a0f4; --orange:#ffbe8f; --mint:#9ce1c0; }
+    * { box-sizing:border-box; }
+    html, body { margin:0; width:100%; min-height:100%; overflow-x:hidden; background:radial-gradient(circle at 15% 20%, #fff5fc 0 14%, transparent 33%), linear-gradient(145deg,#f7eaf4,#e5f6fb); color:var(--ink); font-family:system-ui,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif; }
+    body { min-height:100dvh; display:grid; place-items:center; overflow:hidden; }
+    .page { width:100%; max-width:100%; min-height:100dvh; display:grid; place-items:center; padding:clamp(0px,2vw,20px); overflow:hidden; }
+    .player { position:relative; display:flex; flex-direction:column; width:min(100%, 460px); height:min(100dvh, 820px); aspect-ratio:9/16; overflow:hidden; background:#dff3fb; border:2px solid rgba(255,255,255,.75); border-radius:clamp(0px,4vw,32px); box-shadow:0 24px 70px rgba(79,90,124,.25); isolation:isolate; }
+    .stage-view { position:relative; flex:1 1 auto; min-height:0; overflow:hidden; }
+    .stage-view canvas { display:block; width:100%; height:100%; touch-action:manipulation; }
+    .topbar { position:absolute; z-index:2; inset:0 0 auto; padding:max(14px,env(safe-area-inset-top)) 12px 8px; pointer-events:none; }
+    .badge-row { display:flex; justify-content:space-between; align-items:center; gap:6px; min-width:0; }
+    .language-chips { display:flex; gap:5px; margin-top:7px; max-width:100%; overflow-x:auto; padding:2px 1px 5px; pointer-events:auto; scrollbar-width:none; }
+    .language-chips::-webkit-scrollbar { display:none; }
+    .lang-chip { flex:0 0 auto; min-height:28px; padding:5px 9px; border:1px solid rgba(255,255,255,.86); border-radius:999px; background:rgba(255,255,255,.66); color:#536077; font:inherit; font-size:10px; font-weight:800; line-height:1; box-shadow:0 4px 12px rgba(57,78,101,.10); backdrop-filter:blur(12px); }
+    .lang-chip:hover { transform:none; background:rgba(255,255,255,.93); box-shadow:0 4px 12px rgba(57,78,101,.12); }
+    .lang-chip.is-active { background:#334a73; border-color:#334a73; color:#fff; }
+    .badge { display:inline-flex; align-items:center; gap:7px; border:1px solid rgba(255,255,255,.9); border-radius:999px; background:rgba(255,255,255,.7); box-shadow:0 5px 16px rgba(57,78,101,.12); padding:7px 11px; color:#34405a; font-size:12px; font-weight:800; backdrop-filter:blur(12px); }
+    .badge i { width:8px; height:8px; background:#84dbaa; border-radius:50%; box-shadow:0 0 0 3px rgba(132,219,170,.25); }
+    .controls { position:absolute; z-index:2; bottom:0; left:0; right:0; padding:42px 16px max(18px,env(safe-area-inset-bottom)); background:linear-gradient(transparent,rgba(27,39,61,.05) 16%,rgba(255,255,255,.92) 48%); }
+    .copy { text-align:center; padding:0 8px 18px; text-shadow:0 1px 0 rgba(255,255,255,.85); }
+    .scene-title { margin:0 0 6px; font-size:12px; font-weight:800; color:#626d82; letter-spacing:.02em; }
+    .caption { height:2.9em; margin:0; overflow:hidden; font-size:clamp(18px,5.2vw,24px); line-height:1.35; font-weight:900; letter-spacing:-.045em; word-break:keep-all; }
+    .foreign-caption { height:3.24em; margin:5px 0 0; overflow:hidden; color:#657187; font-size:clamp(13px,3.65vw,17px); font-weight:700; line-height:1.62; letter-spacing:-.015em; word-break:keep-all; }
+    .review-note { position:absolute; z-index:4; right:10px; bottom:max(5px,env(safe-area-inset-bottom)); margin:0; color:#7c8698; font-size:9px; font-weight:700; letter-spacing:.01em; pointer-events:none; }
+    .progress { height:7px; margin:0 5px 14px; overflow:hidden; border-radius:99px; background:rgba(61,80,105,.13); }
+    .progress > span { display:block; height:100%; width:0; border-radius:inherit; background:linear-gradient(90deg,var(--purple),var(--blue)); transition:width .12s linear; }
+    .actions { display:grid; grid-template-columns:1fr 1.25fr 1fr; gap:9px; }
+    button { min-height:45px; border:1px solid rgba(71,86,113,.13); border-radius:999px; background:rgba(255,255,255,.86); color:var(--ink); font:inherit; font-size:13px; font-weight:850; cursor:pointer; box-shadow:0 6px 16px rgba(66,78,103,.10); transition:transform .15s ease, background .15s ease, box-shadow .15s ease; }
+    button:hover { background:#fff; transform:translateY(-2px); box-shadow:0 9px 20px rgba(66,78,103,.16); }
+    button:active { transform:translateY(1px) scale(.97); box-shadow:none; }
+    button:focus-visible { outline:3px solid #6eafe2; outline-offset:2px; }
+    .primary { background:#334a73; color:#fff; border-color:#334a73; }
+    .primary:hover { background:#2b405f; }
+    .badge { gap:6px; min-width:0; white-space:nowrap; padding:6px 9px; font-size:11px; }
+    .badge i { width:7px; height:7px; flex:0 0 auto; }
+    .controls { position:relative; z-index:2; flex:0 0 auto; padding:26px 12px max(12px,env(safe-area-inset-bottom)); background:linear-gradient(to bottom,rgba(255,255,255,0) 0,rgba(255,255,255,.86) 24px,rgba(255,255,255,.96) 48px); }
+    .copy { padding:8px 8px 14px; border-radius:20px; background:rgba(255,255,255,.38); }
+    .scene-title { margin:0 0 5px; font-size:11px; color:#526075; }
+    .caption { height:2.7em; font-size:clamp(17px,5vw,22px); overflow-wrap:anywhere; }
+    .foreign-caption { height:3.4em; font-size:clamp(12px,3.55vw,16px); line-height:1.7; overflow-wrap:anywhere; opacity:1; transition:opacity .16s ease; }
+    .foreign-caption.is-changing { opacity:0; }
+    .review-note { right:8px; bottom:max(4px,env(safe-area-inset-bottom)); max-width:calc(100% - 16px); font-size:8px; letter-spacing:0; }
+    .progress { margin:0 4px 12px; }
+    .actions { grid-template-columns:minmax(0,1fr) minmax(0,1.22fr) minmax(0,1fr); gap:6px; }
+    .actions button { min-width:0; min-height:42px; padding:7px 5px; font-size:11px; white-space:nowrap; }
+    .hint { position:absolute; left:50%; top:51%; z-index:3; transform:translate(-50%,-50%); padding:10px 14px; border-radius:999px; background:rgba(255,255,255,.82); color:#59647a; font-size:12px; font-weight:750; opacity:0; pointer-events:none; transition:opacity .25s ease; white-space:nowrap; }
+    .hint.show { opacity:1; }
+    .ending-overlay { position:absolute; inset:0; z-index:1; pointer-events:none; opacity:0; transition:opacity .18s ease; }
+    .ending-overlay.show { opacity:1; }
+    .ending-bubble, .ending-chip { position:absolute; display:grid; place-items:center; border:1px solid rgba(255,255,255,.88); box-shadow:0 5px 13px rgba(57,78,101,.14); color:#263348; font-weight:900; white-space:nowrap; }
+    .ending-bubble { width:clamp(68px,20vw,88px); height:38px; border-radius:20px; font-size:clamp(11px,3.4vw,14px); animation:float 2.5s ease-in-out infinite; }
+    .ending-bubble::after { content:''; position:absolute; bottom:-6px; width:10px; height:10px; background:inherit; transform:rotate(45deg); border-right:1px solid rgba(255,255,255,.88); border-bottom:1px solid rgba(255,255,255,.88); }
+    .ending-bubble:nth-child(1){left:11%;top:34%;background:#ffdce9;animation-delay:.1s}.ending-bubble:nth-child(2){right:8%;top:34%;background:#d8f1ff;animation-delay:.3s}.ending-bubble:nth-child(3){left:11%;top:44%;background:#e7dcff;animation-delay:.5s}.ending-bubble:nth-child(4){right:8%;top:44%;background:#fff0c8;animation-delay:.7s}
+    .ending-chip { bottom:39%; width:70px; min-height:27px; border-radius:999px; background:rgba(255,255,255,.94); font-size:10px; }.ending-chip:nth-child(5){left:29%}.ending-chip:nth-child(6){right:29%}
+    .recording .topbar .badge-row > span:not(#sceneNumber), .recording .language-chips, .recording .hint, .recording .progress, .recording .actions { display:none; }
+    .recording .topbar { padding:8px; }
+    .recording #sceneNumber { padding:4px 7px; font-size:9px; opacity:.72; }
+    .recording .controls { padding:26px 12px max(12px,env(safe-area-inset-bottom)); background:linear-gradient(to bottom,rgba(255,255,255,0),rgba(255,255,255,.82) 24px,rgba(255,255,255,.92)); }
+    .sound-toggle { pointer-events:auto; min-height:28px; width:30px; padding:0; display:grid; place-items:center; font-size:13px; flex:0 0 auto; }
+    .recording .sound-toggle { display:none; }
+    .reduced-motion .ending-bubble { animation:none; }
+    .reduced-motion .foreign-caption { transition-duration:.01ms; }
+    .reduced-motion .progress > span { transition:none; }
+    .reduced-motion .stage-view canvas { transition:opacity .08s ease; }
+    @keyframes float { 50% { transform:translateY(-6px); } }
+    @media (max-width:380px) { .ending-chip:nth-child(5){left:23%}.ending-chip:nth-child(6){right:23%} }
+    @media (max-width:520px) { .page { padding:0; } .player { width:100%; height:100dvh; max-height:none; border-radius:0; border:0; } }
+    @media (prefers-reduced-motion:reduce) { *, *::before, *::after { scroll-behavior:auto!important; transition-duration:.01ms!important; } }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="player" id="player" aria-label="통해 3D 애니메이션">
+      <div class="stage-view" id="stageView"></div>
+      <div class="topbar">
+        <div class="badge-row">
+          <span class="badge" id="sceneNumber">장면 1 / 8</span>
+          <span class="badge" id="playbackBadge"><i id="statusDot"></i><span id="statusText">재생 중</span></span>
+          <button class="badge sound-toggle" id="soundToggle" type="button" aria-label="배경음 켜기" aria-pressed="false">🔇</button>
+        </div>
+        <div class="language-chips" role="group" aria-label="외국어 자막 선택">
+          <button class="lang-chip is-active" type="button" data-language="auto" aria-pressed="true">자동</button>
+          <button class="lang-chip" type="button" data-language="zh" aria-pressed="false">中文</button>
+          <button class="lang-chip" type="button" data-language="vi" aria-pressed="false">Tiếng Việt</button>
+          <button class="lang-chip" type="button" data-language="th" aria-pressed="false">ภาษาไทย</button>
+          <button class="lang-chip" type="button" data-language="en" aria-pressed="false">English</button>
+        </div>
+      </div>
+      <div class="hint" id="hint">화면을 눌러 일시정지</div>
+      <div class="ending-overlay" id="endingOverlay" aria-hidden="true">
+        <span class="ending-bubble">你好</span><span class="ending-bubble">Xin chào</span><span class="ending-bubble">สวัสดี</span><span class="ending-bubble">Hello</span>
+        <span class="ending-chip">4개 언어</span><span class="ending-chip">무료</span>
+      </div>
+      <p class="review-note">외국어 검수 전</p>
+      <div class="controls">
+        <div class="copy" aria-live="polite">
+          <p class="scene-title" id="sceneTitle">통이의 인사</p>
+          <p class="caption" id="caption">안녕하세요! 중요한 대화, 함께 준비해요.</p>
+          <p class="foreign-caption" id="foreignCaption" lang="zh">你好！重要的对话，我们一起准备。</p>
+        </div>
+        <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
+        <div class="actions">
+          <button id="restart" type="button" aria-label="처음부터 다시보기">↺ 다시보기</button>
+          <button id="playPause" class="primary" type="button" aria-label="일시정지">❚❚ 일시정지</button>
+          <button id="fullscreen" type="button" aria-label="전체화면">↗ 전체화면</button>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script type="module">
+    import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js';
+    const scenes = [
+      { title:'통이의 인사', caption:'안녕하세요! 중요한 대화, 함께 준비해요.', translations:{ zh:'你好！重要的对话，我们一起准备。', vi:'Xin chào! Cùng chuẩn bị cho những cuộc trò chuyện quan trọng.', th:'สวัสดี! มาเตรียมบทสนทนาสำคัญไปด้วยกันนะ', en:"Hello! Let's get ready for important conversations together." }, theme:'#dff5fb', accent:'#89d7ee', action:'wave', set:'hello' },
+      { title:'첫 출근의 걱정', caption:'월급날, 어떻게 물어보면 좋을까요?', translations:{ zh:'发工资的日子，该怎么问呢？', vi:'Nên hỏi về ngày nhận lương thế nào nhỉ?', th:'จะถามเรื่องวันเงินเดือนออกยังไงดีนะ?', en:'How should I ask about payday?' }, theme:'#f1eaff', accent:'#b7a0f4', action:'worry', set:'office' },
+      { title:'집 계약의 걱정', caption:'보증금과 관리비, 차근차근 확인해요.', translations:{ zh:'押金和管理费，一步一步确认。', vi:'Tiền đặt cọc và phí quản lý, kiểm tra từng bước một.', th:'เงินมัดจำและค่าส่วนกลาง ตรวจสอบทีละขั้น', en:'Deposit and maintenance fees, checked step by step.' }, theme:'#fff0df', accent:'#ffbe8f', action:'point', set:'home' },
+      { title:'시장 대화', caption:'"이거 얼마예요?" 자신 있게 물어봐요.', translations:{ zh:'"这个多少钱？"大胆地问吧。', vi:'"Cái này bao nhiêu tiền?" Cứ tự tin hỏi nhé.', th:'"อันนี้เท่าไหร่?" ถามได้อย่างมั่นใจ', en:'"How much is this?" Ask with confidence.' }, theme:'#e6f8ee', accent:'#9ce1c0', action:'talk', set:'market' },
+      { title:'차 구매 상담', caption:'복잡한 상담도 필요한 말을 바로 꺼내요.', translations:{ zh:'再复杂的咨询，也能马上说出需要的话。', vi:'Dù tư vấn phức tạp, vẫn nói ngay được điều cần nói.', th:'แม้การปรึกษาจะซับซ้อน ก็พูดสิ่งที่ต้องการได้ทันที', en:'Even in a complex consultation, say what you need right away.' }, theme:'#eaf2ff', accent:'#8fb9f5', action:'talk', set:'car' },
+      { title:'통이가 함께해요', caption:'걱정 마세요! 통해가 함께할게요.', translations:{ zh:'别担心！통해陪着你。', vi:'Đừng lo! 통해 luôn ở bên bạn.', th:'ไม่ต้องห่วง! 통해 อยู่ข้างคุณ', en:"Don't worry! 통해 is with you." }, theme:'#f9e8f1', accent:'#f19cc1', action:'comfort', set:'hello' },
+      { title:'대화 준비 기능', caption:'준비부터 현장 대화 연습까지, 통이와 함께.', translations:{ zh:'从准备到现场对话练习，和통이一起。', vi:'Từ chuẩn bị đến luyện hội thoại tại chỗ, cùng 통이.', th:'ตั้งแต่เตรียมตัวจนถึงฝึกพูดจริง ไปกับ 통이', en:'From preparing to practicing on the spot, with 통이.' }, theme:'#ebf8fb', accent:'#78cddd', action:'point', set:'phone' },
+      { title:'중요한 대화, 통해', caption:'통해. 중요한 대화, 통해와 함께.', translations:{ zh:'통해——重要的对话，一起面对。', vi:'통해 — Những cuộc trò chuyện quan trọng, cùng nhau.', th:'통해 — บทสนทนาสำคัญ ไปด้วยกัน', en:'통해 — Important conversations, together.' }, theme:'#edf0ff', accent:'#a9a8ed', action:'wave', set:'ending' }
+    ];
+    const sceneDuration = (sceneIndex) => sceneIndex === scenes.length - 1 ? 7 : 5;
+    const DURATION = 5;
+    const player = document.getElementById('player');
+    const stageView = document.getElementById('stageView');
+    const query = new URLSearchParams(window.location.search);
+    const supportedLanguages = ['zh','vi','th','en'];
+    const initialLanguage = query.get('lang');
+    const recordingMode = query.get('rec') === '1';
+    if(recordingMode) player.classList.add('recording');
+    const caption = document.getElementById('caption');
+    const foreignCaption = document.getElementById('foreignCaption');
+    const languageChips = [...document.querySelectorAll('.lang-chip')];
+    const languageNames = { zh:'中文', vi:'Tiếng Việt', th:'ภาษาไทย', en:'English' };
+    const autoLanguages = ['zh','vi','th','en'];
+    let selectedLanguage = supportedLanguages.includes(initialLanguage) ? initialLanguage : 'auto';
+    function updateLanguageAddress(){
+      const url = new URL(window.location.href);
+      if(selectedLanguage === 'auto') url.searchParams.delete('lang');
+      else url.searchParams.set('lang', selectedLanguage);
+      history.replaceState(null, '', `${url.pathname}${url.search}${url.hash}`);
+    }
+    function activeLanguage(sceneIndex){ return selectedLanguage === 'auto' ? autoLanguages[sceneIndex % autoLanguages.length] : selectedLanguage; }
+    function updateLanguageChips(){
+      languageChips.forEach((chip)=>{
+        const active = chip.dataset.language === selectedLanguage;
+        chip.classList.toggle('is-active',active);
+        chip.setAttribute('aria-pressed',String(active));
+      });
+    }
+    let captionTransition = 0;
+    function updateForeignCaption(sceneIndex){
+      const language = activeLanguage(sceneIndex);
+      const nextText = scenes[sceneIndex].translations[language];
+      clearTimeout(captionTransition);
+      foreignCaption.classList.add('is-changing');
+      captionTransition = setTimeout(()=>{
+        foreignCaption.textContent = nextText;
+        foreignCaption.lang = language;
+        foreignCaption.setAttribute('aria-label',`${languageNames[language]} 자막`);
+        requestAnimationFrame(()=>foreignCaption.classList.remove('is-changing'));
+      }, 165);
+    }
+    languageChips.forEach((chip)=>chip.addEventListener('click',()=>{
+      selectedLanguage = chip.dataset.language;
+      updateLanguageAddress();
+      updateLanguageChips();
+      updateForeignCaption(index);
+      showHint(selectedLanguage === 'auto' ? '장면마다 언어가 바뀝니다' : `${chip.textContent} 자막으로 고정`);
+    }));
+    const sceneTitle = document.getElementById('sceneTitle');
+    const sceneNumber = document.getElementById('sceneNumber');
+    const statusText = document.getElementById('statusText');
+    const progressBar = document.getElementById('progressBar');
+    const playPause = document.getElementById('playPause');
+    const restart = document.getElementById('restart');
+    const fullscreen = document.getElementById('fullscreen');
+    const hint = document.getElementById('hint');
+    const soundToggle = document.getElementById('soundToggle');
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(reducedMotion) document.documentElement.classList.add('reduced-motion');
+    let audioContext=null, masterGain=null, musicTimer=0, soundEnabled=false, chordStep=0;
+    const chords=[[261.63,329.63,392],[220,277.18,329.63],[174.61,220,261.63],[196,246.94,293.66]];
+    function ensureAudio(){
+      if(!audioContext){ audioContext=new (window.AudioContext||window.webkitAudioContext)(); masterGain=audioContext.createGain(); masterGain.gain.value=.055; masterGain.connect(audioContext.destination); }
+      if(audioContext.state==='suspended') audioContext.resume();
+    }
+    function playChord(){
+      if(!soundEnabled||!audioContext||!playing) return;
+      const start=audioContext.currentTime;
+      chords[chordStep++%chords.length].forEach((frequency,i)=>{const osc=audioContext.createOscillator(), gain=audioContext.createGain();osc.type='sine';osc.frequency.value=frequency;gain.gain.setValueAtTime(.0001,start);gain.gain.exponentialRampToValueAtTime(.10/(i+1),start+.22);gain.gain.exponentialRampToValueAtTime(.0001,start+2.9);osc.connect(gain).connect(masterGain);osc.start(start);osc.stop(start+3);});
+    }
+    function startMusic(){ clearInterval(musicTimer); if(soundEnabled&&playing){ playChord(); musicTimer=setInterval(playChord,3000); } }
+    function stopMusic(){ clearInterval(musicTimer); musicTimer=0; }
+    function popSound(){ if(!soundEnabled||!audioContext) return; const osc=audioContext.createOscillator(),gain=audioContext.createGain(),time=audioContext.currentTime;osc.type='sine';osc.frequency.setValueAtTime(740,time);osc.frequency.exponentialRampToValueAtTime(430,time+.12);gain.gain.setValueAtTime(.0001,time);gain.gain.exponentialRampToValueAtTime(.13,time+.01);gain.gain.exponentialRampToValueAtTime(.0001,time+.15);osc.connect(gain).connect(masterGain);osc.start(time);osc.stop(time+.16); }
+    function updateSoundButton(){ soundToggle.textContent=soundEnabled?'🔊':'🔇';soundToggle.setAttribute('aria-label',soundEnabled?'배경음 끄기':'배경음 켜기');soundToggle.setAttribute('aria-pressed',String(soundEnabled)); }
+    function setSound(next){ soundEnabled=next; if(next){ensureAudio();startMusic();}else stopMusic();updateSoundButton(); }
+    soundToggle.addEventListener('click',(event)=>{event.stopPropagation();setSound(!soundEnabled);});
+    const renderer = new THREE.WebGLRenderer({ antialias:true, alpha:true });
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    stageView.append(renderer.domElement);
+    const world = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(43, 9/16, .1, 100);
+    camera.position.set(0, 1.35, 12);
+    const cameraTarget = new THREE.Vector3(0, 1.1, 0);
+    const ambient = new THREE.HemisphereLight(0xffffff, 0x8597b6, 2.4);
+    world.add(ambient);
+    const key = new THREE.DirectionalLight(0xffffff, 2.9); key.position.set(-5, 8, 8); key.castShadow = true; key.shadow.mapSize.set(1024,1024); world.add(key);
+    const fill = new THREE.PointLight(0xffd8eb, 35, 16); fill.position.set(4, 3, 5); world.add(fill);
+    const root = new THREE.Group(); world.add(root);
+    const stage = new THREE.Group(); root.add(stage);
+    const actors = new THREE.Group(); root.add(actors);
+    const clay = (color) => new THREE.MeshStandardMaterial({ color, roughness:.76, metalness:0, flatShading:false });
+    const dark = clay('#24364b'); const white = clay('#ffffff'); const sky = clay('#88d8ef'); const blush = clay('#f3a8bc');
+    function orb(r, material, scale=[1,1,1]) { const mesh=new THREE.Mesh(new THREE.SphereGeometry(r,32,22), material); mesh.scale.set(...scale); mesh.castShadow=true; mesh.receiveShadow=true; return mesh; }
+    function roundedBox(w,h,d,material,r=.18) {
+      const mesh = new THREE.Mesh(new THREE.BoxGeometry(w,h,d), material);
+      mesh.castShadow=true; mesh.receiveShadow=true;
+      return mesh;
+    }
+    function limb(length, material) { const mesh=orb(.19, material,[.85,length/.38,.85]); return mesh; }
+    function makeTongi() {
+      const g = new THREE.Group();
+      const body = orb(1.08, sky,[1,1.05,.85]); body.position.y=1.25; g.add(body);
+      const eyeGroup = new THREE.Group(); eyeGroup.position.set(.20,1.53,.78);
+      [-.27,.27].forEach(x=>{ const eye=orb(.135,white,[.85,1.15,.7]); eye.position.x=x; eyeGroup.add(eye); const pupil=orb(.062,dark,[1,1, .5]); pupil.position.set(x+.02,-.015,.12); eyeGroup.add(pupil); }); g.add(eyeGroup);
+      const mouth = new THREE.Mesh(new THREE.TorusGeometry(.13,.032,10,18,Math.PI), dark); mouth.rotation.set(0,0,Math.PI); mouth.position.set(.2,1.08,.84); g.add(mouth);
+      const armL = limb(.78,sky); armL.position.set(-1.0,1.33,.04); armL.rotation.z=.45; g.add(armL);
+      const armR = limb(.78,sky); armR.position.set(1.0,1.33,.04); armR.rotation.z=-.45; g.add(armR);
+      const legL = limb(.55,sky); legL.position.set(-.43,.15,0); legL.rotation.z=.12; g.add(legL);
+      const legR = limb(.55,sky); legR.position.set(.43,.15,0); legR.rotation.z=-.12; g.add(legR);
+      g.userData={ body, eyeGroup, armL, armR, mouth }; return g;
+    }
+    function makeHuman(color='#f0c39b', shirt='#7da8df') {
+      const g=new THREE.Group(); const skin=clay(color); const cloth=clay(shirt);
+      const torso=roundedBox(.82,1.02,.44,cloth,.25); torso.position.y=1.0; g.add(torso);
+      const head=orb(.44,skin,[.92,1,.86]); head.position.y=1.86; g.add(head);
+      const hair=orb(.38,clay('#4c3e42'),[1,.42,.9]); hair.position.set(0,2.14,.03); g.add(hair);
+      const a1=limb(.62,skin);a1.position.set(-.58,1.27,0);a1.rotation.z=.28;g.add(a1);
+      const a2=limb(.62,skin);a2.position.set(.58,1.27,0);a2.rotation.z=-.28;g.add(a2);
+      const l1=limb(.73,clay('#60759b'));l1.position.set(-.24,.22,0);g.add(l1);const l2=limb(.73,clay('#60759b'));l2.position.set(.24,.22,0);g.add(l2);
+      const mouth=new THREE.Mesh(new THREE.TorusGeometry(.105,.024,8,16,Math.PI),dark);mouth.position.set(0,1.73,.39);g.add(mouth);
+      g.userData={head,a1,a2,torso,mouth}; return g;
+    }
+    const tongi=makeTongi(); tongi.position.set(-.55,0,0); actors.add(tongi);
+    const human=makeHuman(); human.position.set(2.7,0,-.45); actors.add(human);
+    const floorMat=clay('#e7eef5');
+    const floor=new THREE.Mesh(new THREE.CylinderGeometry(6,6,.28,64),floorMat); floor.position.y=-.3; floor.receiveShadow=true; stage.add(floor);
+    const rug=new THREE.Mesh(new THREE.CylinderGeometry(2.55,2.55,.06,64),clay('#ffffff'));rug.position.y=-.12;rug.receiveShadow=true;stage.add(rug);
+    const propGroup=new THREE.Group(); stage.add(propGroup);
+    const background = new THREE.Mesh(new THREE.PlaneGeometry(15,15), new THREE.MeshBasicMaterial({color:'#dff5fb'})); background.position.set(0,3.5,-3.4); stage.add(background);
+    function clearProps(){ while(propGroup.children.length){ const child=propGroup.children.pop(); child.geometry?.dispose?.(); } }
+    function addSign(text, color){
+      const canvas=document.createElement('canvas');canvas.width=640;canvas.height=260;const ctx=canvas.getContext('2d');
+      ctx.fillStyle='#ffffff';ctx.beginPath();ctx.roundRect(16,16,608,228,52);ctx.fill();ctx.lineWidth=16;ctx.strokeStyle=color;ctx.stroke();ctx.fillStyle='#263348';ctx.font='900 72px system-ui';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(text,320,130);
+      const texture=new THREE.CanvasTexture(canvas);const sign=new THREE.Mesh(new THREE.PlaneGeometry(2.73,1.12),new THREE.MeshBasicMaterial({map:texture,transparent:true}));sign.position.set(.12,4.12,-.7);sign.userData={baseY:4.12};propGroup.add(sign);(propGroup.userData.signs??=[]).push(sign);
+    }
+    function addClouds(color){
+      const clouds=[];
+      [[-2.35,4.45,.68],[.15,4.86,.52],[2.15,4.3,.62]].forEach(([x,y,size],i)=>{
+        const cloud=new THREE.Group(); const material=new THREE.MeshBasicMaterial({color,transparent:true,opacity:.26,depthWrite:false});
+        [[0,0,1],[-.34,-.02,.68],[.35,-.04,.73]].forEach(([cx,cy,scale])=>{const puff=orb(size*scale,material,[1.45,.56,.42]);puff.position.set(cx,cy,0);cloud.add(puff);});
+        cloud.position.set(x,y,-2.5);propGroup.add(cloud);clouds.push({cloud,baseX:x,phase:i*1.9});
+      });
+      propGroup.userData.clouds=clouds;
+    }
+    function bubble(text, x, y, color='#ffffff'){
+      const canvas=document.createElement('canvas');canvas.width=360;canvas.height=190;const ctx=canvas.getContext('2d');ctx.fillStyle=color;ctx.beginPath();ctx.roundRect(12,12,336,150,38);ctx.fill();ctx.beginPath();ctx.moveTo(84,160);ctx.lineTo(112,184);ctx.lineTo(122,160);ctx.fill();ctx.fillStyle='#263348';ctx.font='900 70px system-ui';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(text,180,85);
+      const mesh=new THREE.Mesh(new THREE.PlaneGeometry(1.12,.6),new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(canvas),transparent:true}));mesh.position.set(x,y,.12);propGroup.add(mesh);return mesh;
+    }
+    function labelCard(text,x,y,w=.54,z=.08){ const c=roundedBox(w,.25,.05,clay('#ffffff'),.08);c.position.set(x,y,z);propGroup.add(c); const canvas=document.createElement('canvas');canvas.width=256;canvas.height=90;const ctx=canvas.getContext('2d');ctx.fillStyle='#263348';ctx.font='800 34px system-ui';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(text,128,45);const face=new THREE.Mesh(new THREE.PlaneGeometry(w*.88,.16),new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(canvas),transparent:true}));face.position.set(x,y,z+.035);propGroup.add(face); return {c,face}; }
+    function addDesk(){
+      const desk=roundedBox(1.5,.18,.72,clay('#dba96f'),.14);desk.position.set(1.32,.98,-.38);propGroup.add(desk);
+      const leg1=roundedBox(.12,.8,.12,clay('#c78e59'),.04);leg1.position.set(.7,.5,-.38);propGroup.add(leg1);const leg2=leg1.clone();leg2.position.x=1.94;propGroup.add(leg2);
+      const laptop=roundedBox(.72,.48,.08,clay('#6d7e9b'),.06);laptop.position.set(1.32,1.32,-.35);laptop.rotation.x=-.2;propGroup.add(laptop);const screen=roundedBox(.57,.31,.025,clay('#bce7f6'),.04);screen.position.set(1.32,1.34,-.29);propGroup.add(screen);
+      const calendar=roundedBox(.68,.72,.06,clay('#ffffff'),.1);calendar.position.set(2.12,2.18,-.85);propGroup.add(calendar);labelCard('25일',2.12,2.18,.54); const ring=new THREE.Mesh(new THREE.TorusGeometry(.19,.035,12,24),clay('#f19cc1'));ring.position.set(2.12,2.18,-.78);propGroup.add(ring);
+    }
+    function addHouse(){
+      const house=new THREE.Group();const base=roundedBox(1.32,1.02,.48,clay('#fffdf6'),.18);base.position.y=.62;house.add(base);const roof=new THREE.Mesh(new THREE.ConeGeometry(.96,.65,4),clay('#eaa1b0'));roof.position.y=1.46;roof.rotation.y=Math.PI/4;house.add(roof);const door=roundedBox(.3,.48,.06,clay('#9dbdd2'),.1);door.position.set(0,.38,.27);house.add(door);house.position.set(1.28,0,-.82);propGroup.add(house);
+      const paper=roundedBox(.56,.72,.04,clay('#ffffff'),.05);paper.position.set(2.05,1.36,.05);paper.rotation.z=-.18;propGroup.add(paper);[0,1,2].forEach(i=>{const line=roundedBox(.36,.035,.02,clay('#94a4bd'),.01);line.position.set(2.05,1.55-i*.15,.09);line.rotation.z=-.18;propGroup.add(line)});
+      const coins=[];[-.18,.18].forEach(dx=>{const coin=new THREE.Mesh(new THREE.CylinderGeometry(.16,.16,.06,24),clay('#ffd66e'));coin.rotation.x=Math.PI/2;coin.position.set(1.85+dx,2.35,.02);propGroup.add(coin);coins.push(coin)});propGroup.userData.coins=coins;
+    }
+    function addMarket(){
+      const stall=roundedBox(1.75,.72,.48,clay('#fffaf0'),.15);stall.position.set(1.78,.67,-.56);propGroup.add(stall);const awning=roundedBox(2.05,.18,.48,clay('#f7ad86'),.1);awning.position.set(1.78,1.42,-.58);propGroup.add(awning);
+      const fruits=[];[[1.18,1.18,'#f5938a'],[1.5,1.2,'#ffb860'],[1.82,1.17,'#f5938a'],[2.15,1.2,'#ffb860']].forEach(([x,y,c])=>{const fruit=orb(.18,clay(c));fruit.position.set(x,y,-.25);propGroup.add(fruit);fruits.push(fruit)});propGroup.userData.fruits=fruits;labelCard('₩ 3,000',2.62,1.13,.72);bubble('얼마예요?',-.2,2.43,'#fff8cd');
+    }
+    function addCar(){
+      const car=new THREE.Group();
+      const body=roundedBox(2.5,.68,.72,clay('#8ed9d0'),.28);body.position.y=.74;car.add(body);
+      const cabin=roundedBox(1.34,.55,.66,clay('#bfeef0'),.2);cabin.position.set(-.05,1.24,0);car.add(cabin);
+      [-.48,.46].forEach(x=>{const window=roundedBox(.48,.31,.025,clay('#d9f5fb'),.06);window.position.set(x,1.28,.35);car.add(window);});
+      const headlight=orb(.11,clay('#fff4ae'),[1,1,.45]);headlight.position.set(1.27,.78,.37);car.add(headlight);
+      [-.86,.86].forEach(x=>[-.38,.38].forEach(z=>{const wheel=orb(.31,dark,[1,.42,1]);wheel.position.set(x,.31,z);car.add(wheel);const hub=orb(.13,white,[1,.28,1]);hub.position.set(x,.31,z+(z>0?.025:-.025));car.add(hub);}));
+      car.position.set(1.72,.08,-.72);propGroup.add(car);propGroup.userData.car=car;
+      const file=roundedBox(.46,.05,.32,clay('#ffffff'),.03);file.position.set(.64,1.27,.17);file.rotation.z=-.25;propGroup.add(file);propGroup.userData.file=file;
+    }
+    function addHearts(){const hearts=[];[-.34,0,.34].forEach((x,i)=>{const h=orb(.12,clay('#f19cc1'));h.position.set(.35+x,1.9+i*.12,.05);propGroup.add(h);hearts.push(h)});propGroup.userData.hearts=hearts;}
+    function addPhone(){
+      // 두 인물의 머리 위, 카메라 쪽에 띄워 얼굴과 겹치지 않게 합니다.
+      const phone=new THREE.Group();
+      const shell=roundedBox(1.70,2.78,.16,clay('#40526e'),.18);phone.add(shell);
+      const screen=roundedBox(1.43,2.37,.035,clay('#ffffff'),.12);screen.position.z=.105;phone.add(screen);
+      const brandCanvas=document.createElement('canvas');brandCanvas.width=500;brandCanvas.height=110;
+      const brandCtx=brandCanvas.getContext('2d');brandCtx.fillStyle='#6C4CF1';brandCtx.font='900 76px system-ui, sans-serif';brandCtx.textAlign='center';brandCtx.textBaseline='middle';brandCtx.fillText('통해',250,58);
+      const brand=new THREE.Mesh(new THREE.PlaneGeometry(1.05,.23),new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(brandCanvas),transparent:true}));brand.position.set(0,1.00,.17);phone.add(brand);
+      const cardSpecs=['check','translate','mic']; const cards=[];
+      function makeCardTexture(kind){
+        const canvas=document.createElement('canvas');canvas.width=620;canvas.height=220;const ctx=canvas.getContext('2d');
+        ctx.fillStyle='#ffffff';ctx.fillRect(0,0,620,220);ctx.strokeStyle='#dce5ed';ctx.lineWidth=8;ctx.beginPath();ctx.roundRect(8,8,604,204,32);ctx.stroke();
+        if(kind==='check'){
+          ctx.fillStyle='#dff6e4';ctx.beginPath();ctx.arc(105,110,58,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#31a55b';ctx.lineWidth=16;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(76,111);ctx.lineTo(97,132);ctx.lineTo(139,82);ctx.stroke();
+          ctx.strokeStyle='#9baaba';ctx.lineWidth=13;ctx.beginPath();ctx.moveTo(195,83);ctx.lineTo(515,83);ctx.moveTo(195,139);ctx.lineTo(440,139);ctx.stroke();
+        } else if(kind==='translate'){
+          ctx.fillStyle='#edf1f5';ctx.beginPath();ctx.roundRect(42,50,190,112,32);ctx.fill();ctx.fillStyle='#536274';ctx.font='900 86px system-ui, sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('中',137,108);
+          ctx.fillStyle='#e8e0ff';ctx.beginPath();ctx.roundRect(386,50,190,112,32);ctx.fill();ctx.fillStyle='#6C4CF1';ctx.fillText('한',481,108);ctx.strokeStyle='#8d7aef';ctx.lineWidth=11;ctx.beginPath();ctx.moveTo(260,110);ctx.lineTo(355,110);ctx.stroke();ctx.beginPath();ctx.moveTo(340,92);ctx.lineTo(365,110);ctx.lineTo(340,128);ctx.stroke();
+        } else {
+          ctx.fillStyle='#6C4CF1';ctx.beginPath();ctx.arc(310,110,66,0,Math.PI*2);ctx.fill();ctx.fillStyle='#ffffff';ctx.beginPath();ctx.roundRect(285,54,50,88,25);ctx.fill();ctx.strokeStyle='#ffffff';ctx.lineWidth=12;ctx.lineCap='round';ctx.beginPath();ctx.arc(310,115,43,0,Math.PI);ctx.moveTo(310,158);ctx.lineTo(310,177);ctx.moveTo(281,177);ctx.lineTo(339,177);ctx.stroke();
+        }
+        return new THREE.CanvasTexture(canvas);
+      }
+      [.48,-.13,-.74].forEach((y,i)=>{
+        const card=roundedBox(1.22,.51,.04,clay('#ffffff'),.09);card.position.set(0,y,.145);phone.add(card);
+        const face=new THREE.Mesh(new THREE.PlaneGeometry(1.20,.49),new THREE.MeshBasicMaterial({map:makeCardTexture(cardSpecs[i]),transparent:true}));face.position.set(0,y,.172);phone.add(face);cards.push({card,face});
+      });
+      phone.position.set(.18,3.42,1.35);phone.rotation.set(-.08,-.18,.06);propGroup.add(phone);propGroup.userData.cards=cards;
+    }
+    function addEnding(){
+      const logoCanvas=document.createElement('canvas');logoCanvas.width=700;logoCanvas.height=360;const ctx=logoCanvas.getContext('2d');
+      ctx.fillStyle='#6C4CF1';ctx.beginPath();ctx.roundRect(18,18,664,324,78);ctx.fill();ctx.fillStyle='#ffffff';ctx.textAlign='center';ctx.font='900 150px system-ui';ctx.fillText('통해',350,177);ctx.font='800 46px system-ui';ctx.fillText('중요한 대화, 함께',350,256);
+      const logo=new THREE.Mesh(new THREE.PlaneGeometry(2.65,1.36),new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(logoCanvas),transparent:true}));logo.position.set(0,3.72,-.72);logo.scale.setScalar(.08);propGroup.add(logo);
+      const confetti=[];const colors=['#ffd1e3','#b9e7ff','#d8c8ff','#fff0a9','#bdebcf'];for(let i=0;i<26;i++){const bit=roundedBox(.09,.15,.025,clay(colors[i%colors.length]),.015);bit.position.set(-2.6+(i%7)*.86,2.1+(i%5)*.65,-.15);bit.rotation.z=(i*.7)%Math.PI;propGroup.add(bit);confetti.push({bit,baseY:bit.position.y,speed:.22+(i%4)*.055,phase:i*.63});}
+      propGroup.userData.ending={logo,confetti};
+    }
+    function setupScene(index){
+      const data=scenes[index]; clearProps(); propGroup.userData={};background.material.color.set(data.theme);floor.material.color.set(data.theme);rug.material.color.set('#ffffff');
+      if(data.set!=='ending') addClouds(data.accent);
+      tongi.visible=true;human.visible=index!==0&&index!==7;tongi.position.set(-.72,0,0);human.position.set(.98,0,-.35);human.rotation.y=-.08;
+      if(data.set==='car'){ tongi.position.set(-1.42,0,0); human.position.set(.24,0,-.12); human.rotation.y=-.18; }
+      if(data.set==='phone'){ tongi.position.set(-.82,0,0); human.position.set(1.14,0,-.42); }
+      if(data.set==='office'){addDesk();addSign('첫 출근',data.accent);bubble('?',1.15,2.82,'#f4efff')}
+      if(data.set==='home'){addHouse();addSign('계약서',data.accent)}
+      if(data.set==='market'){addMarket();addSign('시장',data.accent)}
+      if(data.set==='car'){addCar();addSign('차 상담',data.accent)}
+      if(data.set==='phone'){addPhone()}
+      if(data.set==='ending'){tongi.position.set(-3.2,0,0);addEnding()}
+      if(data.set==='hello'){addSign(index===5?'걱정 마세요!':'안녕하세요',data.accent);if(index===5){human.visible=true;human.position.set(1.0,0,-.34);addHearts()}}
+      document.getElementById('endingOverlay').classList.toggle('show', data.set==='ending');
+      caption.textContent=data.caption;updateForeignCaption(index);sceneTitle.textContent=data.title;sceneNumber.textContent=`장면 ${index+1} / ${scenes.length}`;
+    }
+    let index=0, elapsed=0, playing=true, last=performance.now(), hintTimer=0;
+    function updateButtons(){
+      statusText.textContent=playing?'재생 중':'일시정지';
+      playPause.textContent=playing?'❚❚ 일시정지':'▶ 재생';
+      playPause.setAttribute('aria-label',playing?'일시정지':'재생');
+    }
+    function togglePlay(){ playing=!playing; if(playing) startMusic(); else stopMusic(); updateButtons(); showHint(playing?'재생합니다':'일시정지'); }
+    function goToScene(nextIndex){ index=(nextIndex+scenes.length)%scenes.length; elapsed=0; setupScene(index); popSound(); }
+    function restartPlayback(){ index=0;elapsed=0;playing=true;setupScene(index);startMusic();updateButtons();showHint('처음부터 재생합니다'); }
+    function showHint(text){ hint.textContent=text;hint.classList.add('show');clearTimeout(hintTimer);hintTimer=setTimeout(()=>hint.classList.remove('show'),850); }
+    playPause.addEventListener('click',togglePlay);
+    restart.addEventListener('click',restartPlayback);
+    fullscreen.addEventListener('click',async()=>{ try { if(!document.fullscreenElement) await player.requestFullscreen(); else await document.exitFullscreen(); } catch { showHint('전체화면을 지원하지 않아요'); } });
+    document.addEventListener('fullscreenchange',()=>{ fullscreen.textContent=document.fullscreenElement?'↙ 화면 나가기':'↗ 전체화면'; });
+    renderer.domElement.addEventListener('click',()=>{ if(recordingMode&&query.get('sound')==='1'&&!soundEnabled) setSound(true); togglePlay(); });
+    window.addEventListener('keydown',(event)=>{
+      if(['INPUT','TEXTAREA','SELECT'].includes(document.activeElement?.tagName)) return;
+      const key=event.key.toLowerCase();
+      if(key===' '){event.preventDefault();togglePlay();}
+      else if(key==='arrowleft'){event.preventDefault();goToScene(index-1);}
+      else if(key==='arrowright'){event.preventDefault();goToScene(index+1);}
+      else if(key==='r'){restartPlayback();}
+      else if(key==='f'){fullscreen.click();}
+      else if(['1','2','3','4','5'].includes(key)){const language=['auto','zh','vi','th','en'][Number(key)-1];selectedLanguage=language;updateLanguageAddress();updateLanguageChips();updateForeignCaption(index);}
+    });
+    function resize(){
+      const rect=stageView.getBoundingClientRect();
+      renderer.setSize(rect.width,rect.height,false);
+      camera.aspect=rect.width/rect.height;
+      camera.fov=43;
+      camera.updateProjectionMatrix();
+    }
+    new ResizeObserver(resize).observe(stageView); resize();
+    function fitCameraToScene(){
+      // 간판·구름은 장식이므로 인물과 상황 소품의 실제 묶음만 측정합니다.
+      const decorations=[...(propGroup.userData.signs??[]), ...(propGroup.userData.clouds??[]).map(({cloud})=>cloud)];
+      decorations.forEach((item)=>item.visible=false);
+      const box=new THREE.Box3().setFromObject(actors);
+      box.union(new THREE.Box3().setFromObject(propGroup));
+      decorations.forEach((item)=>item.visible=true);
+      const center=box.getCenter(new THREE.Vector3());
+      const size=box.getSize(new THREE.Vector3());
+      const verticalFov=THREE.MathUtils.degToRad(camera.fov);
+      const horizontalFov=2*Math.atan(Math.tan(verticalFov/2)*camera.aspect);
+      // 실제 모든 자식 메시 기준: 좌우 3% 여백, 세로는 85% 안에 들어오도록 더 먼 값을 씁니다.
+      const distanceForWidth=(size.x/.94)/(2*Math.tan(horizontalFov/2));
+      const distanceForHeight=(size.y/.85)/(2*Math.tan(verticalFov/2));
+      const distance=Math.max(distanceForWidth,distanceForHeight)+box.max.z+.48;
+      const viewHeight=2*Math.tan(verticalFov/2)*distance;
+      // 발 아래에 6% 이상의 여백을 남기고 3D 영역 안에 안정적으로 세웁니다.
+      const footNdc=-.78;
+      const targetY=box.min.y-footNdc*viewHeight/2;
+      return { x:center.x, z:distance, y:targetY };
+    }
+    function animateActor(t){
+      const duration=sceneDuration(index); const data=scenes[index], sceneTime=elapsed/duration, bob=Math.sin(t*2.1)*.04; tongi.position.y=bob;tongi.userData.eyeGroup.rotation.y=Math.sin(t*.8)*.08;
+      tongi.userData.armL.rotation.z=.42+Math.sin(t*2.1)*.08;tongi.userData.armR.rotation.z=-.42+Math.sin(t*2.1)*.08;tongi.userData.mouth.scale.y=.85+Math.max(0,Math.sin(t*5))*.35;
+      if(data.action==='wave'){tongi.userData.armR.rotation.z=-.75+Math.sin(t*6)*.45;tongi.userData.armR.rotation.x=.25;}
+      if(data.action==='point'){tongi.userData.armR.rotation.z=-1.35;tongi.userData.armR.rotation.x=.55;}
+      if(data.action==='comfort'){tongi.position.x=-.78+Math.min(sceneTime,.65)*.72;tongi.userData.armL.rotation.z=.84;tongi.userData.armR.rotation.z=-.84;human.userData.mouth.rotation.z=Math.PI;}
+      if(data.action!=='comfort') human.userData.mouth.rotation.z=0;
+      if(data.set==='ending'){
+        tongi.position.x=-3.2+Math.min(sceneTime/(1/7),1)*3.2;
+        tongi.userData.armR.rotation.z=-.78+Math.sin(t*6)*.5;tongi.userData.armR.rotation.x=.25;
+        const ending=propGroup.userData.ending;
+        if(ending){ const logoScale=Math.min(sceneTime/.18,1)*(1+Math.sin(Math.min(sceneTime/.3,1)*Math.PI)*.14);ending.logo.scale.setScalar(logoScale);ending.confetti.forEach(({bit,baseY,speed,phase})=>{bit.position.y=baseY-((t*speed+phase)%3.4);bit.rotation.z+=.012;});}
+      }
+      if(data.set==='car'){
+        tongi.userData.armR.rotation.z=-.9+Math.sin(t*3)*.16;
+        tongi.userData.armR.rotation.x=.35;
+      }
+      if(human.visible){human.position.y=Math.sin(t*1.7)*.018;human.userData.head.rotation.z=data.action==='worry'?Math.sin(t*1.6)*.12-.18:Math.sin(t*1.3)*.035;human.userData.a1.rotation.z=data.action==='worry'?.95:.32;human.userData.a2.rotation.z=data.action==='worry'?-1.0:-.32;if(index===2&&sceneTime>.58)human.userData.head.rotation.z=Math.sin(t*3)*.07; if(index===4){human.userData.head.rotation.z=Math.sin(t*1.7)*.14+.12;human.userData.a2.rotation.z=-.92+Math.sin(t*3.1)*.18;propGroup.userData.file.rotation.z=-.25+Math.sin(t*1.7)*.08;}}
+      propGroup.userData.coins?.forEach((coin,i)=>{coin.rotation.z=t*(1.6+i*.2);coin.position.y=2.35+Math.sin(t*2+i)*.06;});
+      propGroup.userData.fruits?.forEach((fruit,i)=>{if(i===0)fruit.position.y=1.18+Math.max(0,Math.sin(t*2.2))*.32;});
+      propGroup.userData.hearts?.forEach((heart,i)=>{heart.position.y=1.9+i*.12+(t%2)*.28;heart.scale.setScalar(.8+Math.sin(t*3+i)*.12);});
+      propGroup.userData.cards?.forEach(({card,face},i)=>{const delay=i*.6;const visible=sceneTime*sceneDuration(index)>delay;card.visible=visible;face.visible=visible;if(visible){const pop=Math.min((sceneTime*sceneDuration(index)-delay)/.18,1);card.scale.setScalar(.72+pop*.28);face.scale.setScalar(.72+pop*.28);}});
+      propGroup.userData.signs?.forEach((sign)=>{const drop=reducedMotion?1:Math.min(sceneTime/.16,1);sign.position.y=sign.userData.baseY+(1-drop)*.55;sign.scale.setScalar(.9+drop*.1);});
+      propGroup.userData.clouds?.forEach(({cloud,baseX,phase})=>{cloud.position.x=reducedMotion?baseX:baseX+Math.sin(t*.16+phase)*.18;});
+      if(propGroup.userData.car){ const car=propGroup.userData.car; car.position.y=.08+Math.sin(t*2.5)*.055; car.rotation.z=Math.sin(t*2.5)*.018; }
+    }
+    function render(now){
+      const delta=Math.min(.08,(now-last)/1000); last=now;
+      if(playing){ elapsed+=delta; const duration=sceneDuration(index); if(elapsed>=duration){ goToScene(index+1); } }
+      const fitted=fitCameraToScene();
+      const targetX=scenes[index].set==='ending'?0:fitted.x;
+      const targetZ=fitted.z+(reducedMotion?0:Math.sin(now*.00025)*.22);
+      const follow=reducedMotion?.12:.026;
+      camera.position.x+=(targetX-camera.position.x)*follow;camera.position.z+=(targetZ-camera.position.z)*(reducedMotion?.12:.02);camera.position.y+=(fitted.y-camera.position.y)*(reducedMotion?.12:.025);camera.lookAt(new THREE.Vector3(cameraTarget.x,fitted.y+.28,cameraTarget.z));
+      animateActor(now/1000); progressBar.style.width=`${(elapsed/sceneDuration(index))*100}%`;renderer.render(world,camera);requestAnimationFrame(render);
+    }
+    setupScene(0); updateLanguageChips(); updateButtons(); requestAnimationFrame(render);
+  </script>
+</body>
+</html>
